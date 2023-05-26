@@ -1,0 +1,22 @@
+:root {
+  --main-bg-color: linear-gradient(to right, #36d7b7, #3498db);
+  --main-bg-color-light: linear-gradient(to right, rgba(54, 215, 183, 0.5), rgba(52, 152, 219, 0.5));
+  --primary-color1: #2469f6;
+  --primary-color2: #3977f6;
+  --primary-color3: #4f87f7;
+  --primary-color4: #6595f8;
+  --primary-color5: #7ba5f9;
+  --primary-color6: #91b3fa;
+  --primary-color7: #a7c3fb;
+  --primary-color8: #bcd1fc;
+  --primary-color9: #d3e1fd;
+  --primary-color10: #e8f0fe; 
+  /*阴影*/
+}
+
+$white: #fff;
+
+:export {
+  white: $white;
+}
+ 
