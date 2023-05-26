@@ -287,7 +287,7 @@ export interface RouteConfigsTable {
     title: string;
     /** 菜单图标 `可选` */
     icon?: string | FunctionalComponent | IconifyIcon;
-    /** 是否缓冲路由 */
+    /** 是否缓存路由 */
     noCache?: boolean;
     /** 是否在菜单中显示（默认`true`）`可选` */
     showLink?: boolean;

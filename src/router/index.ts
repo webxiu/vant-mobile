@@ -1,4 +1,5 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
+import { RouteRecordRaw, createRouter, createWebHashHistory } from "vue-router";
+
 import { RouteConfigsTable } from "~/types/global.d";
 
 // 公共全局路由
@@ -24,16 +25,16 @@ const commonRoute: RouteConfigsTable[] = [
     meta: { title: "登录" },
   },
   {
-    path: "/404",
-    name: "Error404",
-    component: () => import("@/views/error/404.vue"),
-    meta: { title: "404" },
-  },
-  {
     path: "/401",
     name: "Error401",
     component: () => import("@/views/error/401.vue"),
     meta: { title: "401" },
+  },
+  {
+    path: "/:pathMatch(.*)",
+    name: "Error404",
+    component: () => import("@/views/error/404.vue"),
+    meta: { title: "404" },
   },
 ];
 

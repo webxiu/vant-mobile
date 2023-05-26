@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
 import path from "path";
+import vue from "@vitejs/plugin-vue";
 
 function resolve(dir: string) {
   return path.resolve(__dirname, dir);
@@ -42,6 +42,24 @@ export default defineConfig({
         chunkFileNames: "static/js/[name]-[hash].js",
         entryFileNames: "static/js/[name]-[hash].js",
         assetFileNames: "static/[ext]/[name]-[hash].[ext]",
+      },
+    },
+  },
+  server: {
+    port: 5173,
+    proxy: {
+      // string shorthand
+      "/foo": "http://localhost:4567/foo",
+      // with options
+      "/test": {
+        target: "http://api.github.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+      "/api": {
+        target: "https://app.deogra.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
   },
