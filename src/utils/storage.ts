@@ -1,37 +1,25 @@
-/**
- * 设置Cookie
- * @param name Cookie名称
- * @param value Cookie值
- * @param days 过期时间(天)
- */
-export const setCookie = (name: string, value: string, days: number = 5) => {
-  days = days || 30;
-  const date = new Date();
-  date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-  document.cookie =
-    name + "=" + escape(value) + ";path:/;expires=" + date.toGMTString();
-};
+import Cookies from "js-cookie";
+
+const CookieKey = "Token";
 
 /**
  * 获取Cookie
- * @param name Cookie名称
  */
-export const getCookie = (name: string) => {
-  let arr,
-    reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-  if ((arr = document.cookie.match(reg))) return unescape(arr[2]);
-  else return null;
+export const getCookie = () => {
+  return Cookies.get(CookieKey) || "";
 };
 
 /**
- * 删除Cookie
- * @param name Cookie名称
+ * 设置Cookie
+ * @param cookie cookie
  */
-export const delCookie = (name: string) => {
-  const exp = new Date();
-  exp.setTime(exp.getTime() - 1);
-  const cval = getCookie(name);
-  if (cval != null)
-    document.cookie =
-      name + "=" + cval + ";path:/;expires=" + exp.toGMTString();
+export const setCookie = (cookie: string) => {
+  Cookies.set(CookieKey, cookie);
+};
+
+/**
+ * 移除Cookie
+ */
+export const removeCookie = () => {
+  Cookies.remove(CookieKey);
 };

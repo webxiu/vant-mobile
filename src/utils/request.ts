@@ -5,8 +5,7 @@ import { showToast } from "vant";
 import router from "@/router";
 
 const axiosInstance = axios.create({
-  baseURL: "/api",
-  // 2分钟
+  baseURL: import.meta.env.VITE_BASE_API,
   timeout: 2 * 60 * 1000,
 });
 

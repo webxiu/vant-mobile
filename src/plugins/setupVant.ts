@@ -77,8 +77,8 @@
 //   ConfigProvider
 // } from 'vant'
 
-import Vant from 'vant'
-import { Icon } from 'vant';
+import Vant from "vant";
+
 // const plugins = []
 // const components = []
 
@@ -89,6 +89,5 @@ export function setupVant(app) {
   //     app.use(component);
   //   }
   // }
-  app.use(Vant)
-  app.use(Icon)
+  app.use(Vant);
 }

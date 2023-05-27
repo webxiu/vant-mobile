@@ -1,0 +1,23 @@
+.body-container {
+  .van-cell-group { 
+    .van-cell__value {
+      .van-field__body,
+      .van-field__control {
+        height: 36px;
+        line-height: 36px;
+      }
+    }
+  }
+  .form-btn {
+    margin: 40px auto 30px;
+    .btn-item {
+      display: block;
+      width: 80%;
+      margin: 0 auto;
+      border: none;
+      height: 100px;
+      line-height: 100px;
+      background: var(--linear-btn-bg-color);
+    }
+  }
+}

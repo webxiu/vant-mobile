@@ -1,37 +1,38 @@
-import router from '@/router'  
-import getPageTitle from '@/utils/getPageTitle'
-import NProgress from '@/utils/progress'
+import NProgress from "@/utils/progress";
+import { getCookie } from "@/utils/storage";
+import getPageTitle from "@/utils/getPageTitle";
+import router from "@/router";
 
-const whiteList = ['/login', '/register', '/forgot', '/404', '/401']
-router.beforeEach( async( to, _, next ) => {
-  NProgress.start()
-  document.title = getPageTitle( to.meta?.title )
-  const hasToken:boolean = true
-  // if ( hasToken && hasToken !== 'undefined' ) {
-  if ( hasToken ) {
-    if ( to.path === '/login' ) {
-      next( { path : '/' } )
-      NProgress.done()
+const whiteList = ["/login", "/register", "/404", "/401"];
+router.beforeEach(async (to, _, next) => {
+  NProgress.start();
+  document.title = getPageTitle(to.meta?.title);
+  const hasToken: string = getCookie();
+  console.log("是否存在Token:", to.path, getCookie());
+  if (hasToken) {
+    if (to.path === "/login") {
+      next({ path: "/" });
+      NProgress.done();
     } else {
-      next()
+      next();
       // const hasRoles = userStore.roles && userStore.roles.length > 0
       // if ( hasRoles ) {
       //   next()
-      // } else { 
+      // } else {
       //     next( '/login' )
-      //     NProgress.done() 
+      //     NProgress.done()
       // }
     }
   } else {
-    if ( whiteList.indexOf( to.path ) !== -1 ) {
-      next()
+    if (whiteList.indexOf(to.path) !== -1) {
+      next();
     } else {
-      next( '/login' )
-      NProgress.done()
+      next("/login");
+      NProgress.done();
     }
   }
-} )
+});
 
-router.afterEach( () => {
-  NProgress.done()
-} )
+router.afterEach(() => {
+  NProgress.done();
+});

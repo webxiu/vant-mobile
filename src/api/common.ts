@@ -1,4 +1,4 @@
-import http, { AxiosRequestConfig } from "@/utils/request";
+import axiosInstance, { AxiosRequestConfig } from "@/utils/request";
 
 /**
  * 获取经营数据
@@ -6,8 +6,8 @@ import http, { AxiosRequestConfig } from "@/utils/request";
  * @param config 配置项
  * @returns 请求实例
  */
-export const getList = (params, config?: AxiosRequestConfig) => {
-  return http.request({
+export const loginApi = (params, config?: AxiosRequestConfig) => {
+  return axiosInstance.request({
     url: "/app/qywx/workspace/mangerdata/saleokratedata",
     method: "POST",
     params,
