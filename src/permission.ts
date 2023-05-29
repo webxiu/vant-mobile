@@ -1,6 +1,6 @@
 import NProgress from "@/utils/progress";
 import { getCookie } from "@/utils/storage";
-import getPageTitle from "@/utils/getPageTitle";
+import { getPageTitle } from "@/utils/common";
 import router from "@/router";
 
 const whiteList = ["/login", "/register", "/404", "/401"];
@@ -8,7 +8,7 @@ router.beforeEach(async (to, _, next) => {
   NProgress.start();
   document.title = getPageTitle(to.meta?.title);
   const hasToken: string = getCookie();
-  console.log("是否存在Token:", to.path, getCookie());
+
   if (hasToken) {
     if (to.path === "/login") {
       next({ path: "/" });

@@ -16,7 +16,6 @@ import routers, { routeCateList } from "@/router";
 import { useRouter } from "vue-router";
 import { removeCookie } from "@/utils/storage";
 
-console.log("routeCateList", routeCateList);
 const router = useRouter();
 const onClickLeft = () => {
   router.go(-1);

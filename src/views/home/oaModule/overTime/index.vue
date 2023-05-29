@@ -1,24 +1,23 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
-const data = reactive([
-  {
-    oaLiat: [{ title: "加班的", icon: "star-o", url: "/" }],
-  },
-]);
+import { useAppStore } from "@/store/modules/app";
+
+const appStore = useAppStore();
 </script>
 
 <template>
-  <div class="home">
-    加班单
-
-    <van-button type="primary">oaOvertime</van-button>
+  <div class="overTime">
+    加班单 - overTime
+    <div class="content">
+      <van-button type="primary" @click="appStore.setCount(5)">{{
+        appStore.count
+      }}</van-button>
+    </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.home {
-  width: 750px;
-  height: 750px;
-  background: #ccc;
+.content {
+  text-align: center;
 }
 </style>

@@ -27,13 +27,13 @@ const commonRoute: RouteConfigsTable[] = [
   {
     path: "/401",
     name: "Error401",
-    component: () => import("@/views/error/401.vue"),
+    component: () => import("@/views/notFound/401.vue"),
     meta: { title: "401" },
   },
   {
     path: "/:pathMatch(.*)",
     name: "Error404",
-    component: () => import("@/views/error/404.vue"),
+    component: () => import("@/views/notFound/404.vue"),
     meta: { title: "404" },
   },
 ];
