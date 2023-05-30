@@ -14,8 +14,8 @@ export default {
       name: "OverTime",
       component: () => import("@/views/home/oaModule/overTime/index.vue"),
       meta: {
-        title: "加班单",
-        icon: "friends-o",
+        title: "请假单",
+        icon: "description",
         noCache: true,
         affix: true,
       },
@@ -27,7 +27,7 @@ export default {
         import("@/views/home/oaModule/requireRegister/index.vue"),
       meta: {
         title: "需求登记",
-        icon: "friends-o",
+        icon: "records",
         noCache: true,
         affix: true,
       },
@@ -38,7 +38,7 @@ export default {
       component: () => import("@/views/home/oaModule/suggestionBox/index.vue"),
       meta: {
         title: "建议箱",
-        icon: "friends-o",
+        icon: "envelop-o",
         noCache: true,
         affix: true,
       },
@@ -49,7 +49,7 @@ export default {
       component: () => import("@/views/home/oaModule/payroll/index.vue"),
       meta: {
         title: "工资单",
-        icon: "friends-o",
+        icon: "balance-list-o",
         noCache: true,
         affix: true,
       },
@@ -61,7 +61,7 @@ export default {
         import("@/views/home/oaModule/internalPurchaseBenefits/index.vue"),
       meta: {
         title: "内购福利",
-        icon: "friends-o",
+        icon: "goods-collect-o",
         noCache: true,
         affix: true,
       },
@@ -72,7 +72,7 @@ export default {
       component: () => import("@/views/home/oaModule/businessData/index.vue"),
       meta: {
         title: "经营数据",
-        icon: "friends-o",
+        icon: "chart-trending-o",
         noCache: true,
         affix: true,
       },
@@ -84,7 +84,7 @@ export default {
         import("@/views/home/oaModule/supplierComplaints/index.vue"),
       meta: {
         title: "供应商投诉",
-        icon: "friends-o",
+        icon: "envelop-o",
         noCache: true,
         affix: true,
       },
@@ -96,7 +96,7 @@ export default {
         import("@/views/home/oaModule/customerComplaints/index.vue"),
       meta: {
         title: "客户投诉",
-        icon: "friends-o",
+        icon: "envelop-o",
         noCache: true,
         affix: true,
       },
@@ -120,7 +120,7 @@ export default {
         import("@/views/home/oaModule/attendanceSheet/index.vue"),
       meta: {
         title: "考勤单",
-        icon: "friends-o",
+        icon: "label-o",
         noCache: true,
         affix: true,
       },

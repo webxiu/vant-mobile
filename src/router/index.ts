@@ -4,13 +4,7 @@ import { RouteConfigsTable } from "~/types/global.d";
 
 // 公共全局路由
 const commonRoute: RouteConfigsTable[] = [
-  {
-    path: "/",
-    name: "Home",
-    hidden: true,
-    component: () => import("@/views/home/index.vue"),
-    meta: { title: "德龙工作台", noCache: true },
-  },
+  { path: "/", name: "Home", hidden: true, redirect: "/workspace" },
   {
     path: "/workspace",
     name: "Workspace",

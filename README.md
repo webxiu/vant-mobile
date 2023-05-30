@@ -50,6 +50,8 @@ npm run method:readme
 - **函数命名采用驼峰书写格式命名,单词拼写正确**
 - **CSS 样式命名参考 [BEM](https://github.com/Tencent/tmt-workflow/wiki/%E2%92%9B-%5B%E8%A7%84%E8%8C%83%5D--CSS-BEM-%E4%B9%A6%E5%86%99%E8%A7%84%E8%8C%83) 的风格**
 - **通用工具方法写到 src/utils 目录中定义**
+- **NodeJS 版本推荐 16+**
+- **使用 VSCode 开发工具**
 
 ## 目录结构
 
@@ -89,7 +91,7 @@ npm run method:readme
 ## 特性
 
 - **最新技术栈**：使用 Vue3/vite2 等前端前沿技术开发
-- **Mock 数据** 内置 Mock 数据方案
+- **Mock 数据** 内置 Mock 数据方案(已有接口)
 
 ## 全局函数
 
@@ -99,25 +101,32 @@ npm run method:readme
 
 ```bash
 # 方法名称  方法描述
-getPageTitle:  设置网页标题
+getPageTitle:  设置网页标题 
+```
+
+- **src\utils\regExp.ts**
+
+```bash
+# 方法名称  方法描述
+regExp:  正则表达式 
 ```
 
 - **src\utils\storage.ts**
 
 ```bash
 # 方法名称  方法描述
-getCookie:  获取Cookie
-setCookie:  设置Cookie
-removeCookie:  移除Cookie
+getCookie:  获取Cookie 
+setCookie:  设置Cookie 
+removeCookie:  移除Cookie 
 ```
 
 - **src\utils\validate.ts**
 
 ```bash
 # 方法名称  方法描述
-isExternal:  验证网址
-validPhone:  验证手机号码
-validURL:  验证网址是否有效
-validEmail:  验证邮箱账号
-validID:  验证身份证号码
+isExternal:  regExp 
+validPhone:  验证网址 
+validURL:  验证手机号码 
+validEmail:  验证网址是否有效 
+validID:  验证邮箱账号 
 ```

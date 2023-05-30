@@ -15,7 +15,7 @@ export default {
       component: () => import("@/views/home/infoCenter/createTask/index.vue"),
       meta: {
         title: "我创建的任务",
-        icon: "location-o",
+        icon: "certificate",
       },
     },
     {
@@ -24,7 +24,7 @@ export default {
       component: () => import("@/views/home/infoCenter/myTask/index.vue"),
       meta: {
         title: "我负责的任务",
-        icon: "friends-o",
+        icon: "manager-o",
         affix: true,
       },
     },
@@ -34,7 +34,7 @@ export default {
       component: () => import("@/views/home/infoCenter/auditTask/index.vue"),
       meta: {
         title: "业务审批",
-        icon: "friends-o",
+        icon: "cluster-o",
         affix: true,
       },
     },

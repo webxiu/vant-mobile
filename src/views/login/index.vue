@@ -71,20 +71,27 @@ import { login } from "@/api/user";
 import { LoginLayout } from "./components/Layout";
 import { useRouter } from "vue-router";
 import { showFailToast, FieldRule } from "vant";
+import md5 from "md5";
+import { regExp } from "@/utils/regExp";
+
+interface LoginParams {
+  userNo: string;
+  password: string;
+}
 
 // import { useUserStore } from '@/store'
 // const userStore = useUserStore()
 
 const router = useRouter();
 
-const formState = reactive({
-  userNo: "659",
-  password: "1FFC0451B577DF0C",
+const formState = reactive<LoginParams>({
+  userNo: "",
+  password: "",
 });
 
 const checkUserName = (value, rule) => {
   if (!value) return "请填写登录账号！";
-  // if (!validPhone(value)) return "登录账号格式不正确！";
+  if (!regExp.enNumber.test(value)) return "登录账号格式不正确！";
   return true;
 };
 
@@ -96,9 +103,10 @@ const rules: { [key: string]: FieldRule[] } = {
   password: [{ required: true, message: "密码不能为空", trigger: "onBlur" }],
 };
 
-const onSubmit = async (values) => {
+const onSubmit = async (values: LoginParams) => {
+  const password = md5(values.password).substr(8, 16).toUpperCase();
   try {
-    const { data } = await login({ ...values });
+    const { data } = await login({ ...values, password });
     const { token } = data;
     // userStore.SET_TOKEN(token);
     router.push("/workspace");

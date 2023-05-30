@@ -1,3 +1,5 @@
+import { regExp } from "@/utils/regExp";
+
 /**
  * 验证网址
  * @param arg 网址
@@ -13,11 +15,7 @@ export const isExternal = (arg) => {
 export const validPhone = (arg) => {
   let pass = false;
   const val = String(arg).trim();
-  if (
-    !/^(0|86|17951)?(13[0-9]|14[0-9]|15[0-9]|16[0-9]|17[0-9]|18[0-9])[0-9]{8}$/i.test(
-      val
-    )
-  ) {
+  if (!regExp.phone.test(val)) {
     pass = false;
   } else {
     pass = true;
@@ -30,8 +28,7 @@ export const validPhone = (arg) => {
  * @param arg url地址
  */
 export const validURL = (arg) => {
-  const reg =
-    /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/;
+  const reg = regExp.address;
   return reg.test(arg);
 };
 
@@ -40,8 +37,7 @@ export const validURL = (arg) => {
  * @param arg 邮箱账号
  */
 export const validEmail = (arg) => {
-  const reg =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const reg = regExp.email;
   return reg.test(arg);
 };
 
@@ -50,7 +46,6 @@ export const validEmail = (arg) => {
  * @param arg 身份证号码
  */
 export const validID = (arg) => {
-  const reg =
-    /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+  const reg = regExp.idCard;
   return reg.test(arg);
 };
