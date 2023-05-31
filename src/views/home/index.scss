@@ -5,7 +5,7 @@
   z-index: 9999;
 }
 :deep(.van-tab--active .van-tab__text--ellipsis) {
-  color: #006bff;
+  color: var(--tab-active-color);
   font-weight: 700;
 }
 :deep(.van-tab__text--ellipsis) {

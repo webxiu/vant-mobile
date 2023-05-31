@@ -47,10 +47,10 @@ const getData = () => {
       data.value = res;
       isLoading.value = false;
       showToast({ message: "数据获取成功", position: "top" });
-      console.log("useInfoHook:", res);
     })
     .catch((err) => {
       console.log("err", err);
+      showToast({ message: "数据获取失败", position: "top" });
     });
 };
 
@@ -109,6 +109,6 @@ const onRefresh = () => getData();
 <style lang="scss" scoped>
 @import url("../../index.scss");
 :deep(.van-badge) {
-  background: #006bff;
+  background: var(--tab-active-color);
 }
 </style>

@@ -39,7 +39,7 @@ export function useSearchHook(api: ApiType, params: AuditTaskType) {
         console.log("useInfoHook:", res);
       })
       .catch((err) => {
-        console.log("err", err);
+        showToast({ message: "数据获取失败", position: "top" });
       });
   };
   return { data: result, isLoading, getData };
