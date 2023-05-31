@@ -1,21 +1,5 @@
 <script lang="ts" setup>
 import { routeCateList } from "@/router";
-import { getList } from "@/api/oaModule";
-
-// 请求示例
-const getData = () => {
-  getList(
-    { year: 2023, month: 5, time: "2023-05-26", starttime: "2023-01-01" },
-    { headers: { "Content-Encoding": "utf-8" } }
-  )
-    .then((res) => {
-      console.log("res", res);
-    })
-    .catch((err) => {
-      console.log("err", err);
-    });
-};
-getData();
 </script>
 
 <template>

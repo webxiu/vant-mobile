@@ -6,17 +6,22 @@
     left-arrow
     @click-left="onClickLeft"
     @click-right="onClickRight"
+    v-if="showNav"
   />
 </template>
 
 <script lang="ts" setup>
 import { showToast } from "vant";
-// import { onMounted, computed } from 'vue'
-import routers, { routeCateList } from "@/router";
-import { useRouter } from "vue-router";
+import { unref, ref, watch, toRaw } from "vue";
+import routers from "@/router";
+import { useRouter, useRoute } from "vue-router";
 import { removeCookie } from "@/utils/storage";
+import { NavBarList } from "@/config/common";
 
+const route = useRoute();
 const router = useRouter();
+const showNav = ref<boolean>(false);
+
 const onClickLeft = () => {
   router.go(-1);
 };
@@ -26,9 +31,9 @@ const onClickRight = () => {
   routers.push("/login");
 };
 
-// const emit = defineEmits( ['change', 'delete'] )
-// onMounted( () => {} )
-// const count = computed( () => {} )
+watch(route, (_, newVal) => {
+  showNav.value = NavBarList.includes(unref(toRaw(newVal).path));
+});
 </script>
 
 <style lang="scss" scoped></style>

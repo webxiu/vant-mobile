@@ -79,9 +79,7 @@ body {
   display: block;
   clear: both;
 }
-i {
-  font-style: normal;
-}
+ 
 
 .no-padding {
   padding: 0 !important;
@@ -89,14 +87,6 @@ i {
 
 .padding-content {
   padding: 4px 0;
-}
-
-.fr {
-  float: right;
-}
-
-.fl {
-  float: left;
 }
 
 .pr-5 {
@@ -134,6 +124,26 @@ i {
   }
 }
 
+.flex-1 {
+  flex: 1;
+}
+
+.flex-2 {
+  flex: 2;
+}
+
+.flex-3 {
+  flex: 3;
+}
+
+.flex-4 {
+  flex: 4;
+}
+
+.flex-5 {
+  flex: 5;
+}
+
 // 横向
 .flex-row {
   display: flex;
@@ -142,7 +152,7 @@ i {
   -webkit-flex-direction: row;
 }
 // 纵向
-.flex-column {
+.flex-col {
   display: flex;
   display: -webkit-flex;
   flex-direction: column;
@@ -154,12 +164,12 @@ i {
   -webkit-justify-content: space-between;
 }
 // 水平居中
-.flex-level-center {
+.flex-row-center {
   justify-content: center;
   -webkit-justify-content: center;
 }
 // 垂直居中
-.flex-vertical-center {
+.flex-row-center {
   align-items: center;
   -webkit-align-items: center;
 }
@@ -188,24 +198,14 @@ i {
   user-select: none;
 }
 
-/*ICONFONT*/
-[class*='yu-icon-'],
-[class^='yu-icon-'] {
-  font-family: 'iconfont' !important;
-  font-size: 16px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  speak: none;
-  font-style: normal;
-  font-weight: 400;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  vertical-align: baseline;
-  display: inline-block;
+.ui-w-100 {
+  width: 100%;
 }
 
+.ui-h-100 {
+  height: 100%;
+}
+ 
 body {
   height: 100%;
   -moz-osx-font-smoothing: grayscale;
@@ -223,16 +223,9 @@ html {
   box-sizing: border-box;
 }
 
-#app {
-  height: 100%;
-}
-
 *,
 *:before,
 *:after {
   box-sizing: inherit;
 }
-
-.padding-content {
-  padding: 4px 0;
-}
+ 

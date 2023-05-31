@@ -1,0 +1,18 @@
+:deep(.van-tabs__wrap) {
+  height: 100px;
+  box-shadow: 0px 1px 2px grey;
+  position: relative;
+  z-index: 9999;
+}
+:deep(.van-tab--active .van-tab__text--ellipsis) {
+  color: #006bff;
+  font-weight: 700;
+}
+:deep(.van-tab__text--ellipsis) {
+  font-size: 32px;
+}
+
+:deep(.van-tabs__content) {
+  width: 750px;
+  height: 100%;
+}

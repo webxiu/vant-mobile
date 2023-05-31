@@ -16,7 +16,6 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.response.use(
   (response: AxiosRequestConfig<BaseResponse<{}>>): any => {
     const data = response.data;
-    console.log("response", response);
     if (data?.status === 401) {
       const timer = setTimeout(() => {
         showToast({ message: "请重新登录", type: "fail", position: "top" });

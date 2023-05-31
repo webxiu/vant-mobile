@@ -18,9 +18,7 @@ export default defineComponent({
   },
   setup() {
     const theme = ref<ConfigProviderTheme>("light");
-    return {
-      theme,
-    };
+    return { theme };
   },
 });
 </script>
