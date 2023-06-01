@@ -16,10 +16,10 @@ const router = useRouter();
 const swipeRef = ref();
 const filterOptions = [
   { text: "全部", value: "" },
-  { text: "待提交", value: "0" },
-  { text: "审核中", value: "1" },
-  { text: "已审核", value: "2" },
-  { text: "重新审核", value: "3" },
+  { text: "待提交", value: 0 },
+  { text: "审核中", value: 1 },
+  { text: "已审核", value: 2 },
+  { text: "重新审核", value: 3 },
 ];
 
 const onTabChange = (index: number) => {
@@ -37,26 +37,38 @@ const handleToAdd = () => {
   console.log(router.push, "router");
   router.push("/overTime/add");
 };
+
+const dropMenuChange = (val) => {
+  console.log(val, "select");
+};
 </script>
 
 <template>
   <div class="over-time">
-    <!-- tab导航 -->
-    <van-tabs
-      v-model:active="selectedTab"
-      title-active-color="#1989fa"
-      swipeable
-      sticky
-      @change="onTabChange"
-    >
-      <van-tab :key="0" title="我申请的" badge="99" />
-      <van-tab :key="1" title="抄送我的" />
-    </van-tabs>
+    <van-sticky>
+      <div>
+        <!-- tab导航 -->
+        <van-tabs
+          v-model:active="selectedTab"
+          title-active-color="#1989fa"
+          swipeable
+          sticky
+          @change="onTabChange"
+        >
+          <van-tab :key="0" title="我申请的" badge="99" />
+          <van-tab :key="1" title="抄送我的" />
+        </van-tabs>
 
-    <!-- 下拉菜单 -->
-    <van-dropdown-menu>
-      <van-dropdown-item v-model="selectedMenuValue" :options="filterOptions" />
-    </van-dropdown-menu>
+        <!-- 下拉菜单 -->
+        <van-dropdown-menu>
+          <van-dropdown-item
+            v-model="selectedMenuValue"
+            :options="filterOptions"
+            @change="dropMenuChange"
+          />
+        </van-dropdown-menu>
+      </div>
+    </van-sticky>
 
     <!-- 滑动区域 -->
     <van-swipe
@@ -66,7 +78,7 @@ const handleToAdd = () => {
       :show-indicators="false"
     >
       <van-swipe-item v-for="(_, index) in tabs" :key="index">
-        <component :is="tabs[index]"></component>
+        <component :is="tabs[index]" :dropKey="selectedMenuValue"></component>
       </van-swipe-item>
     </van-swipe>
 

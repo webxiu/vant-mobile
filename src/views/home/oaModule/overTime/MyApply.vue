@@ -6,25 +6,41 @@
           v-if="list.length"
           v-model:loading="loading"
           :finished="finished"
+          :offset="10"
+          :immediate-check="false"
+          finish-text="没有更多了"
           @load="onLoad"
         >
-          <div v-for="(item, index) in list" :key="item.userName">
-            <div class="list-item">
+          <div
+            v-for="(item, index) in list"
+            :key="item.userName"
+            style="
+              border-radius: 6px;
+              border: 1px solid #dddee1;
+              margin: 0 3px 5px;
+            "
+          >
+            <div class="list-item" style="margin: 2px">
               <van-cell value="详情" is-link :to="`/overTime/${item.id}`">
                 <!-- 使用 title 插槽来自定义标题 -->
                 <template #title>
-                  <van-badge :content="index + 1" color="gray"></van-badge>
-                  【{{ item.userName }} - {{ item.overtimeType }}】
-                  <van-tag type="primary">{{ item.billStateName }}</van-tag>
+                  <van-badge :content="index + 1" color="#5686ff"></van-badge>
+                  【{{ item.userName }} - {{ item.holidayType }}】
+
+                  <van-tag :type="colorSelector(item.billStateName)">
+                    {{ item.billStateName }}
+                  </van-tag>
                 </template>
               </van-cell>
 
               <van-cell>
                 <template #title>
-                  <div>
-                    <div>
+                  <div style="color: #aaa">
+                    <div style="text-align: justify">
                       <van-icon name="comment-circle-o" />
-                      <span class="content-offset">{{ item.remark }}</span>
+                      <span class="content-offset">{{
+                        item.remark || "无"
+                      }}</span>
                     </div>
                     <div>
                       <van-icon name="underway-o" />
@@ -41,104 +57,108 @@
         </van-list>
 
         <!-- 无数据时页面 -->
-        <van-empty v-else description="系统没有检索出请假单" />
+        <van-empty v-else description="暂无数据" />
       </van-pull-refresh>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted, watch } from "vue";
+import { getLeaveList } from "@/api/oaModule";
+import { colorSelector } from "@/utils/getStatusColor";
+
+interface ItemInfoType {
+  holidayType: string;
+  remark: string;
+  startDate: string;
+  startTime: string;
+  endDate: string;
+  endTime: string;
+  userName: string;
+  billStateName: string;
+  id: number;
+}
+
+const props = defineProps(["dropKey"]);
 
 const loading = ref(false);
 const finished = ref(false);
 const refreshing = ref(false);
 
-let list = reactive([
-  {
-    userName: "张三",
-    overtimeType: "事假",
-    billStateName: "已审核",
-    remark: "去医院做核酸",
-    startDate: "2023-05-06",
-    startTime: "14:00",
-    endDate: "2023-05-06",
-    endTime: "12:00",
-    id: 0,
-  },
+let list: ItemInfoType[] = reactive([]);
 
-  {
-    userName: "李四",
-    overtimeType: "婚假",
-    billStateName: "审核中",
-    remark: "去医院做核酸",
-    startDate: "2023-05-06",
-    startTime: "14:00",
-    endDate: "2023-05-06",
-    endTime: "12:00",
-    id: 1,
-  },
-  {
-    userName: "王五",
-    overtimeType: "调休",
-    billStateName: "待提交",
-    remark: "去医院做核酸",
-    startDate: "2023-05-06",
-    startTime: "14:00",
-    endDate: "2023-05-06",
-    endTime: "12:00",
-    id: 2,
-  },
-  {
-    userName: "赵六",
-    overtimeType: "年假",
-    billStateName: "重新审核",
-    remark: "去医院做核酸",
-    startDate: "2023-05-06",
-    startTime: "14:00",
-    endDate: "2023-05-06",
-    endTime: "12:00",
-    id: 3,
-  },
-]);
+let listQuery = reactive({
+  page: 1, // 当前页码
+  limit: 10, // 每页条数
+});
 
 const onLoad = () => {
   setTimeout(() => {
-    if (refreshing.value) {
-      list = [];
-      refreshing.value = false;
+    getList();
+  }, 1000);
+};
+
+const onRefresh = () => {
+  setTimeout(() => {
+    listQuery.page = 1;
+    getList();
+    refreshing.value = false;
+  }, 1000);
+};
+
+// 获取列表
+const getList = () => {
+  // 请求得到列表，并传参传递请求页码和单页列表数量limit
+  getLeaveList({ ...listQuery, billState: props.dropKey }).then((res) => {
+    // 如果是第一次进入页面page==1 直接赋值
+    if (listQuery.page === 1) {
+      let resArr = res.data.records;
+      list.push(...resArr);
+    } else {
+      // 如果不是则在后面追加数据,forEach()方法
+      res.data.records.forEach((item) => {
+        list.push(item);
+      });
+      // 追加完成后关闭loading
+      loading.value = false;
     }
-
-    loading.value = false;
-
-    if (list.length >= 1) {
+    // 当还有数据是page++
+    if (res.data.records.length) {
+      listQuery.page++;
+      loading.value = false;
+    } else {
+      // 如果没有数据加载完毕
       finished.value = true;
     }
   });
 };
 
-const onRefresh = () => {
-  // 清空列表数据
-  finished.value = false;
+watch(props, (nweProps) => {
+  console.log("nweProps", nweProps);
 
-  // 重新加载数据
-  // 将 loading 设置为 true，表示处于加载状态
-  loading.value = true;
-  onLoad();
-};
+  getList();
+});
+
+onMounted(() => {
+  console.log(props, "props");
+  getList();
+});
 </script>
 
 <style scoped lang="scss">
 .my-apply {
-  //   background-color: red;
+  // background-color: red;
   //   height: calc(100vh - 196px);
   .list-content {
     margin-top: 4px;
     padding: 6px;
 
     .list-item {
-      border: 1px solid #dddee1;
-      margin-bottom: 6px;
+      // border: 1px solid #dddee1;
+      // margin-bottom: 6px;
+
+      // border-radius: 2px;
 
       .content-offset {
         margin-left: 12px;

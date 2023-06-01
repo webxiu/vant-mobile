@@ -34,6 +34,7 @@ export default {
     {
       path: "/overTime/:id",
       name: "OverTimeDetail",
+      props: true,
       component: () => import("@/views/home/oaModule/overTime/detail.vue"),
       meta: {
         title: "详情页面",

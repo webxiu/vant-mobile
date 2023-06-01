@@ -205,7 +205,14 @@
 </template>
 
 <script setup lang="ts">
+import { addLeaveList } from "@/api/oaModule";
+import { useAppStore } from "@/store/modules/app";
+
 import { ref } from "vue";
+
+const appStore = useAppStore();
+
+console.log(appStore, "appstore");
 
 const userName = ref(""); // 请假人
 const holidayType = ref(""); // 请假类型
@@ -239,6 +246,9 @@ const typeColumns = [
 // 表单提交事件
 const onSubmit = (values) => {
   console.log("submit", values);
+  addLeaveList({ askForLeaveDTOList: [{ ...values }] }).then((res) => {
+    console.log(res, "add--res");
+  });
 };
 
 const onStartDateConfirm = ({ selectedValues }) => {
