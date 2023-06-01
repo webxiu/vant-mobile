@@ -8,12 +8,8 @@ import { routeCateList } from "@/router";
       <div class="cate-title" v-if="item.meta">{{ item.meta.title }}</div>
       <van-grid :column-num="3">
         <template v-for="cell in item.children">
-          <van-grid-item
-            v-if="cell.meta"
-            :icon="cell.meta.icon"
-            :text="cell.meta.title"
-            :to="cell.path"
-          />
+          <van-grid-item v-if="cell.meta && !cell.meta?.hidden" :icon="cell.meta.icon" :text="cell.meta.title"
+            :to="cell.path" />
         </template>
       </van-grid>
     </template>

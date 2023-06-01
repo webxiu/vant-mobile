@@ -32,7 +32,9 @@ const onClickRight = () => {
 };
 
 watch(route, (_, newVal) => {
-  showNav.value = NavBarList.includes(unref(toRaw(newVal).path));
+  showNav.value = NavBarList.some(
+    (item) => unref(toRaw(newVal).path).indexOf(item) > -1
+  );
 });
 </script>
 

@@ -227,6 +227,8 @@ declare global {
       hiddenTag?: boolean;
       /** 动态路由可打开的最大数量 `可选` */
       dynamicLevel?: number;
+      /** 是否隐藏路由， 默认显示 */
+      hidden?: boolean;
     };
     /** 子路由配置项 */
     children?: Array<RouteChildrenConfigsTable>;

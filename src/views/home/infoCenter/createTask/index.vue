@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { reactive, ref, watch } from "vue";
+import { reactive, ref } from "vue";
 import { getCreateTask } from "@/api/infoCenter";
 import { AuditTaskType } from "../useInfoHook";
 import MyAudit from "./MyAudit.vue";
@@ -9,31 +9,47 @@ import MyStop from "./MyStop.vue";
 import { useSearchHook } from "../useInfoHook";
 
 const auditList = [
-  { title: "待处理", name: 2 },
-  { title: "已处理", name: 3 },
-  { title: "已暂停", name: 1 },
-  { title: "已终止", name: 4 },
+  { title: "待处理", status: 2 },
+  { title: "已处理", status: 3 },
+  { title: "已暂停", status: 1 },
+  { title: "已终止", status: 4 },
 ];
+const tabs = [MyAudit, MyAudited, MyInitiate, MyStop];
 
 const active = ref(0);
+const childRef = ref();
 const auditModel: AuditTaskType = reactive({
   page: 1,
   limit: 50,
   searchFrom: 2,
   taskState: 2,
 });
-const tabs = [MyAudit, MyAudited, MyInitiate, MyStop];
-const { data, isLoading, getData } = useSearchHook(getCreateTask, auditModel);
+
+const setData = (data) => {
+  childRef.value?.forEach((child, index) => {
+    if (active.value === index) {
+      child.initData(data);
+    }
+  });
+};
 
 const onTabChange = (index: number) => {
   active.value = index;
-  const taskState = auditList[index].name;
+  const taskState = auditList[index].status;
   auditModel.taskState = taskState;
 };
 
 const onRefresh = () => {
-  getData();
+  childRef.value?.forEach((_, index) => {
+    if (active.value === index) getData();
+  });
 };
+
+const { isLoading, getData } = useSearchHook(
+  getCreateTask,
+  auditModel,
+  setData
+);
 </script>
 
 <template>
@@ -45,7 +61,7 @@ const onRefresh = () => {
   >
     <van-tab v-for="(item, idx) in auditList" :title="item.title" :key="idx">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <component :is="tabs[idx]" :data="data" />
+        <component :is="tabs[idx]" ref="childRef" />
       </van-pull-refresh>
     </van-tab>
   </van-tabs>

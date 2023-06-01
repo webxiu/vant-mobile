@@ -1,12 +1,17 @@
 <script lang="ts" setup>
-defineProps({ data: Object });
+import { ref } from "vue";
+const resultList = ref();
+const initData = (data) => {
+  resultList.value = data;
+  console.log("=已终止initData:", data);
+};
+defineExpose({ initData });
 </script>
-
 <template>
   <div>===已终止</div>
   <pre>
     <code>
-      {{ JSON.stringify(data, null, 2) }}
+      {{ JSON.stringify(resultList, null, 2) }}
     </code>
   </pre>
 </template>

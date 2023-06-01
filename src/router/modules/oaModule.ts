@@ -1,3 +1,4 @@
+import { RouteConfigsTable } from "~/types/global.d";
 import { RouteRecordRaw } from "vue-router";
 
 export default {
@@ -18,6 +19,26 @@ export default {
         icon: "description",
         noCache: true,
         affix: true,
+      },
+    },
+    {
+      path: "/overTime/add",
+      name: "OverTimeAdd",
+      component: () => import("@/views/home/oaModule/overTime/add.vue"),
+      meta: {
+        title: "添加申请",
+        icon: "description",
+        hidden: true,
+      },
+    },
+    {
+      path: "/overTime/:id",
+      name: "OverTimeDetail",
+      component: () => import("@/views/home/oaModule/overTime/detail.vue"),
+      meta: {
+        title: "详情页面",
+        icon: "description",
+        hidden: true,
       },
     },
     {
@@ -126,4 +147,4 @@ export default {
       },
     },
   ],
-} as RouteRecordRaw;
+} as RouteConfigsTable;

@@ -8,34 +8,33 @@ import MyAudited from "./MyAudited.vue";
 import MyInitiate from "./MyInitiate.vue";
 
 const auditList = [
-  { title: "我的待办", name: "audit1" },
-  { title: "我的已办", name: "audit2" },
-  { title: "我的发起", name: "audit3" },
+  { title: "我的待办", status: "audit1" },
+  { title: "我的已办", status: "audit2" },
+  { title: "我的发起", status: "audit3" },
 ];
-
 const API: { [key: string]: any } = {
   audit1: getAuditTask1,
   audit2: getAuditTask2,
   audit3: getAuditTask3,
 };
+const tabs = [MyAudit, MyAudited, MyInitiate];
 
+const swipeRef = ref();
+const childRef = ref();
+const apiKey = ref("audit1");
+const active = ref<number>(0);
+const searchValue = ref<string>("");
+const isLoading = ref<boolean>(false);
 const auditModel: AuditTaskType = reactive({
   pageNo: 1,
   limit: 50,
   searchKey: "",
 });
-const data = ref();
-const swipeRef = ref();
-const apiKey = ref("audit1");
-const active = ref<number>(0);
-const searchValue = ref<string>("");
-const isLoading = ref<boolean>(false);
-const tabs = [MyAudit, MyAudited, MyInitiate];
 
 onMounted(() => getData());
 
 watch(active, (newVal) => {
-  const taskState = auditList[newVal].name;
+  const taskState = auditList[newVal].status;
   apiKey.value = taskState;
   getData();
 });
@@ -44,7 +43,7 @@ const getData = () => {
   isLoading.value = true;
   API[apiKey.value](auditModel)
     .then((res) => {
-      data.value = res;
+      setData(res);
       isLoading.value = false;
       showToast({ message: "数据获取成功", position: "top" });
     })
@@ -52,6 +51,14 @@ const getData = () => {
       console.log("err", err);
       showToast({ message: "数据获取失败", position: "top" });
     });
+};
+
+const setData = (data) => {
+  childRef.value?.forEach((child, index) => {
+    if (active.value === index) {
+      child.initData(data);
+    }
+  });
 };
 
 const onTabChange = (index: number) => {
@@ -64,7 +71,12 @@ const onSearchKey = (value: string) => {
   auditModel.searchKey = value;
   getData();
 };
-const onRefresh = () => getData();
+
+const onRefresh = () => {
+  childRef.value?.forEach((_, index) => {
+    if (active.value === index) getData();
+  });
+};
 </script>
 
 <template>
@@ -100,7 +112,7 @@ const onRefresh = () => getData();
   >
     <van-swipe-item v-for="(_, idx) in tabs" :key="idx">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <component :is="tabs[idx]" :data="data" />
+        <component :is="tabs[idx]" ref="childRef" />
       </van-pull-refresh>
     </van-swipe-item>
   </van-swipe>
