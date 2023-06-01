@@ -30,8 +30,9 @@ body {
 
 #app {
   height: 100%;
-  background-color: #ffffff;
+  background-color: $mainBgColor;
   font-size: 32px;
+  color: $mainColor;
 }
 
 @media (prefers-color-scheme: light) {

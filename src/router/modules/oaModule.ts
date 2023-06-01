@@ -123,6 +123,17 @@ export default {
       },
     },
     {
+      path: "/customerComplaints/:id",
+      name: "CustomerComplaintsDetail",
+      component: () =>
+        import("@/views/home/oaModule/customerComplaints/detail.vue"),
+      meta: {
+        title: "详情页面",
+        icon: "description",
+        hidden: true,
+      },
+    },
+    {
       path: "/personalSignage",
       name: "PersonalSignage",
       component: () =>

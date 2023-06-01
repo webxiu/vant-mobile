@@ -7,4 +7,5 @@ export const NavBarList: string[] = [
   "/auditTask",
   "/overTime/add",
   "/overTime/",
+  "/customerComplaints/",
 ];

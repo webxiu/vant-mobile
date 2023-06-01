@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
-import { AuditTaskType } from "../useInfoHook";
+import { AuditTaskType } from "../index";
 import MyAudit from "./MyAudit.vue";
 import MyAudited from "./MyAudited.vue";
 import MyInitiate from "./MyInitiate.vue";
 import MyStop from "./MyStop.vue";
-import { useSearchHook } from "../useInfoHook";
+import { useAxios } from "@/hooks/useAxios";
 import { getMyTask } from "@/api/infoCenter";
 
 const auditList = [
@@ -18,7 +18,7 @@ const tabs = [MyAudit, MyAudited, MyInitiate, MyStop];
 
 const active = ref(0);
 const childRef = ref();
-const auditModel: AuditTaskType = reactive({
+const queryParams: AuditTaskType = reactive({
   page: 1,
   limit: 50,
   searchFrom: 3,
@@ -36,15 +36,21 @@ const setData = (data) => {
 const onTabChange = (index: number) => {
   active.value = index;
   const taskState = auditList[index].status;
-  auditModel.taskState = taskState;
+  queryParams.taskState = taskState;
 };
+
 const onRefresh = () => {
   childRef.value?.forEach((_, index) => {
     if (active.value === index) getData();
   });
 };
 
-const { isLoading, getData } = useSearchHook(getMyTask, auditModel, setData);
+const { isLoading, getData } = useAxios({
+  api: getMyTask,
+  params: queryParams,
+  callback: setData,
+  initValue: [],
+});
 </script>
 
 <template>

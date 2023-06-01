@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { showToast } from "vant";
 import { reactive, ref, watch, onMounted } from "vue";
-import { AuditTaskType, TabActiveColor } from "../useInfoHook";
+import { AuditTaskType, TabActiveColor } from "../index";
 import { getAuditTask1, getAuditTask2, getAuditTask3 } from "@/api/infoCenter";
 import MyAudit from "./MyAudit.vue";
 import MyAudited from "./MyAudited.vue";
@@ -25,7 +25,7 @@ const apiKey = ref("audit1");
 const active = ref<number>(0);
 const searchValue = ref<string>("");
 const isLoading = ref<boolean>(false);
-const auditModel: AuditTaskType = reactive({
+const queryParams: AuditTaskType = reactive({
   pageNo: 1,
   limit: 50,
   searchKey: "",
@@ -41,7 +41,7 @@ watch(active, (newVal) => {
 
 const getData = () => {
   isLoading.value = true;
-  API[apiKey.value](auditModel)
+  API[apiKey.value](queryParams)
     .then((res) => {
       setData(res);
       isLoading.value = false;
@@ -67,8 +67,8 @@ const onTabChange = (index: number) => {
 const onSwipeChange = (index: number) => {
   active.value = index;
 };
-const onSearchKey = (value: string) => {
-  auditModel.searchKey = value;
+const onSearch = (value: string) => {
+  queryParams.searchKey = value;
   getData();
 };
 
@@ -98,11 +98,10 @@ const onRefresh = () => {
   </van-tabs>
   <van-search
     v-model="searchValue"
-    :active="active"
     shape="round"
-    @search="onSearchKey"
+    @search="onSearch"
     placeholder="请输入搜索关键词"
-  ></van-search>
+  />
   <van-swipe
     ref="swipeRef"
     :loop="false"

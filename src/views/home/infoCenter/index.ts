@@ -1,5 +1,10 @@
 export interface AuditTaskType {
   limit: number;
-  pageNo: number;
-  searchKey: string;
+  page?: number;
+  pageNo?: number;
+  searchFrom?: number;
+  taskState?: number;
+  searchKey?: string;
 }
+
+export const TabActiveColor = "#1989fa";

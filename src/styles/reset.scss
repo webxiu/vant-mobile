@@ -62,43 +62,21 @@ textarea {
   resize: none;
   overflow: auto;
 }
-body {
+body,
+html {
   height: 100%;
+  box-sizing: border-box;
+}
+body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
-}
-.clearFix,
-.clearfix {
-  zoom: 1;
-}
-.clearFix:after,
-.clearfix:after {
-  content: '';
-  display: block;
-  clear: both;
-}
- 
-
-.no-padding {
-  padding: 0 !important;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
+    Microsoft YaHei, Arial, sans-serif;
 }
 
-.padding-content {
-  padding: 4px 0;
-}
-
-.pr-5 {
-  padding-right: 5px;
-}
-
-.pl-5 {
-  padding-left: 5px;
-}
-
-.p12 {
-  padding: 12px;
+label {
+  font-weight: 700;
 }
 
 .block {
@@ -113,15 +91,8 @@ body {
   display: block;
 }
 
-.clearFix {
-  &:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: ' ';
-    clear: both;
-    height: 0;
-  }
+.ui-va-m {
+  vertical-align: middle;
 }
 
 .flex-1 {
@@ -144,34 +115,44 @@ body {
   flex: 5;
 }
 
-// 横向
-.flex-row {
+.flex {
   display: flex;
-  display: -webkit-flex;
-  flex-direction: row;
-  -webkit-flex-direction: row;
 }
-// 纵向
 .flex-col {
   display: flex;
-  display: -webkit-flex;
   flex-direction: column;
-  -webkit-flex-direction: column;
 }
-// 两侧排列
-.flex-between {
-  justify-content: space-between;
-  -webkit-justify-content: space-between;
+
+.just-start {
+  justify-content: flex-start;
 }
-// 水平居中
-.flex-row-center {
+
+.just-center {
   justify-content: center;
-  -webkit-justify-content: center;
 }
-// 垂直居中
-.flex-row-center {
+
+.just-between {
+  justify-content: space-between;
+}
+
+.just-end {
+  justify-content: flex-end;
+}
+
+.align-start {
+  align-items: flex-start;
+}
+
+.align-center {
   align-items: center;
-  -webkit-align-items: center;
+}
+
+.align-end {
+  align-items: flex-end;
+}
+
+.align-self-end {
+  align-self: flex-end;
 }
 
 .ellipsis {
@@ -191,7 +172,7 @@ body {
   -webkit-line-clamp: 2;
 }
 
-.un-select {
+.no-select {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -205,27 +186,3 @@ body {
 .ui-h-100 {
   height: 100%;
 }
- 
-body {
-  height: 100%;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
-}
-
-label {
-  font-weight: 700;
-}
-
-html {
-  height: 100%;
-  box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
- 

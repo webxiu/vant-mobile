@@ -1,6 +1,6 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
 
-import { BaseResponse } from "~/types/request.d";
+import { BaseResponseType } from "~/types/request.d";
 import { showToast } from "vant";
 import router from "@/router";
 
@@ -14,7 +14,7 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 axiosInstance.interceptors.response.use(
-  (response: AxiosRequestConfig<BaseResponse<{}>>): any => {
+  (response: AxiosRequestConfig<BaseResponseType<{}>>): any => {
     const data = response.data;
     if (data?.status === 401) {
       const timer = setTimeout(() => {

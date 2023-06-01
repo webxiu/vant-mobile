@@ -102,6 +102,8 @@ npm run method:readme
 ```bash
 # 方法名称  方法描述
 getPageTitle:  设置网页标题 
+debounce:  函数防抖 
+throttle:  函数节流 
 ```
 
 - **src\utils\regExp.ts**
