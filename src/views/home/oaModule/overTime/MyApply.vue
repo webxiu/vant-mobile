@@ -1,0 +1,184 @@
+<template>
+  <div class="my-apply">
+    <div class="list-content">
+      <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+        <van-list
+          v-if="listInfo.records.length"
+          v-model:loading="loading"
+          :finished="finished"
+          :offset="10"
+          :immediate-check="false"
+          finish-text="没有更多了"
+          @load="onLoad"
+        >
+          <div
+            v-for="(item, index) in listInfo.records"
+            :key="item.userName"
+            style="
+              border-radius: 6px;
+              border: 1px solid #dddee1;
+              margin: 0 3px 5px;
+            "
+          >
+            <div class="list-item" style="margin: 2px">
+              <van-cell value="详情" is-link :to="`/overTime/${item.id}`">
+                <!-- 使用 title 插槽来自定义标题 -->
+                <template #title>
+                  <van-badge :content="index + 1" color="#5686ff"></van-badge>
+                  【{{ item.userName }} - {{ item.holidayType }}】
+
+                  <van-tag :type="colorSelector(item.billStateName)">
+                    {{ item.billStateName }}
+                  </van-tag>
+                </template>
+              </van-cell>
+
+              <van-cell>
+                <template #title>
+                  <div style="color: #aaa">
+                    <div style="text-align: justify">
+                      <van-icon name="comment-circle-o" />
+                      <span class="content-offset">{{
+                        item.remark || "无"
+                      }}</span>
+                    </div>
+                    <div>
+                      <van-icon name="underway-o" />
+                      <span class="content-offset"
+                        >{{ item.startDate }} {{ item.startTime }} 至
+                        {{ item.endDate }} {{ item.endTime }}</span
+                      >
+                    </div>
+                  </div>
+                </template>
+              </van-cell>
+            </div>
+          </div>
+        </van-list>
+
+        <!-- 无数据时页面 -->
+        <van-empty v-else description="暂无数据" />
+      </van-pull-refresh>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { ref, reactive, onMounted, watch } from "vue";
+import { getLeaveList } from "@/api/oaModule";
+import { colorSelector } from "@/utils/getStatusColor";
+
+interface ItemInfoType {
+  holidayType: string;
+  remark: string;
+  startDate: string;
+  startTime: string;
+  endDate: string;
+  endTime: string;
+  userName: string;
+  billStateName: string;
+  id: number;
+}
+
+const props = defineProps(["dropKey"]);
+
+const loading = ref(false);
+const finished = ref(false);
+const refreshing = ref(false);
+
+let listInfo = reactive<{ records: any[] }>({ records: [] });
+
+let listQuery = reactive({
+  page: 1, // 当前页码
+  limit: 10, // 每页条数
+});
+
+const onLoad = () => {
+  setTimeout(() => {
+    getList();
+  }, 1000);
+};
+
+const onRefresh = () => {
+  setTimeout(() => {
+    listQuery.page = 1;
+    getList();
+    refreshing.value = false;
+  }, 1000);
+};
+
+// 获取列表
+const getList = () => {
+  // 请求得到列表，并传参传递请求页码和单页列表数量limit
+  getLeaveList({ billState: props.dropKey }).then((res) => {
+    console.log(res, "res--alala");
+    listInfo.records = [];
+    finished.value = true;
+  });
+};
+
+watch(props, (nweProps) => {
+  getList();
+});
+
+onMounted(() => {
+  console.log(props, "props");
+  getList();
+});
+</script>
+
+<style scoped lang="scss">
+.my-apply {
+  // background-color: red;
+  //   height: calc(100vh - 196px);
+  .list-content {
+    margin-top: 4px;
+    padding: 6px;
+
+    .list-item {
+      // border: 1px solid #dddee1;
+      // margin-bottom: 6px;
+
+      // border-radius: 2px;
+
+      .content-offset {
+        margin-left: 12px;
+      }
+
+      :deep(.van-tag--primary) {
+        padding: 2px 4px;
+      }
+
+      :deep(.van-cell__value),
+      :deep(.van-icon-arrow:before) {
+        color: #5686ff;
+      }
+
+      // :deep(.van-icon-arrow:before) {
+      //   color: #5686ff;
+      // }
+    }
+
+    .custom-title {
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+
+    .search-icon {
+      font-size: 16px;
+      line-height: inherit;
+    }
+
+    :deep(.van-badge--top-right) {
+      transform: none;
+    }
+
+    :deep(.van-cell__title) {
+      display: flex;
+      align-items: center;
+      flex: 30%;
+      // background-color: red;
+    }
+  }
+}
+</style>
