@@ -1,12 +1,5 @@
-import type {
-  VNode,
-  FunctionalComponent,
-  PropType as VuePropType,
-  ComponentPublicInstance,
-} from "vue";
+import type { FunctionalComponent } from "vue";
 import type { ECharts } from "echarts";
-import type { IconifyIcon } from "@iconify/vue";
-import type { TableColumns } from "@pureadmin/table";
 import { type RouteComponent, type RouteLocationNormalized } from "vue-router";
 
 /**
@@ -68,80 +61,6 @@ declare global {
   }
 
   /**
-   *  继承 `@pureadmin/table` 的 `TableColumns` ，方便全局直接调用
-   */
-  interface TableColumnList extends Array<TableColumns> {}
-
-  /**
-   * 对应 `public/serverConfig.json` 文件的类型声明
-   * @see {@link https://yiming_chang.gitee.io/pure-admin-doc/pages/config/#serverconfig-json}
-   */
-  interface ServerConfigs {
-    Version?: string;
-    Title?: string;
-    FixedHeader?: boolean;
-    HiddenSideBar?: boolean;
-    MultiTagsCache?: boolean;
-    KeepAlive?: boolean;
-    Locale?: string;
-    Layout?: string;
-    Theme?: string;
-    DarkMode?: boolean;
-    Grey?: boolean;
-    Weak?: boolean;
-    HideTabs?: boolean;
-    SidebarStatus?: boolean;
-    EpThemeColor?: string;
-    ShowLogo?: boolean;
-    ShowModel?: string;
-    MenuArrowIconNoTransition?: boolean;
-    CachingAsyncRoutes?: boolean;
-    TooltipEffect?: Effect;
-    ResponsiveStorageNameSpace?: string;
-    MapConfigure?: {
-      amapKey?: string;
-      options: {
-        resizeEnable?: boolean;
-        center?: number[];
-        zoom?: number;
-      };
-    };
-  }
-
-  /**
-   * 与 `ServerConfigs` 类型不同，这里是缓存到浏览器本地存储的类型声明
-   * @see {@link https://yiming_chang.gitee.io/pure-admin-doc/pages/config/#serverconfig-json}
-   */
-  interface StorageConfigs {
-    version?: string;
-    title?: string;
-    fixedHeader?: boolean;
-    hiddenSideBar?: boolean;
-    multiTagsCache?: boolean;
-    keepAlive?: boolean;
-    locale?: string;
-    layout?: string;
-    theme?: string;
-    darkMode?: boolean;
-    grey?: boolean;
-    weak?: boolean;
-    hideTabs?: boolean;
-    sidebarStatus?: boolean;
-    epThemeColor?: string;
-    showLogo?: boolean;
-    showModel?: string;
-    mapConfigure?: {
-      amapKey?: string;
-      options: {
-        resizeEnable?: boolean;
-        center?: number[];
-        zoom?: number;
-      };
-    };
-    username?: string;
-  }
-
-  /**
    * `responsive-storage` 本地响应式 `storage` 的类型声明
    */
   interface ResponsiveStorage {
@@ -178,9 +97,9 @@ declare global {
   }
 
   /**
-   * @description 完整子路由配置表
+   * @description 完整路由配置表(自定义meta)
    */
-  export interface RouteChildrenConfigsTable {
+  interface RouteConfigRawType {
     /** 子路由地址 `必填` */
     path: string;
     /** 路由名字（对应不要重复，和当前组件的`name`保持一致）`必填` */
@@ -193,23 +112,17 @@ declare global {
       /** 菜单名称（兼容国际化、非国际化，如何用国际化的写法就必须在根目录的`locales`文件夹下对应添加） `必填` */
       title: string;
       /** 菜单图标 `可选` */
-      icon?: string | FunctionalComponent | IconifyIcon;
-      /** 菜单名称右侧的额外图标 */
-      extraIcon?: string | FunctionalComponent | IconifyIcon;
-      /** 是否在菜单中显示（默认`true`）`可选` */
-      showLink?: boolean;
-      /** 是否显示父级菜单 `可选` */
-      showParent?: boolean;
-      /** 页面级别权限设置 `可选` */
-      roles?: Array<string>;
-      /** 按钮级别权限设置 `可选` */
-      auths?: Array<string>;
-      /** 路由组件缓存（开启 `true`、关闭 `false`）`可选` */
+      icon?: string | FunctionalComponent;
+      /** 是否显示顶部返回菜单(针对所有路由,默认不显示) */
+      showNav?: boolean;
+      /** 是否缓存路由 */
+      noCache?: boolean;
+      /** 路由组件缓存（本项目不涉及）`可选` */
       keepAlive?: boolean;
-      /** 内嵌的`iframe`链接 `可选` */
-      frameSrc?: string;
-      /** `iframe`页是否开启首次加载动画（默认`true`）`可选` */
-      frameLoading?: boolean;
+      /** 是否隐藏路由， 默认显示 */
+      hidden?: boolean;
+      /** 是否禁用路由 */
+      disable?: boolean;
       /** 页面加载动画（有两种形式，一种直接采用vue内置的`transitions`动画，另一种是使用`animate.css`写进、离场动画）`可选` */
       transition?: {
         /**
@@ -223,41 +136,9 @@ declare global {
         /** 离场动画 */
         leaveTransition?: string;
       };
-      // 是否不添加信息到标签页，（默认`false`）
-      hiddenTag?: boolean;
-      /** 动态路由可打开的最大数量 `可选` */
-      dynamicLevel?: number;
-      /** 是否隐藏路由， 默认显示 */
-      hidden?: boolean;
     };
     /** 子路由配置项 */
-    children?: Array<RouteChildrenConfigsTable>;
-  }
-
-  /**
-   * @description 整体路由配置表（包括完整子路由）
-   */
-  export interface RouteConfigsTable {
-    /** 路由地址 `必填` */
-    path: string;
-    /** 路由名字（保持唯一）`可选` */
-    name?: string;
-    /** `Layout`组件 `可选` */
-    component?: RouteComponent;
-    /** 路由重定向 `可选` */
-    redirect?: string;
-    meta?: {
-      /** 菜单名称（兼容国际化、非国际化，如何用国际化的写法就必须在根目录的`locales`文件夹下对应添加）`必填` */
-      title: string;
-      /** 菜单图标 `可选` */
-      icon?: string | FunctionalComponent | IconifyIcon;
-      /** 是否在菜单中显示（默认`true`）`可选` */
-      showLink?: boolean;
-      /** 菜单升序排序，值越高排的越后（只针对顶级路由）`可选` */
-      rank?: number;
-    };
-    /** 子路由配置项 */
-    children?: Array<RouteChildrenConfigsTable>;
+    children?: Array<RouteConfigRawType>;
   }
 
   /**
@@ -268,34 +149,4 @@ declare global {
     $storage: ResponsiveStorage;
     $config: ServerConfigs;
   }
-}
-
-/**
- * @description 整体路由配置表（包括完整子路由）
- */
-export interface RouteConfigsTable {
-  /** 路由地址 `必填` */
-  path: string;
-  /** 路由名字（保持唯一）`可选` */
-  name?: string;
-  /** `Layout`组件 `可选` */
-  component?: RouteComponent;
-  /** 是否隐藏路由 */
-  hidden?: boolean;
-  /** 路由重定向 `可选` */
-  redirect?: string;
-  meta?: {
-    /** 菜单名称（兼容国际化、非国际化，如何用国际化的写法就必须在根目录的`locales`文件夹下对应添加）`必填` */
-    title: string;
-    /** 菜单图标 `可选` */
-    icon?: string | FunctionalComponent | IconifyIcon;
-    /** 是否缓存路由 */
-    noCache?: boolean;
-    /** 是否在菜单中显示（默认`true`）`可选` */
-    showLink?: boolean;
-    /** 菜单升序排序，值越高排的越后（只针对顶级路由）`可选` */
-    rank?: number;
-  };
-  /** 子路由配置项 */
-  children?: Array<RouteChildrenConfigsTable>;
 }

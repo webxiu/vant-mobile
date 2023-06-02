@@ -1,16 +1,13 @@
 import { RouteRecordRaw, createRouter, createWebHashHistory } from "vue-router";
 
-import { RouteConfigsTable } from "~/types/global.d";
-
 // 公共全局路由
-const commonRoute: RouteConfigsTable[] = [
-  { path: "/", name: "Home", hidden: true, redirect: "/workspace" },
+const commonRoute: RouteConfigRawType[] = [
+  { path: "/", name: "Home", redirect: "/workspace" },
   {
     path: "/workspace",
     name: "Workspace",
-    hidden: true,
     component: () => import("@/views/home/index.vue"),
-    meta: { title: "德龙工作台", noCache: true },
+    meta: { title: "德龙工作台" },
   },
   {
     path: "/login",
@@ -31,7 +28,6 @@ const commonRoute: RouteConfigsTable[] = [
     meta: { title: "404" },
   },
 ];
-
 // 动态加载
 const modules: Record<string, any> = import.meta.glob(
   ["./modules/**/*.ts", "!./modules/**/remaining.ts"],
@@ -39,7 +35,7 @@ const modules: Record<string, any> = import.meta.glob(
 );
 
 // 路由模块列表
-const routeList: RouteConfigsTable[] = [];
+const routeList: RouteConfigRawType[] = [];
 Object.keys(modules).forEach((key) => {
   const mod = modules[key].default || {};
   const modList = Array.isArray(mod) ? [...mod] : [mod];

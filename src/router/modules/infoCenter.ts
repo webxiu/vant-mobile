@@ -1,5 +1,3 @@
-import { RouteRecordRaw } from "vue-router";
-
 export default {
   path: "/infoCenter",
   redirect: "/infoCenter/createTask",
@@ -16,6 +14,7 @@ export default {
       meta: {
         title: "我创建的任务",
         icon: "certificate",
+        showNav: true,
       },
     },
     {
@@ -25,7 +24,7 @@ export default {
       meta: {
         title: "我负责的任务",
         icon: "manager-o",
-        affix: true,
+        showNav: true,
       },
     },
     {
@@ -35,8 +34,8 @@ export default {
       meta: {
         title: "业务审批",
         icon: "cluster-o",
-        affix: true,
+        showNav: true,
       },
     },
   ],
-} as RouteRecordRaw;
+} as RouteConfigRawType;

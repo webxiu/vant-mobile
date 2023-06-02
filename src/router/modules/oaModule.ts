@@ -1,6 +1,3 @@
-import { RouteConfigsTable } from "~/types/global.d";
-import { RouteRecordRaw } from "vue-router";
-
 export default {
   path: "/oa",
   redirect: "/oa/overTime",
@@ -17,8 +14,7 @@ export default {
       meta: {
         title: "请假单",
         icon: "description",
-        noCache: true,
-        affix: true,
+        showNav: true,
       },
     },
     {
@@ -28,7 +24,7 @@ export default {
       meta: {
         title: "添加申请",
         icon: "description",
-        hidden: true,
+        showNav: true,
       },
     },
     {
@@ -39,7 +35,7 @@ export default {
       meta: {
         title: "详情页面",
         icon: "description",
-        hidden: true,
+        showNav: true,
       },
     },
     {
@@ -50,8 +46,6 @@ export default {
       meta: {
         title: "需求登记",
         icon: "records",
-        noCache: true,
-        affix: true,
       },
     },
     {
@@ -61,8 +55,7 @@ export default {
       meta: {
         title: "建议箱",
         icon: "envelop-o",
-        noCache: true,
-        affix: true,
+        disable: true,
       },
     },
     {
@@ -72,8 +65,17 @@ export default {
       meta: {
         title: "工资单",
         icon: "balance-list-o",
-        noCache: true,
-        affix: true,
+        disable: true,
+      },
+    },
+    {
+      path: "/payroll/:id",
+      name: "payrollDetail",
+      component: () => import("@/views/home/oaModule/payroll/detail.vue"),
+      meta: {
+        title: "工资单详情",
+        icon: "balance-list-o",
+        showNav: true,
       },
     },
     {
@@ -84,8 +86,6 @@ export default {
       meta: {
         title: "内购福利",
         icon: "goods-collect-o",
-        noCache: true,
-        affix: true,
       },
     },
     {
@@ -95,8 +95,6 @@ export default {
       meta: {
         title: "经营数据",
         icon: "chart-trending-o",
-        noCache: true,
-        affix: true,
       },
     },
     {
@@ -107,8 +105,6 @@ export default {
       meta: {
         title: "供应商投诉",
         icon: "envelop-o",
-        noCache: true,
-        affix: true,
       },
     },
     {
@@ -119,8 +115,6 @@ export default {
       meta: {
         title: "客户投诉",
         icon: "envelop-o",
-        noCache: true,
-        affix: true,
       },
     },
     {
@@ -131,7 +125,7 @@ export default {
       meta: {
         title: "详情页面",
         icon: "description",
-        hidden: true,
+        showNav: true,
       },
     },
     {
@@ -142,8 +136,6 @@ export default {
       meta: {
         title: "个人看板",
         icon: "friends-o",
-        noCache: true,
-        affix: true,
       },
     },
     {
@@ -154,9 +146,7 @@ export default {
       meta: {
         title: "考勤单",
         icon: "label-o",
-        noCache: true,
-        affix: true,
       },
     },
   ],
-} as RouteConfigsTable;
+} as RouteConfigRawType;

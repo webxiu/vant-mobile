@@ -13,14 +13,31 @@
 <script lang="ts" setup>
 import { showToast } from "vant";
 import { unref, ref, watch, toRaw } from "vue";
-import routers from "@/router";
 import { useRouter, useRoute } from "vue-router";
 import { removeCookie } from "@/utils/storage";
-import { NavBarList } from "@/config/common";
+import { routeCateList } from "@/router";
 
 const route = useRoute();
 const router = useRouter();
 const showNav = ref<boolean>(false);
+
+/** 获取路由meta中配置showNav: true的路由地址 */
+const getNavList = (routers: RouteConfigRawType[]) => {
+  const navList: string[] = [];
+  const navFn = (list: RouteConfigRawType[]) => {
+    list.forEach((item) => {
+      if (item.children) {
+        navFn(item.children);
+      } else if (item.meta?.showNav) {
+        navList.push(item.path.split(":")[0]);
+      }
+    });
+  };
+  navFn(routers);
+  return navList;
+};
+
+const NavBarList = getNavList(routeCateList);
 
 const onClickLeft = () => {
   router.go(-1);
@@ -28,7 +45,7 @@ const onClickLeft = () => {
 const onClickRight = () => {
   removeCookie();
   showToast({ message: "退出成功", type: "success", position: "top" });
-  routers.push("/login");
+  router.push("/login");
 };
 
 watch(route, (_, newVal) => {

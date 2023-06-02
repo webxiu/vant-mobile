@@ -106,6 +106,13 @@ debounce:  函数防抖
 throttle:  函数节流 
 ```
 
+- **src\utils\getStatusColor.ts**
+
+```bash
+# 方法名称  方法描述
+colorSelector:  TagType 
+```
+
 - **src\utils\regExp.ts**
 
 ```bash
@@ -120,6 +127,9 @@ regExp:  正则表达式
 getCookie:  获取Cookie 
 setCookie:  设置Cookie 
 removeCookie:  移除Cookie 
+getLoginInfo:  获取用户信息 
+setLoginInfo:  设置用户信息 
+removeLoginInfo:  移除用户信息 
 ```
 
 - **src\utils\validate.ts**

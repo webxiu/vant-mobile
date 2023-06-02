@@ -46,6 +46,26 @@ export const addLeaveList = (params, config?: AxiosRequestConfig) => {
   });
 };
 
+/** 获取工资条数据列表 */
+export const getPayRollList = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/payslip/getmepaysliplistdata",
+    method: "POST",
+    params,
+    ...config,
+  });
+};
+
+/** 获取工资条数据列表 */
+export const getPayRollDetail = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/payslip/getpayslipstatusbyid",
+    method: "POST",
+    params,
+    ...config,
+  });
+};
+
 /**
  * 获取经营数据
 ======= * 接口请求说明:

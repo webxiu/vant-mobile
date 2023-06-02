@@ -1,19 +1,11 @@
 <template>
-  <div class="my-apply">
+  <div class="my-pay">
     <div class="list-content">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-        <van-list
-          v-if="list.length"
-          v-model:loading="loading"
-          :finished="finished"
-          :offset="10"
-          :immediate-check="false"
-          finish-text="没有更多了"
-          @load="onLoad"
-        >
+        <van-list v-if="listInfo.payrollList.length">
           <div
-            v-for="(item, index) in list"
-            :key="item.userName"
+            v-for="(item, index) in listInfo.payrollList"
+            :key="item.Name"
             style="
               border-radius: 6px;
               border: 1px solid #dddee1;
@@ -21,14 +13,16 @@
             "
           >
             <div class="list-item" style="margin: 2px">
-              <van-cell value="详情" is-link :to="`/overTime/${item.id}`">
+              <van-cell value="详情" is-link :to="`/payroll/${item.id}`">
                 <!-- 使用 title 插槽来自定义标题 -->
                 <template #title>
                   <van-badge :content="index + 1" color="#5686ff"></van-badge>
-                  【{{ item.userName }} - {{ item.holidayType }}】
+                  【{{ item.Name }} - {{ item.GH }}】
 
-                  <van-tag :type="colorSelector(item.billStateName)">
-                    {{ item.billStateName }}
+                  <van-tag
+                    :type="getPayRollListStatusByStr(item.Status).colorStr"
+                  >
+                    {{ getPayRollListStatusByStr(item.Status).statusText }}
                   </van-tag>
                 </template>
               </van-cell>
@@ -37,16 +31,17 @@
                 <template #title>
                   <div style="color: #aaa">
                     <div style="text-align: justify">
-                      <van-icon name="comment-circle-o" />
-                      <span class="content-offset">{{
-                        item.remark || "无"
-                      }}</span>
+                      <van-icon name="gold-coin-o"></van-icon>
+                      <span class="content-offset"
+                        >实发工资：<span class="sfgz">{{
+                          item.SFGZ
+                        }}</span></span
+                      >
                     </div>
                     <div>
                       <van-icon name="underway-o" />
                       <span class="content-offset"
-                        >{{ item.startDate }} {{ item.startTime }} 至
-                        {{ item.endDate }} {{ item.endTime }}</span
+                        >工资月份：{{ item.YearMonth }}</span
                       >
                     </div>
                   </div>
@@ -57,7 +52,7 @@
         </van-list>
 
         <!-- 无数据时页面 -->
-        <van-empty v-else description="暂无数据" />
+        <van-empty v-else description="暂无工资条" />
       </van-pull-refresh>
     </div>
   </div>
@@ -65,7 +60,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive, onMounted, watch } from "vue";
-import { getLeaveList } from "@/api/oaModule";
+import { getLeaveList, getPayRollList } from "@/api/oaModule";
 import { colorSelector } from "@/utils/getStatusColor";
 
 interface ItemInfoType {
@@ -86,22 +81,61 @@ const loading = ref(false);
 const finished = ref(false);
 const refreshing = ref(false);
 
-let list: ItemInfoType[] = reactive([]);
-
-let listQuery = reactive({
-  page: 1, // 当前页码
-  limit: 10, // 每页条数
+let listInfo = reactive({
+  payrollList: [
+    {
+      id: 1,
+      Name: "张三",
+      GH: "5562",
+      Status: "1",
+      SFGZ: "9999",
+      YearMonth: "2023-06",
+    },
+    {
+      id: 2,
+      Name: "李四",
+      GH: "5562",
+      Status: "2",
+      SFGZ: "9999",
+      YearMonth: "2023-06",
+    },
+    {
+      id: 3,
+      Name: "王五",
+      GH: "5562",
+      Status: "3",
+      SFGZ: "9999",
+      YearMonth: "2023-06",
+    },
+    {
+      id: 4,
+      Name: "赵六",
+      GH: "5562",
+      Status: "4",
+      SFGZ: "9999",
+      YearMonth: "2023-06",
+    },
+    {
+      id: 5,
+      Name: "谢某",
+      GH: "5562",
+      Status: "5",
+      SFGZ: "9999",
+      YearMonth: "2023-06",
+    },
+    {
+      id: 6,
+      Name: "谭复",
+      GH: "5562",
+      Status: "6",
+      SFGZ: "9999",
+      YearMonth: "2023-06",
+    },
+  ],
 });
-
-const onLoad = () => {
-  setTimeout(() => {
-    getList();
-  }, 1000);
-};
 
 const onRefresh = () => {
   setTimeout(() => {
-    listQuery.page = 1;
     getList();
     refreshing.value = false;
   }, 1000);
@@ -109,33 +143,50 @@ const onRefresh = () => {
 
 // 获取列表
 const getList = () => {
-  // 请求得到列表，并传参传递请求页码和单页列表数量limit
-  getLeaveList({
-    ...listQuery,
-    billState: props.dropKey,
-    billStateName: "已审核",
-  }).then((res) => {
-    // 如果是第一次进入页面page==1 直接赋值
-    if (listQuery.page === 1) {
-      let resArr = res.data.records;
-      list.push(...resArr);
-    } else {
-      // 如果不是则在后面追加数据,forEach()方法
-      res.data.records.forEach((item) => {
-        list.push(item);
-      });
-      // 追加完成后关闭loading
-      loading.value = false;
-    }
-    // 当还有数据是page++
-    if (res.data.records.length) {
-      listQuery.page++;
-      loading.value = false;
-    } else {
-      // 如果没有数据加载完毕
-      finished.value = true;
-    }
-  });
+  //   getPayRollList({ gzDate: "1890", gzStatus: "" }).then((res) => {
+  //     console.log(res, "pay-res");
+  //     listInfo.payrollList = res.data;
+  //   });
+};
+
+const getPayRollListStatusByStr = (str) => {
+  let statusText;
+  let colorStr;
+  switch (str) {
+    case "1":
+      statusText = "待分发";
+      colorStr = "primary";
+      break;
+    case "2":
+      statusText = "分发失败";
+      colorStr = "danger";
+
+      break;
+    case "3":
+      statusText = "待签名";
+      colorStr = "primary";
+
+      break;
+    case "4":
+      statusText = "异常反馈";
+      colorStr = "warning";
+
+      break;
+    case "5":
+      statusText = "已签名";
+      colorStr = "success";
+
+      break;
+    case "6":
+      statusText = "已归档";
+      colorStr = "success";
+
+      break;
+    default:
+      break;
+  }
+
+  return { statusText, colorStr };
 };
 
 watch(props, (nweProps) => {
@@ -151,7 +202,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.my-apply {
+.my-pay {
   // background-color: red;
   //   height: calc(100vh - 196px);
   .list-content {
@@ -163,6 +214,9 @@ onMounted(() => {
       // margin-bottom: 6px;
 
       // border-radius: 2px;
+      .sfgz {
+        color: black;
+      }
 
       .content-offset {
         margin-left: 12px;

@@ -74,17 +74,12 @@ import { showFailToast, FieldRule } from "vant";
 import md5 from "md5";
 import { regExp } from "@/utils/regExp";
 
-interface LoginParams {
-  userNo: string;
-  password: string;
-}
-
-// import { useUserStore } from '@/store'
-// const userStore = useUserStore()
+import { useUserStore, LoginInfoType } from "@/store/modules/user";
+const userStore = useUserStore();
 
 const router = useRouter();
 
-const formState = reactive<LoginParams>({
+const formState = reactive<LoginInfoType>({
   userNo: "",
   password: "",
 });
@@ -103,12 +98,13 @@ const rules: { [key: string]: FieldRule[] } = {
   password: [{ required: true, message: "密码不能为空", trigger: "onBlur" }],
 };
 
-const onSubmit = async (values: LoginParams) => {
+const onSubmit = async (values: LoginInfoType) => {
   const password = md5(values.password).substr(8, 16).toUpperCase();
+  const params = { ...values, password };
   try {
-    const { data } = await login({ ...values, password });
+    const { data } = await login(params);
     const { token } = data;
-    // userStore.SET_TOKEN(token);
+    userStore.setUserInfo(params);
     router.push("/workspace");
   } catch (e) {
     showFailToast("登录失败，请稍后再试...");

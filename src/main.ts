@@ -1,6 +1,7 @@
 import "vant/lib/index.css";
 import "@/styles/index.scss";
 import "@/permission";
+import "~/types/global.d";
 
 import App from "@/App.vue";
 import { createApp } from "vue";

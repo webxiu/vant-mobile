@@ -33,21 +33,12 @@ fileDirs.forEach((dir, index) => {
   const desc = new RegExp(/(?<=\{\B).*?(?=\B\})/gi);
   const fun = new RegExp(/(?<=export const\s).*?(?=\s\=)/gi);
   const funList = content.match(fun);
-  const descList = name.match(desc);
+  const descList = name.match(desc)?.filter(Boolean);
   const dirPos = "src" + dir.split("src")[1];
 
   // 方法格式
   if (!funList?.length) {
-    console.error(`提示[Warning]: 在 ${dirPos} 文件中的有格式错误的工具函数, 请按以下格式命名: 
-      /**
-       * 方法描述
-       * @param params 参数描述
-       * @returns 返回值描述
-       */
-      export const funcXXX = (params) => {
-        // TUDO
-      };
-    `);
+    console.error(`Error提示: 在 ${dirPos} 文件中, 方法或注释不符合匹配规则`);
     return;
   }
 
