@@ -1,5 +1,6 @@
 import type { FunctionalComponent } from "vue";
 import type { ECharts } from "echarts";
+import type { IconifyIcon } from "@iconify/vue";
 import { type RouteComponent, type RouteLocationNormalized } from "vue-router";
 
 /**
@@ -112,7 +113,7 @@ declare global {
       /** 菜单名称（兼容国际化、非国际化，如何用国际化的写法就必须在根目录的`locales`文件夹下对应添加） `必填` */
       title: string;
       /** 菜单图标 `可选` */
-      icon?: string | FunctionalComponent;
+      icon?: string | FunctionalComponent | IconifyIcon;
       /** 是否显示顶部返回菜单(针对所有路由,默认不显示) */
       showNav?: boolean;
       /** 是否缓存路由 */

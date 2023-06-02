@@ -1,13 +1,17 @@
 <template>
-  <van-nav-bar
-    title="标题"
-    left-text="返回"
-    right-text="退出"
-    left-arrow
-    @click-left="onClickLeft"
-    @click-right="onClickRight"
-    v-if="showNav"
-  />
+  <van-sticky>
+    <div>
+      <van-nav-bar
+        :title="appStore.navTitle"
+        left-text="返回"
+        right-text="退出"
+        left-arrow
+        @click-left="onClickLeft"
+        @click-right="onClickRight"
+        v-if="showNav"
+      />
+    </div>
+  </van-sticky>
 </template>
 
 <script lang="ts" setup>
@@ -16,9 +20,11 @@ import { unref, ref, watch, toRaw } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { removeCookie } from "@/utils/storage";
 import { routeCateList } from "@/router";
+import { useAppStore } from "@/store/modules/app";
 
 const route = useRoute();
 const router = useRouter();
+const appStore = useAppStore();
 const showNav = ref<boolean>(false);
 
 /** 获取路由meta中配置showNav: true的路由地址 */

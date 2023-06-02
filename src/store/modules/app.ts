@@ -3,21 +3,21 @@ import { defineStore } from "pinia";
 import { store } from "@/store";
 
 interface AppState {
-  count: number;
+  navTitle: string;
 }
 export const useAppStore = defineStore({
   id: "app",
   state: (): AppState => ({
-    count: 0,
+    navTitle: "",
   }),
   getters: {
-    getPageCount(state): number {
-      return state.count;
+    getNavTitle(state): string {
+      return state.navTitle;
     },
   },
   actions: {
-    setCount(count: number): void {
-      this.count += count;
+    setNavTitle(state: string): void {
+      this.navTitle = state;
     },
   },
 });

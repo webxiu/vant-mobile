@@ -1,6 +1,6 @@
 export default {
   path: "/oa",
-  redirect: "/oa/overTime",
+  redirect: "/oa/leaveApply",
   meta: {
     title: "OA模块",
     icon: "friends-o",
@@ -8,9 +8,9 @@ export default {
   },
   children: [
     {
-      path: "/overTime",
-      name: "OverTime",
-      component: () => import("@/views/home/oaModule/overTime/index.vue"),
+      path: "/leaveApply",
+      name: "LeaveApply",
+      component: () => import("@/views/home/oaModule/leaveApply/index.vue"),
       meta: {
         title: "请假单",
         icon: "description",
@@ -18,22 +18,34 @@ export default {
       },
     },
     {
-      path: "/overTime/add",
-      name: "OverTimeAdd",
-      component: () => import("@/views/home/oaModule/overTime/add.vue"),
+      path: "/leaveApply/add",
+      name: "LeaveApplyAdd",
+      component: () => import("@/views/home/oaModule/leaveApply/add.vue"),
       meta: {
         title: "添加申请",
         icon: "description",
+        hidden: true,
         showNav: true,
       },
     },
     {
-      path: "/overTime/:id",
-      name: "OverTimeDetail",
+      path: "/leaveApply/:id",
+      name: "LeaveApplyDetail",
       props: true,
-      component: () => import("@/views/home/oaModule/overTime/detail.vue"),
+      component: () => import("@/views/home/oaModule/leaveApply/detail.vue"),
       meta: {
         title: "详情页面",
+        icon: "description",
+        hidden: true,
+        showNav: true,
+      },
+    },
+    {
+      path: "/overTime",
+      name: "OverTime",
+      component: () => import("@/views/home/oaModule/overTime/index.vue"),
+      meta: {
+        title: "加班单",
         icon: "description",
         showNav: true,
       },
@@ -75,6 +87,7 @@ export default {
       meta: {
         title: "工资单详情",
         icon: "balance-list-o",
+        hidden: true,
         showNav: true,
       },
     },
@@ -125,6 +138,7 @@ export default {
       meta: {
         title: "详情页面",
         icon: "description",
+        hidden: true,
         showNav: true,
       },
     },

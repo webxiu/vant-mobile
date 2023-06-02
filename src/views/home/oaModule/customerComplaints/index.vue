@@ -21,7 +21,7 @@
         :finished="true"
         finished-text="没有更多了"
         @load="onLoad"
-        class="p16"
+        class="p-16 box-border"
       >
         <van-cell
           v-for="(item, index) in list"
@@ -31,24 +31,24 @@
           <div class="flex just-between">
             <div class="ui-va-m">
               <span class="custom-index">{{ index + 1 }}</span>
-              <span class="ml8 col-333">【{{ item.customer }}】</span>
+              <span class="ml-8 color-333">【{{ item.customer }}】</span>
             </div>
             <van-button type="primary" size="mini">{{
               item.stateName
             }}</van-button>
           </div>
           <div
-            class="flex just-between align-end mt40"
+            class="flex just-between align-end mt-40"
             @click="onJumpDetail(item)"
           >
             <div>
               <div>
                 <van-icon name="comment-circle-o" />
-                <span class="ml8 col-333">标题：{{ item.title }}</span>
+                <span class="ml-8 color-333">标题：{{ item.title }}</span>
               </div>
               <div>
                 <van-icon name="underway-o" />
-                <span class="ml8 col-333">{{ item.marketSubmitDate }}</span>
+                <span class="ml-8 color-333">{{ item.marketSubmitDate }}</span>
               </div>
             </div>
             <van-button type="primary" plain size="mini" style="border: none">

@@ -2,23 +2,24 @@
 import { reactive, ref } from "vue";
 import { useAppStore } from "@/store/modules/app";
 import { useRouter } from "vue-router";
-import PayList from "./PayList.vue";
+import MyApply from "./MyApply.vue";
+import MySend from "./MySend.vue";
 
 const appStore = useAppStore();
 
 const selectedTab = ref(0);
 const selectedMenuValue = ref("");
 
-const tabs = [PayList];
+const tabs = [MyApply, MySend];
 const router = useRouter();
 
 const swipeRef = ref();
 const filterOptions = [
   { text: "全部", value: "" },
-  { text: "2023", value: 0 },
-  // { text: "审核中", value: 1 },
-  // { text: "已审核", value: 2 },
-  // { text: "重新审核", value: 3 },
+  { text: "待提交", value: 0 },
+  { text: "审核中", value: 1 },
+  { text: "已审核", value: 2 },
+  { text: "重新审核", value: 3 },
 ];
 
 const onTabChange = (index: number) => {
@@ -45,14 +46,28 @@ const dropMenuChange = (val) => {
 <template>
   <div class="over-time">
     <van-sticky>
-      <!-- 下拉菜单 -->
-      <van-dropdown-menu>
-        <van-dropdown-item
-          v-model="selectedMenuValue"
-          :options="filterOptions"
-          @change="dropMenuChange"
-        />
-      </van-dropdown-menu>
+      <div>
+        <!-- tab导航 -->
+        <van-tabs
+          v-model:active="selectedTab"
+          title-active-color="#1989fa"
+          swipeable
+          sticky
+          @change="onTabChange"
+        >
+          <van-tab :key="0" title="我申请的" badge="99" />
+          <van-tab :key="1" title="抄送我的" />
+        </van-tabs>
+
+        <!-- 下拉菜单 -->
+        <van-dropdown-menu>
+          <van-dropdown-item
+            v-model="selectedMenuValue"
+            :options="filterOptions"
+            @change="dropMenuChange"
+          />
+        </van-dropdown-menu>
+      </div>
     </van-sticky>
 
     <!-- 滑动区域 -->
@@ -66,6 +81,11 @@ const dropMenuChange = (val) => {
         <component :is="tabs[index]" :dropKey="selectedMenuValue"></component>
       </van-swipe-item>
     </van-swipe>
+
+    <!--新增加班单按钮-->
+    <div class="add-action" @click="handleToAdd">
+      <van-icon name="plus" size="22" />
+    </div>
   </div>
 </template>
 

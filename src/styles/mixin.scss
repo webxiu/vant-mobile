@@ -1,60 +1,68 @@
 /* **************************** 颜色 *****************************/
 @each $i in $colors {
-  .col-#{$i} {
+  // ---- 字体色 ----
+  .color-#{$i} {
     color: #{"#" + $i};
   }
+  .bg-#{$i} {
+    background-color: #{"#" + $i};
+  }
+  // ---- 背景色 ----
+  .border-b-#{$i} {
+    border-bottom: 1px solid #{"#" + $i};
+  }
+  .border-t-#{$i} {
+    border-top: 1px solid #{"#" + $i};
+  }
 }
 
-/* **************************** margin间距 *****************************/
+/* **************************** 粗细 *****************************/
+
+@each $i in $weights {
+  .fw-#{$i} {
+    font-weight: #{$i};
+  }
+}
 @each $i in $spaces {
-  .m#{$i} {
+  /* **************************** 字体 *****************************/
+
+  .fz-#{$i} {
+    font-size: #{$i}px;
+  }
+
+  /* **************************** margin间距 *****************************/
+
+  .m-#{$i} {
     margin: #{$i}px;
   }
-}
-@each $i in $spaces {
-  .mt#{$i} {
+  .mt-#{$i} {
     margin-top: #{$i}px;
   }
-}
-@each $i in $spaces {
-  .mr#{$i} {
+  .mr-#{$i} {
     margin-right: #{$i}px;
   }
-}
-@each $i in $spaces {
-  .ml#{$i} {
+  .ml-#{$i} {
     margin-left: #{$i}px;
   }
-}
-@each $i in $spaces {
-  .mb#{$i} {
+  .mb-#{$i} {
     margin-bottom: #{$i}px;
   }
-}
 
-/* **************************** padding间距 *****************************/
-@each $i in $spaces {
-  .p#{$i} {
+  /* **************************** padding间距 *****************************/
+
+  .p-#{$i} {
     padding: #{$i}px;
   }
-}
-@each $i in $spaces {
-  .pt#{$i} {
+  .pt-#{$i} {
     padding-top: #{$i}px;
   }
-}
-@each $i in $spaces {
-  .pr#{$i} {
+  .pr-#{$i} {
     padding-right: #{$i}px;
   }
-}
-@each $i in $spaces {
-  .pl#{$i} {
+  .pl-#{$i} {
     padding-left: #{$i}px;
   }
-}
-@each $i in $spaces {
-  .pb#{$i} {
+  .pb-#{$i} {
     padding-bottom: #{$i}px;
   }
 }

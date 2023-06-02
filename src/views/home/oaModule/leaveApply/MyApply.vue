@@ -21,7 +21,7 @@
             "
           >
             <div class="list-item" style="margin: 2px">
-              <van-cell value="详情" is-link :to="`/overTime/${item.id}`">
+              <van-cell value="详情" is-link :to="`/leaveApply/${item.id}`">
                 <!-- 使用 title 插槽来自定义标题 -->
                 <template #title>
                   <van-badge :content="index + 1" color="#5686ff"></van-badge>

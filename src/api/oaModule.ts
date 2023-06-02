@@ -1,15 +1,22 @@
+/**
+ * 接口请求说明:
+ * @param params 请求参数
+ * @param config 配置项
+ * @returns 请求实例
+ */
+
 import http, { AxiosRequestConfig } from "@/utils/request";
 
 /**
-<<<<<<< .mine * 获取请假单列表
+ * 获取请假单列表
  * @param params 请求参数
  * @param config 配置项
  * @returns 请求实例
  */
 export const getLeaveList = (params, config?: AxiosRequestConfig) => {
   return http.request({
-    url: "/oa/hr/askforleave/selectPage",
-    // url: "/app/qywx/workspace/askforleave/select",
+    // url: "/oa/hr/askforleave/selectPage",
+    url: "/app/qywx/workspace/askforleave/select",
     method: "POST",
     data: params,
     ...config,
@@ -31,13 +38,18 @@ export const getLeaveDetail = (params, config?: AxiosRequestConfig) => {
   });
 };
 
-/**
- * 新增请假单
- * @param params 请求参数
- * @param config 配置项
- * @returns 请求实例
- */
+/** 新增请假单 */
 export const addLeaveList = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/askforleave/insert",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 计算请假时长 */
+export const calcTimes = (params, config?: AxiosRequestConfig) => {
   return http.request({
     url: "/app/qywx/workspace/askforleave/calctime",
     method: "POST",
@@ -65,14 +77,6 @@ export const getPayRollDetail = (params, config?: AxiosRequestConfig) => {
     ...config,
   });
 };
-
-/**
- * 获取经营数据
-======= * 接口请求说明:
->>>>>>> .theirs * @param params 请求参数
- * @param config 配置项
- * @returns 请求实例
- */
 
 /** 获取经营数据 */
 export const getList = (params, config?: AxiosRequestConfig) => {

@@ -9,7 +9,7 @@ import { routeCateList } from "@/router";
       <van-grid :column-num="3">
         <template v-for="cell in item.children">
           <van-grid-item
-            v-if="cell.meta && !cell.meta?.hidden"
+            v-if="cell.meta && !cell.meta.hidden"
             :icon="cell.meta.icon"
             :text="cell.meta.title"
             :to="cell.path"

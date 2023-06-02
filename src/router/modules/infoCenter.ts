@@ -32,6 +32,16 @@ export default {
       name: "AuditTask",
       component: () => import("@/views/home/infoCenter/auditTask/index.vue"),
       meta: {
+        title: "金蝶业务审批",
+        icon: "cluster-o",
+        showNav: true,
+      },
+    },
+    {
+      path: "/kingdeeAudit",
+      name: "KingdeeAudit",
+      component: () => import("@/views/home/infoCenter/kingdeeAudit/index.vue"),
+      meta: {
         title: "业务审批",
         icon: "cluster-o",
         showNav: true,
