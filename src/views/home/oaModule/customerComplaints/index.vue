@@ -123,7 +123,6 @@ const { isLoading, getData } = useAxios<
 });
 
 const onJumpDetail = (item: ResultListType) => {
-  console.log("item", item);
   router.push(`/customerComplaints/${item.id}`);
 };
 </script>

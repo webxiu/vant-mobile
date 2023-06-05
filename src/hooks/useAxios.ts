@@ -72,6 +72,7 @@ export function useAxios<
     isLoading.value = true;
     api(params)
       .then((res) => {
+        if (res.status !== 200) throw res;
         _data.value = res as any;
         isLoading.value = false;
         callback && callback(res);

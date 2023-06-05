@@ -171,5 +171,16 @@ export default {
         icon: "label-o",
       },
     },
+    {
+      path: "/attendanceSheet/:id",
+      name: "AttendanceSheetDetail",
+      component: () =>
+        import("@/views/home/oaModule/attendanceSheet/detail.vue"),
+      meta: {
+        title: "详情页面",
+        icon: "description",
+        hidden: true,
+      },
+    },
   ],
 } as RouteConfigRawType;

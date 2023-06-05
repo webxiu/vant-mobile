@@ -162,3 +162,81 @@ export const getPersonInfo = (params: object, config?: AxiosRequestConfig) => {
     ...config,
   });
 };
+
+/** 考勤单 */
+export const getAttendanceSheet = (
+  params: object,
+  config?: AxiosRequestConfig
+) => {
+  return http.request({
+    url: "/app/qywx/workspace/attendancedetail/getattendancebyyear",
+    method: "POST",
+    params: params,
+    ...config,
+  });
+};
+
+/** 考勤单 - 获取年份 */
+export const getAttendanceSheetYear = (
+  params: object,
+  config?: AxiosRequestConfig
+) => {
+  return http.request({
+    url: "/app/qywx/workspace/attendancedetail/getmeattendancedetailyear",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 考勤单 - 考勤详情 */
+export const getAttendanceDetail = (
+  params: object,
+  config?: AxiosRequestConfig
+) => {
+  return http.request({
+    url: "/app/qywx/workspace/attendancedetail/getmeattendancedetailbyid",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 考勤单 - 签名预提交 */
+export const getPreviewSignature = (
+  params: object,
+  config?: AxiosRequestConfig
+) => {
+  return http.request({
+    url: "/app/qywx/workspace/attendancedetail/getattendancedetailstatusbyid",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 考勤单 - 提交签名 */
+export const submitSignature = (
+  params: object,
+  config?: AxiosRequestConfig
+) => {
+  return http.request({
+    url: "/app/qywx/workspace/attendancedetail/saveattendancedetailsignature",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 考勤单 - 保存异常信息 */
+export const saveAttendanceException = (
+  params: object,
+  config?: AxiosRequestConfig
+) => {
+  return http.request({
+    url: "/app/qywx/workspace/attendancedetail/saveattendancedetailexception",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
