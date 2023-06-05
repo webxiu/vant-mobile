@@ -14,7 +14,6 @@ export default {
       meta: {
         title: "我创建的任务",
         icon: "certificate",
-        showNav: true,
       },
     },
     {
@@ -24,7 +23,15 @@ export default {
       meta: {
         title: "我负责的任务",
         icon: "manager-o",
-        showNav: true,
+      },
+    },
+    {
+      path: "/kingdeeAuditTask",
+      name: "KingdeeAuditTask",
+      component: () => import("@/views/home/infoCenter/kingdeeAudit/index.vue"),
+      meta: {
+        title: "金蝶业务审批",
+        icon: "exchange",
       },
     },
     {
@@ -32,19 +39,8 @@ export default {
       name: "AuditTask",
       component: () => import("@/views/home/infoCenter/auditTask/index.vue"),
       meta: {
-        title: "金蝶业务审批",
-        icon: "cluster-o",
-        showNav: true,
-      },
-    },
-    {
-      path: "/kingdeeAudit",
-      name: "KingdeeAudit",
-      component: () => import("@/views/home/infoCenter/kingdeeAudit/index.vue"),
-      meta: {
         title: "业务审批",
         icon: "cluster-o",
-        showNav: true,
       },
     },
   ],

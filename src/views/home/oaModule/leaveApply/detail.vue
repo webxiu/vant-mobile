@@ -137,7 +137,7 @@ const detailInfo = ref<DetailInfoType>({
 
 const getDetailInfo = () => {
   getLeaveDetail({ id: props.id }).then((res) => {
-    detailInfo.value = res.data[0];
+    detailInfo.value = res.data;
   });
 };
 

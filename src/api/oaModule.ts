@@ -7,12 +7,7 @@
 
 import http, { AxiosRequestConfig } from "@/utils/request";
 
-/**
- * 获取请假单列表
- * @param params 请求参数
- * @param config 配置项
- * @returns 请求实例
- */
+/** 获取请假单列表 */
 export const getLeaveList = (params, config?: AxiosRequestConfig) => {
   return http.request({
     // url: "/oa/hr/askforleave/selectPage",
@@ -23,16 +18,31 @@ export const getLeaveList = (params, config?: AxiosRequestConfig) => {
   });
 };
 
-/**
- * 获取请假单详情
- * @param params 请求参数
- * @param config 配置项
- * @returns 请求实例
- */
+/** 获取请假单详情 */
 export const getLeaveDetail = (params, config?: AxiosRequestConfig) => {
   return http.request({
-    url: "/oa/hr/askforleave/SelectByEdits",
+    url: "/app/qywx/workspace/askforleave/selectdetail",
+    method: "GET",
+    params,
+    ...config,
+  });
+};
+
+/** 获取加班单列表 */
+export const getOvertimeList = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/overtimeapply/select",
     method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 获取加班单详情 */
+export const getOverTimeDetail = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/overtimeapply/selectdetail",
+    method: "GET",
     params,
     ...config,
   });
@@ -42,6 +52,16 @@ export const getLeaveDetail = (params, config?: AxiosRequestConfig) => {
 export const addLeaveList = (params, config?: AxiosRequestConfig) => {
   return http.request({
     url: "/app/qywx/workspace/askforleave/insert",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 新增加班单 */
+export const addOverTimeList = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/overtimeapply/insert",
     method: "POST",
     data: params,
     ...config,
@@ -58,6 +78,26 @@ export const calcTimes = (params, config?: AxiosRequestConfig) => {
   });
 };
 
+/** 计算加班时长 */
+export const calcJBTimes = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/overtimeapply/CalcTime",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 获取工资已发放年份 */
+export const getPayYears = (data, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/payslip/getmepayslipyear",
+    method: "POST",
+    data,
+    ...config,
+  });
+};
+
 /** 获取工资条数据列表 */
 export const getPayRollList = (params, config?: AxiosRequestConfig) => {
   return http.request({
@@ -68,7 +108,7 @@ export const getPayRollList = (params, config?: AxiosRequestConfig) => {
   });
 };
 
-/** 获取工资条数据列表 */
+/** 获取工资条数据详情 */
 export const getPayRollDetail = (params, config?: AxiosRequestConfig) => {
   return http.request({
     url: "/app/qywx/workspace/payslip/getpayslipstatusbyid",

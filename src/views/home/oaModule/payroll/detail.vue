@@ -211,9 +211,10 @@ const detailInfo = ref<DetailInfoType>({
 });
 
 const getDetailInfo = () => {
-  getPayRollDetail({ id: props.id }).then((res) => {
-    detailInfo.value = res.data;
-  });
+  console.log(props);
+  // getPayRollDetail({ id: props.id }).then((res) => {
+  //   detailInfo.value = res.data;
+  // });
 };
 
 // 根据字典数字计算出对应的字符串

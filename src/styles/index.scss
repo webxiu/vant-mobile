@@ -29,10 +29,12 @@ body {
 }
 
 #app {
+  width: 750px;
   height: 100%;
-  background-color: $mainBgColor;
+  overflow-x: hidden;
   font-size: 32px;
   color: $mainColor;
+  background-color: $mainBgColor;
 }
 
 @media (prefers-color-scheme: light) {
@@ -46,4 +48,31 @@ body {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* fade */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.28s;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+
+/* fade-transform */
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all 0.5s;
+}
+
+.fade-transform-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
 }

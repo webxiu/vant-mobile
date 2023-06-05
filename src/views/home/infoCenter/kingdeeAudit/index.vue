@@ -2,7 +2,11 @@
 import { showToast } from "vant";
 import { reactive, ref, watch, onMounted } from "vue";
 import { AuditTaskType, TabActiveColor } from "../index";
-import { getAuditTask1, getAuditTask2, getAuditTask3 } from "@/api/infoCenter";
+import {
+  getKingdeeAuditTask,
+  getKingdeeAuditedTask,
+  getKingdeeLaunchTask,
+} from "@/api/infoCenter";
 import MyAudit from "./MyAudit.vue";
 import MyAudited from "./MyAudited.vue";
 import MyInitiate from "./MyInitiate.vue";
@@ -13,9 +17,9 @@ const auditList = [
   { title: "我的发起", status: "audit3" },
 ];
 const API: { [key: string]: any } = {
-  audit1: getAuditTask1,
-  audit2: getAuditTask2,
-  audit3: getAuditTask3,
+  audit1: getKingdeeAuditTask,
+  audit2: getKingdeeAuditedTask,
+  audit3: getKingdeeLaunchTask,
 };
 const tabs = [MyAudit, MyAudited, MyInitiate];
 

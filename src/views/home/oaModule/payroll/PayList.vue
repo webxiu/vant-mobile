@@ -143,10 +143,10 @@ const onRefresh = () => {
 
 // 获取列表
 const getList = () => {
-  //   getPayRollList({ gzDate: "1890", gzStatus: "" }).then((res) => {
-  //     console.log(res, "pay-res");
-  //     listInfo.payrollList = res.data;
-  //   });
+  getPayRollList({ gzDate: "1890", gzStatus: "" }).then((res) => {
+    console.log(res, "pay-res");
+    listInfo.payrollList = res.data;
+  });
 };
 
 const getPayRollListStatusByStr = (str) => {

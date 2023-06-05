@@ -14,7 +14,6 @@ export default {
       meta: {
         title: "请假单",
         icon: "description",
-        showNav: true,
       },
     },
     {
@@ -46,7 +45,17 @@ export default {
       component: () => import("@/views/home/oaModule/overTime/index.vue"),
       meta: {
         title: "加班单",
+        icon: "orders-o",
+      },
+    },
+    {
+      path: "/overTime/add",
+      name: "OverTimeAdd",
+      component: () => import("@/views/home/oaModule/overTime/add.vue"),
+      meta: {
+        title: "添加申请",
         icon: "description",
+        hidden: true,
         showNav: true,
       },
     },
@@ -117,7 +126,7 @@ export default {
         import("@/views/home/oaModule/supplierComplaints/index.vue"),
       meta: {
         title: "供应商投诉",
-        icon: "envelop-o",
+        icon: "smile-comment-o",
       },
     },
     {
@@ -127,7 +136,7 @@ export default {
         import("@/views/home/oaModule/customerComplaints/index.vue"),
       meta: {
         title: "客户投诉",
-        icon: "envelop-o",
+        icon: "bullhorn-o",
       },
     },
     {

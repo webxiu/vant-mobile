@@ -8,6 +8,7 @@
         <van-field
           v-model="userName"
           name="userName"
+          readonly
           label="请假人"
           placeholder="请填写请假人姓名"
           :rules="[{ required: true, message: '请假人姓名不能为空' }]"
@@ -41,7 +42,6 @@
           maxlength="100"
           placeholder="请输入请假缘由"
           show-word-limit
-          :rules="[{ required: true, message: '请假缘由不能为空' }]"
         />
       </van-cell-group>
 
@@ -53,6 +53,7 @@
           v-model="startDate"
           name="startDate"
           label="开始日期"
+          @blur="lastBlur"
           placeholder="请选择开始日期"
           @click="showStartDate = true"
           :rules="[{ required: true, message: '开始日期不能为空' }]"
@@ -70,6 +71,7 @@
           name="startTime"
           label="开始时间"
           placeholder="请选择开始时间"
+          @blur="lastBlur"
           @click="showStartTime = true"
           :rules="[{ required: true, message: '开始时间不能为空' }]"
         />
@@ -87,6 +89,7 @@
           v-model="endDate"
           name="endDate"
           label="结束日期"
+          @blur="lastBlur"
           placeholder="请选择结束日期"
           @click="showEndDate = true"
           :rules="[{ required: true, message: '结束日期不能为空' }]"
@@ -105,6 +108,7 @@
           label="结束时间"
           placeholder="请选择结束时间"
           @click="showEndTime = true"
+          @blur="lastBlur"
           :rules="[{ required: true, message: '结束时间不能为空' }]"
         />
         <van-popup v-model:show="showEndTime" position="bottom">
@@ -121,6 +125,7 @@
           v-model="days"
           name="days"
           label="请假天数"
+          readonly
           placeholder="请填写请假天数"
           :rules="[{ required: true, message: '请假天数不能为空' }]"
         />
@@ -130,6 +135,7 @@
           v-model="hours"
           name="hours"
           label="请假时长"
+          readonly
           placeholder="请填写时长"
           :rules="[{ required: true, message: '请假时长不能为空' }]"
         />
@@ -205,14 +211,15 @@
 </template>
 
 <script setup lang="ts">
-import { addLeaveList } from "@/api/oaModule";
-import { useAppStore } from "@/store/modules/app";
+import { ref, onMounted } from "vue";
+import { showNotify } from "vant";
 
-import { ref } from "vue";
+import { addLeaveList, calcTimes } from "@/api/oaModule";
+import { queryUserInfo } from "@/api/user";
+import router from "@/router";
+import { useUserStore } from "@/store/modules/user";
 
-const appStore = useAppStore();
-
-console.log(appStore, "appstore");
+const userStore = useUserStore();
 
 const userName = ref(""); // 请假人
 const holidayType = ref(""); // 请假类型
@@ -221,8 +228,8 @@ const startDate = ref(""); // 开始日期
 const startTime = ref(""); // 开始时间
 const endDate = ref(""); // 结束日期
 const endTime = ref(""); // 结束时间
-const days = ref(""); // 请假天数
-const hours = ref(""); // 请假时长
+const days = ref("0"); // 请假天数
+const hours = ref("0"); // 请假时长
 
 const showStartDate = ref(false);
 const showStartTime = ref(false);
@@ -243,11 +250,29 @@ const typeColumns = [
   { text: "丧假", value: "丧假" },
 ];
 
+const lastBlur = () => {
+  // 只有开始日期时间和结束日期时间都有值才发起请求
+  const alreadyAccess =
+    startDate.value && startTime.value && endDate.value && endTime.value;
+
+  if (alreadyAccess) setCalcTimes();
+};
+
 // 表单提交事件
 const onSubmit = (values) => {
-  console.log("submit", values);
-  addLeaveList({ askForLeaveDTOList: [{ ...values }] }).then((res) => {
-    console.log(res, "add--res");
+  addLeaveList({
+    ...values,
+    days: +values.days,
+    hours: +values.hours,
+    userId: userStore.userInfo.userNo,
+    itemSequence: 1,
+    createrid: userStore.userInfo.userNo,
+    operationType: 1,
+  }).then((res) => {
+    if (res.status === 200 && res.data) {
+      showNotify({ type: "success", message: (res as any).message });
+      setTimeout(() => router.push("/leaveApply"), 100);
+    }
   });
 };
 
@@ -275,6 +300,26 @@ const onTypeConfirm = ({ selectedOptions }) => {
   holidayType.value = selectedOptions[0]?.text;
   showTypePicker.value = false;
 };
+
+// 计算出请假时长和天数并且设置表单值
+const setCalcTimes = () => {
+  calcTimes({
+    userId: userStore.userInfo.userNo,
+    startDate: startDate.value,
+    startTime: startTime.value,
+    endDate: endDate.value,
+    endTime: endTime.value,
+  }).then((res) => {
+    days.value = res.data.days;
+    hours.value = res.data.hours;
+  });
+};
+
+onMounted(() => {
+  queryUserInfo({}).then((res) => {
+    userName.value = res.data.userName;
+  });
+});
 </script>
 
 <style lang="scss" scoped>

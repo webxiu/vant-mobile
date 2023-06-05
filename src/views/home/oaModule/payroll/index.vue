@@ -1,10 +1,8 @@
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
-import { useAppStore } from "@/store/modules/app";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import PayList from "./PayList.vue";
-
-const appStore = useAppStore();
+import { getPayYears } from "@/api/oaModule";
 
 const selectedTab = ref(0);
 const selectedMenuValue = ref("");
@@ -13,33 +11,35 @@ const tabs = [PayList];
 const router = useRouter();
 
 const swipeRef = ref();
-const filterOptions = [
+const filterOptions = ref([
   { text: "全部", value: "" },
-  { text: "2023", value: 0 },
-  // { text: "审核中", value: 1 },
-  // { text: "已审核", value: 2 },
-  // { text: "重新审核", value: 3 },
-];
-
-const onTabChange = (index: number) => {
-  console.log(index, "index");
-  selectedTab.value = index;
-  swipeRef.value?.swipeTo(index);
-};
+  { text: "2023", value: "2023" },
+  { text: "2022", value: "2022" },
+  { text: "2021", value: "2021" },
+]);
 
 const onSwipeChange = (index: number) => {
   selectedTab.value = index;
   swipeRef.value?.swipeTo(index);
 };
 
-const handleToAdd = () => {
-  console.log(router.push, "router");
-  router.push("/leaveApply/add");
-};
 
 const dropMenuChange = (val) => {
   console.log(val, "select");
 };
+
+// 获取已发工资年份列表
+const getPayYearsList = () => {
+  getPayYears({}).then((res) => {
+    res.data.map((item) => {
+      filterOptions.value.push({ text: item.year, value: item.year });
+    });
+  });
+};
+
+onMounted(() => {
+  getPayYearsList();
+});
 </script>
 
 <template>

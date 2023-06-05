@@ -3,7 +3,7 @@
     <div class="list-content">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list
-          v-if="list.length"
+          v-if="listInfo.records.length"
           v-model:loading="loading"
           :finished="finished"
           :offset="10"
@@ -12,7 +12,7 @@
           @load="onLoad"
         >
           <div
-            v-for="(item, index) in list"
+            v-for="(item, index) in listInfo.records"
             :key="item.userName"
             style="
               border-radius: 6px;
@@ -22,7 +22,7 @@
           >
             <div class="list-item" style="margin: 2px">
               <van-cell value="详情" is-link :to="`/leaveApply/${item.id}`">
-                <!-- 使用 title 插槽来自定义标题 -->
+                <!-- 使用title插槽来自定义标题 -->
                 <template #title>
                   <van-badge :content="index + 1" color="#5686ff"></van-badge>
                   【{{ item.userName }} - {{ item.holidayType }}】
@@ -81,17 +81,13 @@ interface ItemInfoType {
 }
 
 const props = defineProps(["dropKey"]);
+const emit = defineEmits(["setBadgeNum"]);
 
 const loading = ref(false);
 const finished = ref(false);
 const refreshing = ref(false);
 
-let list: ItemInfoType[] = reactive([]);
-
-let listQuery = reactive({
-  page: 1, // 当前页码
-  limit: 10, // 每页条数
-});
+let listInfo: { records: ItemInfoType[] } = reactive({ records: [] });
 
 const onLoad = () => {
   setTimeout(() => {
@@ -101,7 +97,6 @@ const onLoad = () => {
 
 const onRefresh = () => {
   setTimeout(() => {
-    listQuery.page = 1;
     getList();
     refreshing.value = false;
   }, 1000);
@@ -109,61 +104,29 @@ const onRefresh = () => {
 
 // 获取列表
 const getList = () => {
-  // 请求得到列表，并传参传递请求页码和单页列表数量limit
-  getLeaveList({
-    ...listQuery,
-    billState: props.dropKey,
-    billStateName: "已审核",
-  }).then((res) => {
-    // 如果是第一次进入页面page==1 直接赋值
-    if (listQuery.page === 1) {
-      let resArr = res.data.records;
-      list.push(...resArr);
-    } else {
-      // 如果不是则在后面追加数据,forEach()方法
-      res.data.records.forEach((item) => {
-        list.push(item);
-      });
-      // 追加完成后关闭loading
-      loading.value = false;
-    }
-    // 当还有数据是page++
-    if (res.data.records.length) {
-      listQuery.page++;
-      loading.value = false;
-    } else {
-      // 如果没有数据加载完毕
-      finished.value = true;
-    }
+  getLeaveList({ billState: props.dropKey + "" }).then((res) => {
+    listInfo.records = res.data;
+    emit("setBadgeNum", res.data.length || 0);
+    finished.value = true;
   });
 };
 
-watch(props, (nweProps) => {
-  console.log("nweProps", nweProps);
-
+watch(props, () => {
   getList();
 });
 
 onMounted(() => {
-  console.log(props, "props");
   getList();
 });
 </script>
 
 <style scoped lang="scss">
 .my-apply {
-  // background-color: red;
-  //   height: calc(100vh - 196px);
   .list-content {
     margin-top: 4px;
     padding: 6px;
 
     .list-item {
-      // border: 1px solid #dddee1;
-      // margin-bottom: 6px;
-
-      // border-radius: 2px;
-
       .content-offset {
         margin-left: 12px;
       }
@@ -176,10 +139,6 @@ onMounted(() => {
       :deep(.van-icon-arrow:before) {
         color: #5686ff;
       }
-
-      // :deep(.van-icon-arrow:before) {
-      //   color: #5686ff;
-      // }
     }
 
     .custom-title {
@@ -200,7 +159,6 @@ onMounted(() => {
       display: flex;
       align-items: center;
       flex: 30%;
-      // background-color: red;
     }
   }
 }

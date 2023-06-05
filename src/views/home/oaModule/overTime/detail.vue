@@ -6,32 +6,32 @@
       background="#ecf9ff"
       left-icon="info-o"
     >
-      【{{ detailInfo.userName }}】的请假单
+      【{{ detailInfo.userName }}】的加班单
     </van-notice-bar>
     <div>
       <div class="detail">
-        <van-divider content-position="center">请假详情</van-divider>
+        <van-divider content-position="center">加班详情</van-divider>
         <div class="des-item">
           <van-row>
-            <van-col class="label" span="7">请假人：</van-col>
+            <van-col class="label" span="7">加班人：</van-col>
             <van-col class="value">{{ detailInfo.userName }}</van-col>
           </van-row>
         </div>
         <div class="des-item">
           <van-row>
-            <van-col class="label" span="7">请假单号：</van-col>
+            <van-col class="label" span="7">加班单号：</van-col>
             <van-col class="value">{{ detailInfo.billNo }}</van-col>
           </van-row>
         </div>
         <div class="des-item">
           <van-row>
-            <van-col class="label" span="7">请假类型：</van-col>
-            <van-col class="value">{{ detailInfo.holidayType }}</van-col>
+            <van-col class="label" span="7">加班类型：</van-col>
+            <van-col class="value">{{ detailInfo.overtimeType }}</van-col>
           </van-row>
         </div>
         <div class="des-item">
           <van-row>
-            <van-col class="label" span="7">请假缘由：</van-col>
+            <van-col class="label" span="7">加班缘由：</van-col>
             <van-col class="value">{{ detailInfo.remark || "无" }}</van-col>
           </van-row>
         </div>
@@ -49,7 +49,7 @@
         </div>
       </div>
       <div class="date">
-        <van-divider content-position="center">请假日期</van-divider>
+        <van-divider content-position="center">加班日期</van-divider>
         <div class="des-item">
           <van-row>
             <van-col class="label" span="7">开始日期：</van-col>
@@ -102,7 +102,7 @@ import { getLeaveDetail } from "@/api/oaModule";
 import { colorSelector } from "@/utils/getStatusColor";
 
 interface DetailInfoType {
-  holidayType: string;
+  overtimeType: string;
   remark: string;
   createUserName: string;
   createdate: string;
@@ -122,7 +122,7 @@ const props = defineProps({ id: String });
 const detailInfo = ref<DetailInfoType>({
   userName: "",
   billNo: "",
-  holidayType: "",
+  overtimeType: "",
   remark: "",
   createUserName: "",
   createdate: "",
@@ -137,7 +137,7 @@ const detailInfo = ref<DetailInfoType>({
 
 const getDetailInfo = () => {
   getLeaveDetail({ id: props.id }).then((res) => {
-    detailInfo.value = res.data[0];
+    detailInfo.value = res.data;
   });
 };
 

@@ -1,16 +1,13 @@
 <template>
-  <van-sticky>
-    <div>
-      <van-nav-bar
-        :title="appStore.navTitle"
-        left-text="返回"
-        right-text="退出"
-        left-arrow
-        @click-left="onClickLeft"
-        @click-right="onClickRight"
-        v-if="showNav"
-      />
-    </div>
+  <van-sticky v-if="showNav">
+    <van-nav-bar
+      :title="appStore.navTitle"
+      left-text="返回"
+      right-text="退出"
+      left-arrow
+      @click-left="onClickLeft"
+      @click-right="onClickRight"
+    />
   </van-sticky>
 </template>
 

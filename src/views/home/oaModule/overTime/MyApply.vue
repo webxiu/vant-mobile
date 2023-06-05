@@ -21,11 +21,11 @@
             "
           >
             <div class="list-item" style="margin: 2px">
-              <van-cell value="详情" is-link :to="`/overTime/${item.id}`">
+              <van-cell value="详情" is-link :to="`/leaveApply/${item.id}`">
                 <!-- 使用 title 插槽来自定义标题 -->
                 <template #title>
                   <van-badge :content="index + 1" color="#5686ff"></van-badge>
-                  【{{ item.userName }} - {{ item.holidayType }}】
+                  【{{ item.userName }} - {{ item.overtimeType }}】
 
                   <van-tag :type="colorSelector(item.billStateName)">
                     {{ item.billStateName }}
@@ -65,11 +65,11 @@
 
 <script lang="ts" setup>
 import { ref, reactive, onMounted, watch } from "vue";
-import { getLeaveList } from "@/api/oaModule";
+import { getOvertimeList } from "@/api/oaModule";
 import { colorSelector } from "@/utils/getStatusColor";
 
 interface ItemInfoType {
-  holidayType: string;
+  overtimeType: string;
   remark: string;
   startDate: string;
   startTime: string;
@@ -81,17 +81,13 @@ interface ItemInfoType {
 }
 
 const props = defineProps(["dropKey"]);
+const emit = defineEmits(["setBadgeNum"]);
 
 const loading = ref(false);
 const finished = ref(false);
 const refreshing = ref(false);
 
-let listInfo = reactive<{ records: any[] }>({ records: [] });
-
-let listQuery = reactive({
-  page: 1, // 当前页码
-  limit: 10, // 每页条数
-});
+let listInfo: { records: ItemInfoType[] } = reactive({ records: [] });
 
 const onLoad = () => {
   setTimeout(() => {
@@ -101,7 +97,6 @@ const onLoad = () => {
 
 const onRefresh = () => {
   setTimeout(() => {
-    listQuery.page = 1;
     getList();
     refreshing.value = false;
   }, 1000);
@@ -109,38 +104,29 @@ const onRefresh = () => {
 
 // 获取列表
 const getList = () => {
-  // 请求得到列表，并传参传递请求页码和单页列表数量limit
-  getLeaveList({ billState: props.dropKey }).then((res) => {
-    console.log(res, "res--alala");
-    listInfo.records = [];
+  getOvertimeList({ billState: props.dropKey + "" }).then((res) => {
+    listInfo.records = res.data;
+    emit("setBadgeNum", res.data.length || 0);
     finished.value = true;
   });
 };
 
-watch(props, (nweProps) => {
+watch(props, () => {
   getList();
 });
 
 onMounted(() => {
-  console.log(props, "props");
   getList();
 });
 </script>
 
 <style scoped lang="scss">
 .my-apply {
-  // background-color: red;
-  //   height: calc(100vh - 196px);
   .list-content {
     margin-top: 4px;
     padding: 6px;
 
     .list-item {
-      // border: 1px solid #dddee1;
-      // margin-bottom: 6px;
-
-      // border-radius: 2px;
-
       .content-offset {
         margin-left: 12px;
       }
@@ -153,10 +139,6 @@ onMounted(() => {
       :deep(.van-icon-arrow:before) {
         color: #5686ff;
       }
-
-      // :deep(.van-icon-arrow:before) {
-      //   color: #5686ff;
-      // }
     }
 
     .custom-title {
@@ -177,7 +159,6 @@ onMounted(() => {
       display: flex;
       align-items: center;
       flex: 30%;
-      // background-color: red;
     }
   }
 }
