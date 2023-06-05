@@ -18,6 +18,7 @@ export default {
     },
     {
       path: "/leaveApply/add",
+      props: true,
       name: "LeaveApplyAdd",
       component: () => import("@/views/home/oaModule/leaveApply/add.vue"),
       meta: {
@@ -32,6 +33,18 @@ export default {
       name: "LeaveApplyDetail",
       props: true,
       component: () => import("@/views/home/oaModule/leaveApply/detail.vue"),
+      meta: {
+        title: "详情页面",
+        icon: "description",
+        hidden: true,
+        showNav: true,
+      },
+    },
+    {
+      path: "/overTime/:id",
+      name: "OverTimeDetail",
+      props: true,
+      component: () => import("@/views/home/oaModule/overTime/detail.vue"),
       meta: {
         title: "详情页面",
         icon: "description",

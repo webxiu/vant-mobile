@@ -203,7 +203,7 @@
       <!-- 保存按钮 -->
       <div style="margin: 30px">
         <van-button round block type="primary" native-type="submit">
-          保存
+          {{ route.query.id ? "修改" : "新增" }}
         </van-button>
       </div>
     </van-form>
@@ -214,10 +214,16 @@
 import { ref, onMounted } from "vue";
 import { showNotify } from "vant";
 
-import { addLeaveList, calcTimes } from "@/api/oaModule";
+import {
+  addLeaveList,
+  calcTimes,
+  getLeaveDetail,
+  editLeaveList,
+} from "@/api/oaModule";
 import { queryUserInfo } from "@/api/user";
 import router from "@/router";
 import { useUserStore } from "@/store/modules/user";
+import { useRoute } from "vue-router";
 
 const userStore = useUserStore();
 
@@ -237,6 +243,8 @@ const showEndDate = ref(false);
 const showEndTime = ref(false);
 const showTypePicker = ref(false);
 const showInstruct = ref(false);
+
+const route = useRoute();
 
 // 请假类型配置
 const typeColumns = [
@@ -260,6 +268,31 @@ const lastBlur = () => {
 
 // 表单提交事件
 const onSubmit = (values) => {
+  // 如果是编辑则调用编辑接口然后返回
+  if (route.query.id && route.query.mode === "edit") {
+    const editConfig = {
+      ...values,
+      id: route.query.id,
+      days: +values.days,
+      hours: +values.hours,
+      userId: userStore.userInfo.userNo,
+      itemSequence: 1,
+      createrid: userStore.userInfo.userNo,
+      operationType: 1,
+    };
+    console.log(editConfig, "edit-editConfig");
+    editLeaveList(editConfig).then((res) => {
+      if (res.status === 200 && res.data) {
+        showNotify({ type: "success", message: (res as any).message });
+        setTimeout(
+          () => router.push("/leaveApply/" + "" + route.query.id),
+          100
+        );
+      }
+    });
+    return;
+  }
+
   addLeaveList({
     ...values,
     days: +values.days,
@@ -315,10 +348,31 @@ const setCalcTimes = () => {
   });
 };
 
+// 编辑页面获取数据
+const getEditInfo = () => {
+  getLeaveDetail({ id: route.query.id }).then((res) => {
+    // detailInfo.value = res.data;
+    console.log(res.data, "query-edit");
+    // 初始化表单的值
+    userName.value = res.data.userName;
+    holidayType.value = res.data.holidayType;
+    remark.value = res.data.remark;
+    startDate.value = res.data.startDate;
+    startTime.value = res.data.startTime;
+    endDate.value = res.data.endDate;
+    endTime.value = res.data.endTime;
+    days.value = res.data.days;
+    hours.value = res.data.hours;
+  });
+};
+
 onMounted(() => {
   queryUserInfo({}).then((res) => {
     userName.value = res.data.userName;
   });
+
+  console.log(route.query, "route");
+  if (route.query.id && route.query.mode === "edit") getEditInfo();
 });
 </script>
 

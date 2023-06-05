@@ -58,12 +58,92 @@ export const addLeaveList = (params, config?: AxiosRequestConfig) => {
   });
 };
 
+/** 编辑请假单 */
+export const editLeaveList = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/askforleave/update",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 删除请假单 */
+export const deleteLeaveList = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/askforleave/delete",
+    method: "POST",
+    params,
+    ...config,
+  });
+};
+
+/** 提交请假单 */
+export const submitLeaveList = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/askforleave/submit",
+    method: "POST",
+    params,
+    ...config,
+  });
+};
+
+/** 撤销请假单 */
+export const revokeLeaveList = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/askforleave/revoke",
+    method: "POST",
+    params,
+    ...config,
+  });
+};
+
 /** 新增加班单 */
 export const addOverTimeList = (params, config?: AxiosRequestConfig) => {
   return http.request({
     url: "/app/qywx/workspace/overtimeapply/insert",
     method: "POST",
     data: params,
+    ...config,
+  });
+};
+
+/** 编辑加班单 */
+export const editOverTimeList = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/overtimeapply/update",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 删除加班单 */
+export const deleteOverTimeList = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/overtimeapply/delete",
+    method: "POST",
+    params,
+    ...config,
+  });
+};
+
+/** 提交加班单 */
+export const submitOverTimeList = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/overtimeapply/submit",
+    method: "POST",
+    params,
+    ...config,
+  });
+};
+
+/** 撤销加班单 */
+export const revokeOverTimeList = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/overtimeapply/revoke",
+    method: "POST",
+    params,
     ...config,
   });
 };

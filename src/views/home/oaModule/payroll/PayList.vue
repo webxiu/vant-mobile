@@ -2,7 +2,7 @@
   <div class="my-pay">
     <div class="list-content">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-        <van-list v-if="listInfo.payrollList.length">
+        <van-list v-if="listInfo.payrollList?.length">
           <div
             v-for="(item, index) in listInfo.payrollList"
             :key="item.Name"
@@ -60,25 +60,9 @@
 
 <script lang="ts" setup>
 import { ref, reactive, onMounted, watch } from "vue";
-import { getLeaveList, getPayRollList } from "@/api/oaModule";
-import { colorSelector } from "@/utils/getStatusColor";
-
-interface ItemInfoType {
-  holidayType: string;
-  remark: string;
-  startDate: string;
-  startTime: string;
-  endDate: string;
-  endTime: string;
-  userName: string;
-  billStateName: string;
-  id: number;
-}
+import { getPayRollList } from "@/api/oaModule";
 
 const props = defineProps(["dropKey"]);
-
-const loading = ref(false);
-const finished = ref(false);
 const refreshing = ref(false);
 
 let listInfo = reactive({
@@ -134,6 +118,7 @@ let listInfo = reactive({
   ],
 });
 
+// 下拉刷新操作
 const onRefresh = () => {
   setTimeout(() => {
     getList();
@@ -143,12 +128,10 @@ const onRefresh = () => {
 
 // 获取列表
 const getList = () => {
-  getPayRollList({ gzDate: "1890", gzStatus: "" }).then((res) => {
-    console.log(res, "pay-res");
-    listInfo.payrollList = res.data;
-  });
+  getPayRollList({ gzDate: props.dropKey }).then((res) => {});
 };
 
+// 获取工资单状态汉字以及标签颜色
 const getPayRollListStatusByStr = (str) => {
   let statusText;
   let colorStr;
@@ -189,31 +172,20 @@ const getPayRollListStatusByStr = (str) => {
   return { statusText, colorStr };
 };
 
-watch(props, (nweProps) => {
-  console.log("nweProps", nweProps);
+// 当下拉年份改变时就要重新加载列表
+watch(props, () => getList());
 
-  getList();
-});
-
-onMounted(() => {
-  console.log(props, "props");
-  getList();
-});
+// 第一次加载列表
+onMounted(() => getList());
 </script>
 
 <style scoped lang="scss">
 .my-pay {
-  // background-color: red;
-  //   height: calc(100vh - 196px);
   .list-content {
     margin-top: 4px;
     padding: 6px;
 
     .list-item {
-      // border: 1px solid #dddee1;
-      // margin-bottom: 6px;
-
-      // border-radius: 2px;
       .sfgz {
         color: black;
       }
@@ -230,10 +202,6 @@ onMounted(() => {
       :deep(.van-icon-arrow:before) {
         color: #5686ff;
       }
-
-      // :deep(.van-icon-arrow:before) {
-      //   color: #5686ff;
-      // }
     }
 
     .custom-title {
@@ -254,7 +222,6 @@ onMounted(() => {
       display: flex;
       align-items: center;
       flex: 30%;
-      // background-color: red;
     }
   }
 }
