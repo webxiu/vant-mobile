@@ -2,8 +2,9 @@
   <div class="customer-complaints">
     <van-sticky>
       <van-search
+        v-model="queryParams.searchKey"
         shape="round"
-        @input="onSearch"
+        @search="onSearch"
         placeholder="请输入搜索关键词"
       />
       <van-dropdown-menu>
@@ -24,7 +25,7 @@
         class="p-16 box-border"
       >
         <van-cell
-          v-for="(item, index) in list"
+          v-for="(item, index) in dataList"
           :key="item.id"
           class="customer-cell"
         >
@@ -66,7 +67,6 @@ import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useAxios } from "@/hooks/useAxios";
 import { getCustomerComplaint } from "@/api/oaModule";
-import { throttle } from "@/utils/common";
 
 interface ResultListType {
   id: number;
@@ -81,7 +81,7 @@ interface ResultListType {
   marketSubmitUserName: string;
 }
 const router = useRouter();
-const list = ref<ResultListType[]>([]);
+const dataList = ref<ResultListType[]>([]);
 const queryParams = reactive({
   searchType: "",
   searchKey: "",
@@ -101,15 +101,14 @@ const option2 = [
   { text: "审核时间降序", value: "sx3" },
 ];
 
-const onSearch = throttle((e) => {
-  const value = e.target.value;
+const onSearch = (value: string) => {
   queryParams.searchKey = value;
-}, 1000);
+};
 
 const onRefresh = () => getData();
 
 const onLoad = (data) => {
-  if (data) list.value = data.data;
+  if (data) dataList.value = data.data;
 };
 
 const { isLoading, getData } = useAxios<

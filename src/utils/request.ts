@@ -1,8 +1,8 @@
-import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
-import { BaseResponseType } from "~/types/request.d";
-import { showToast } from "vant";
+import axios from "axios";
 import router from "@/router";
+import { showToast } from "vant";
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BASE_API,
@@ -45,6 +45,16 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(err);
   }
 );
+
+/** 自定义响应结果类型 */
+function createRequest(instance: AxiosInstance) {
+  return function (config: AxiosRequestConfig) {
+    return instance(config) as Promise<BaseResponseType<{}>>;
+  };
+}
+
+/** 用于网络请求的方法 */
+export const request = createRequest(axiosInstance);
 
 export { AxiosRequestConfig, AxiosResponse };
 export default axiosInstance;

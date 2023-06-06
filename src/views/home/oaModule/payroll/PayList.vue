@@ -13,7 +13,7 @@
             "
           >
             <div class="list-item" style="margin: 2px">
-              <van-cell value="详情" is-link :to="`/payroll/${item.id}`">
+              <van-cell value="详情" is-link @click="() => clickToDetail(item)">
                 <!-- 使用 title 插槽来自定义标题 -->
                 <template #title>
                   <van-badge :content="index + 1" color="#5686ff"></van-badge>
@@ -60,62 +60,15 @@
 
 <script lang="ts" setup>
 import { ref, reactive, onMounted, watch } from "vue";
+import { useRouter } from "vue-router";
 import { getPayRollList } from "@/api/oaModule";
 
 const props = defineProps(["dropKey"]);
-const refreshing = ref(false);
+const router = useRouter();
 
+const refreshing = ref(false);
 let listInfo = reactive({
-  payrollList: [
-    {
-      id: 1,
-      Name: "张三",
-      GH: "5562",
-      Status: "1",
-      SFGZ: "9999",
-      YearMonth: "2023-06",
-    },
-    {
-      id: 2,
-      Name: "李四",
-      GH: "5562",
-      Status: "2",
-      SFGZ: "9999",
-      YearMonth: "2023-06",
-    },
-    {
-      id: 3,
-      Name: "王五",
-      GH: "5562",
-      Status: "3",
-      SFGZ: "9999",
-      YearMonth: "2023-06",
-    },
-    {
-      id: 4,
-      Name: "赵六",
-      GH: "5562",
-      Status: "4",
-      SFGZ: "9999",
-      YearMonth: "2023-06",
-    },
-    {
-      id: 5,
-      Name: "谢某",
-      GH: "5562",
-      Status: "5",
-      SFGZ: "9999",
-      YearMonth: "2023-06",
-    },
-    {
-      id: 6,
-      Name: "谭复",
-      GH: "5562",
-      Status: "6",
-      SFGZ: "9999",
-      YearMonth: "2023-06",
-    },
-  ],
+  payrollList: [] as any[],
 });
 
 // 下拉刷新操作
@@ -126,9 +79,21 @@ const onRefresh = () => {
   }, 1000);
 };
 
+const clickToDetail = (item) => {
+  const { Gzmbb, GzmbNo, Id } = item;
+  router.push({
+    path: `/payroll/${item.Id}`,
+    query: { gzmbb: Gzmbb, gzmbNo: GzmbNo, payslipId: Id },
+  });
+};
+
 // 获取列表
 const getList = () => {
-  getPayRollList({ gzDate: props.dropKey }).then((res) => {});
+  getPayRollList({ gzDate: props.dropKey, gzStatus: "" }).then((res) => {
+    if (res.data && res.status === 200) {
+      listInfo.payrollList = res.data;
+    }
+  });
 };
 
 // 获取工资单状态汉字以及标签颜色
@@ -187,7 +152,7 @@ onMounted(() => getList());
 
     .list-item {
       .sfgz {
-        color: black;
+        color: #000;
       }
 
       .content-offset {

@@ -1,4 +1,4 @@
-import http from "@/utils/request";
+import http, { request } from "@/utils/request";
 
 export type LoginType = { userNo: string; password: string };
 export function login(data: LoginType) {

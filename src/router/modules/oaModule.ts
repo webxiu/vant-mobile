@@ -124,6 +124,19 @@ export default {
       },
     },
     {
+      path: "/internalPurchaseBenefits/:id",
+      name: "InternalPurchaseBenefitsDetail",
+      props: true,
+      component: () =>
+        import("@/views/home/oaModule/internalPurchaseBenefits/shopDetail.vue"),
+      meta: {
+        title: "详情页面",
+        icon: "description",
+        hidden: true,
+        showNav: true,
+      },
+    },
+    {
       path: "/businessData",
       name: "BusinessData",
       component: () => import("@/views/home/oaModule/businessData/index.vue"),
@@ -140,6 +153,18 @@ export default {
       meta: {
         title: "供应商投诉",
         icon: "smile-comment-o",
+      },
+    },
+    {
+      path: "/supplierComplaints/:id",
+      name: "SupplierComplaintsDetail",
+      component: () =>
+        import("@/views/home/oaModule/supplierComplaints/detail.vue"),
+      meta: {
+        title: "供应商投诉-详情",
+        icon: "description",
+        hidden: true,
+        showNav: true,
       },
     },
     {

@@ -5,7 +5,6 @@
 import { onMounted, reactive, ref, watch } from "vue";
 
 import { AxiosResponse } from "@/utils/request";
-import { BaseResponseType } from "~/types/request.d";
 import type { Ref } from "vue";
 import { showToast } from "vant";
 import { throttle } from "@/utils/common";

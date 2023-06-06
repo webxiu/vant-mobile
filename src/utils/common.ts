@@ -40,3 +40,27 @@ export const throttle = (fn: Function, delay = 300) => {
     }
   };
 };
+
+/**
+ * 获取年月日
+ * @param d 几天前的天数
+ * @returns
+ */
+export const getDateTime = (d = 0) => {
+  const time = new Date().getTime() - d * 24 * 60 * 60 * 1000;
+  const date = new Date(time);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+
+  const mm = `${month}`.padStart(2, "0");
+  const dd = `${day}`.padStart(2, "0");
+
+  return {
+    year: year,
+    month: mm,
+    day: dd,
+    dateText: `${year}年${mm}月${dd}日`,
+    dateTime: `${year}-${mm}-${dd}`,
+  };
+};

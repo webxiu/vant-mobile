@@ -37,6 +37,16 @@ declare global {
   }
 
   /**
+   * 接口请求数据响应类型
+   */
+  interface BaseResponseType<T extends unknown> {
+    data: T;
+    status: number;
+    message: string;
+    timestamp: number;
+  }
+
+  /**
    * 打包压缩格式的类型声明
    */
   type ViteCompression =

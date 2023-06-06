@@ -7,13 +7,34 @@
 
 import http, { AxiosRequestConfig } from "@/utils/request";
 
-/** 获取请假单列表 */
+/** 获取个人请假单列表 */
 export const getLeaveList = (params, config?: AxiosRequestConfig) => {
   return http.request({
     // url: "/oa/hr/askforleave/selectPage",
     url: "/app/qywx/workspace/askforleave/select",
     method: "POST",
     data: params,
+    ...config,
+  });
+};
+
+/** 获取请假单抄送列表 */
+export const getSendLeaveList = (params = {}, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/askforleave/getaskforleaveforme",
+    method: "POST",
+    ...config,
+  });
+};
+
+/** 获取加班单抄送列表 */
+export const getSendOverTimeList = (
+  params = {},
+  config?: AxiosRequestConfig
+) => {
+  return http.request({
+    url: "/app/qywx/workspace/askforleave/getovertimeapplyforme",
+    method: "POST",
     ...config,
   });
 };
@@ -191,19 +212,95 @@ export const getPayRollList = (params, config?: AxiosRequestConfig) => {
 /** 获取工资条数据详情 */
 export const getPayRollDetail = (params, config?: AxiosRequestConfig) => {
   return http.request({
-    url: "/app/qywx/workspace/payslip/getpayslipstatusbyid",
+    url: "/app/qywx/workspace/payslip/getpayslipdata",
     method: "POST",
-    params,
+    data: params,
+    ...config,
+  });
+};
+
+/** 获取工资条模版数据 */
+export const getTemplatePayRoll = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/payslip/getpaysliptemplatedata",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 提交工资单反馈 */
+export const submitPayRollFeed = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/payslip/savepayslipexception",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 保存工资单签名信息 */
+export const savePayRollsign = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/payslip/savepayslipsignature",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 查询工资单签名信息 */
+export const queryPayRollsign = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/payslip/getsignaturebyid",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 查询内购商品列表 */
+export const queryShoppingList = (params = {}, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/welfare/getcommoditieslistdata",
+    method: "POST",
+    data: params,
     ...config,
   });
 };
 
 /** 获取经营数据 */
-export const getList = (params, config?: AxiosRequestConfig) => {
+export const getSaleokratedata = (params, config?: AxiosRequestConfig) => {
   return http.request({
     url: "/app/qywx/workspace/mangerdata/saleokratedata",
-    method: "POST",
+    method: "GET",
     params,
+    ...config,
+  });
+};
+
+/** 供应商投诉 */
+export const getSupplierComplaints = (
+  params: object,
+  config?: AxiosRequestConfig
+) => {
+  return http.request({
+    url: "/app/qywx/workspace/complaintmanagement/selectAll",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 供应商投诉 - 详情 */
+export const getSupplierComplaintsDetail = (
+  params: object,
+  config?: AxiosRequestConfig
+) => {
+  return http.request({
+    url: "app/qywx/workspace/complaintmanagement/selectdetail",
+    method: "GET",
+    params: params,
     ...config,
   });
 };

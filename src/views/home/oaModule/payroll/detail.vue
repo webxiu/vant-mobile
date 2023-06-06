@@ -1,29 +1,31 @@
 <template>
-  <!-- <MyDetail :detail-info="detailInfo" /> -->
-  <div class="detail-page" v-for="(item, index) in tabsPage">
-    <component
-      :detail-info="detailInfo"
-      v-if="item.idx === activeSelected"
-      :is="tabsPage[index].name"
-    />
+  <div>
+    <div class="detail-page" v-for="(item, index) in tabsPage">
+      <component
+        :detail-info="detailInfo"
+        v-if="item.idx === activeSelected"
+        :is="tabsPage[index].name"
+      />
+    </div>
+    <van-tabbar
+      @change="changeBottomBar"
+      v-model="activeSelected"
+      :border="false"
+    >
+      <!-- 第一项为占位项 -->
+      <!-- <van-tabbar-item style="display: none" /> -->
+      <van-tabbar-item icon="label-o">工资详情</van-tabbar-item>
+      <van-tabbar-item icon="edit">签名</van-tabbar-item>
+      <van-tabbar-item icon="smile-comment-o">异常反馈</van-tabbar-item>
+    </van-tabbar>
   </div>
-  <van-tabbar
-    @change="changeBottomBar"
-    v-model="activeSelected"
-    :border="false"
-  >
-    <!-- 第一项为占位项 -->
-    <!-- <van-tabbar-item style="display: none" /> -->
-    <van-tabbar-item icon="label-o">工资详情</van-tabbar-item>
-    <van-tabbar-item icon="edit">签名</van-tabbar-item>
-    <van-tabbar-item icon="smile-comment-o">异常反馈</van-tabbar-item>
-  </van-tabbar>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { getLeaveDetail, getPayRollDetail } from "@/api/oaModule";
 import { useRoute } from "vue-router";
+
+import { getPayRollDetail, getTemplatePayRoll } from "@/api/oaModule";
 import MyDetail from "./MyDetail.vue";
 import MyFeedBack from "./MyFeedBack.vue";
 import MySign from "./MySign.vue";
@@ -50,7 +52,7 @@ const tabsPage = [
   { name: MyFeedBack, idx: 2 },
 ];
 
-const props = defineProps({ id: String });
+defineProps({ id: String });
 const route = useRoute();
 
 const detailInfo = ref<DetailInfoType>({
@@ -74,62 +76,33 @@ const changeBottomBar = (cur) => {
   console.log(cur, "cur");
 };
 
-const getDetailInfo = () => {
-  // console.log(route.params, "route");
-  // getPayRollDetail({ gzmbb: "", payslipId: route.params.id }).then((res) => {
-  //   // detailInfo.value = res.data;
-  //   console.log(res, "res--pay-detail");
-  // });
+const getDetailInfo = async () => {
+  let templates = await fetchGzTemplate();
+  if (templates.length) {
+    const { gzmbb, payslipId, gzmbNo } = route.query;
+    getPayRollDetail({ gzmbb, payslipId, gzmbNo }).then((res) => {
+      if (res.data && res.data.length) {
+        detailInfo.value = res.data[0];
+      }
+    });
+  }
 };
 
-// 根据字典数字计算出对应的字符串
-const calcStatus = (statusNum: number): string => {
-  let statusStr;
+const fetchGzTemplate = async () => {
+  let templateArr;
+  await getTemplatePayRoll({
+    isApp: true,
+    templateNo: route.query.gzmbNo,
+  }).then((res) => {
+    if (res.data && res.data.length) {
+      templateArr = res.data;
+    }
+  });
 
-  switch (statusNum) {
-    case 0:
-      statusStr = "待提交";
-      break;
-    case 1:
-      statusStr = "审核中";
-      break;
-    case 2:
-      statusStr = "已审核";
-      break;
-    case 3:
-      statusStr = "重新审核";
-      break;
-
-    default:
-      break;
-  }
-
-  return statusStr;
+  return templateArr;
 };
 
 onMounted(() => getDetailInfo());
 </script>
 
-<style lang="scss" scoped>
-// .detail-page {
-//   padding: 60px 80px;
-//   margin-bottom: 100px;
-
-//   .des-item {
-//     margin-bottom: 24px;
-//     font-size: 28px;
-
-//     .label {
-//       text-align: right;
-//     }
-//     .value {
-//       font-weight: 600;
-//       color: black;
-//     }
-//   }
-//   .user-title {
-//     margin-bottom: 50px;
-//     font-size: 30px;
-//   }
-// }
-</style>
+<style lang="scss" scoped></style>

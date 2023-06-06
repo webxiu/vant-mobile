@@ -10,6 +10,9 @@ const filterOptions = ref([{ text: "全部", value: "" }]);
 
 const dropMenuChange = (val) => (selectedMenuValue.value = val);
 
+// 当前年份
+const currentYears = new Date().getFullYear();
+
 // 获取已发工资年份列表
 const getPayYearsList = () => {
   getPayYears({}).then((res) => {
@@ -17,6 +20,9 @@ const getPayYearsList = () => {
       res.data.map((item) => {
         filterOptions.value.push({ text: item.year, value: item.year });
       });
+
+    res.data.some((item) => item.year === currentYears + "") &&
+      (selectedMenuValue.value = "2023");
   });
 };
 

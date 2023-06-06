@@ -19,8 +19,13 @@ $colors: 111, 222, 333, 555, 666, 777, 888, 999, aaa, bbb, ccc, ddd, fff;
   --yellow-color: #f5c156;
 
   /* 覆盖vant内部变量 */
-  --tab-active-color: #1989fa; // Tab菜单激活颜色
-  --van-font-bold: 500; // Navbar标题粗细
+
+  // Tab菜单激活颜色
+  --tab-active-color: #1989fa;
+  // Navbar标题粗细
+  --van-font-bold: 500;
+  // 搜索框搜索图标颜色
+  --van-search-left-icon-color: #323233;
 }
 
 $mainColor: #646566;

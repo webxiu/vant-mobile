@@ -1,160 +1,168 @@
 <template>
-  <div class="detail-page">
-    <van-notice-bar
-      class="user-title"
-      color="#1989fa"
-      background="#ecf9ff"
-      left-icon="info-o"
-    >
-      【{{ detailInfo.userName }}】的请假单
-    </van-notice-bar>
-    <div>
-      <div class="detail">
-        <van-divider content-position="center">请假详情</van-divider>
-        <div class="des-item">
-          <van-row>
-            <van-col class="label" span="8">请假人：</van-col>
-            <van-col class="value">{{ detailInfo.userName }}</van-col>
-          </van-row>
+  <div>
+    <div class="detail-page">
+      <van-notice-bar
+        class="user-title"
+        color="#1989fa"
+        background="#ecf9ff"
+        left-icon="info-o"
+      >
+        【{{ detailInfo.userName }}】的请假单
+      </van-notice-bar>
+      <div>
+        <div class="detail">
+          <van-divider content-position="center">请假详情</van-divider>
+          <div class="des-item">
+            <van-row>
+              <van-col class="label" span="8">请假人：</van-col>
+              <van-col class="value">{{ detailInfo.userName }}</van-col>
+            </van-row>
+          </div>
+          <div class="des-item">
+            <van-row>
+              <van-col class="label" span="8">请假单号：</van-col>
+              <van-col class="value">{{ detailInfo.billNo }}</van-col>
+            </van-row>
+          </div>
+          <div class="des-item">
+            <van-row>
+              <van-col class="label" span="8">请假类型：</van-col>
+              <van-col class="value">{{ detailInfo.holidayType }}</van-col>
+            </van-row>
+          </div>
+          <div class="des-item">
+            <van-row>
+              <van-col class="label" span="8">请假缘由：</van-col>
+              <van-col class="value">{{ detailInfo.remark || "无" }}</van-col>
+            </van-row>
+          </div>
+          <div class="des-item">
+            <van-row>
+              <van-col class="label" span="8">创建人：</van-col>
+              <van-col class="value">{{ detailInfo.createUserName }}</van-col>
+            </van-row>
+          </div>
+          <div class="des-item">
+            <van-row>
+              <van-col class="label" span="8">创建日期：</van-col>
+              <van-col class="value">{{ detailInfo.createdate }}</van-col>
+            </van-row>
+          </div>
         </div>
-        <div class="des-item">
-          <van-row>
-            <van-col class="label" span="8">请假单号：</van-col>
-            <van-col class="value">{{ detailInfo.billNo }}</van-col>
-          </van-row>
+        <div class="date">
+          <van-divider content-position="center">请假日期</van-divider>
+          <div class="des-item">
+            <van-row>
+              <van-col class="label" span="8">开始日期：</van-col>
+              <van-col class="value">
+                {{ `${detailInfo.startDate} ${detailInfo.startTime}` }}
+              </van-col>
+            </van-row>
+          </div>
+          <div class="des-item">
+            <van-row>
+              <van-col class="label" span="8">结束日期：</van-col>
+              <van-col class="value">
+                {{ `${detailInfo.endDate} ${detailInfo.endTime}` }}
+              </van-col>
+            </van-row>
+          </div>
+          <div class="des-item">
+            <van-row>
+              <van-col class="label" span="8">天数：</van-col>
+              <van-col class="value">{{ detailInfo.days }}</van-col>
+            </van-row>
+          </div>
+          <div class="des-item">
+            <van-row>
+              <van-col class="label" span="8">时长：</van-col>
+              <van-col class="value">{{ detailInfo.hours }}</van-col>
+            </van-row>
+          </div>
         </div>
-        <div class="des-item">
-          <van-row>
-            <van-col class="label" span="8">请假类型：</van-col>
-            <van-col class="value">{{ detailInfo.holidayType }}</van-col>
-          </van-row>
-        </div>
-        <div class="des-item">
-          <van-row>
-            <van-col class="label" span="8">请假缘由：</van-col>
-            <van-col class="value">{{ detailInfo.remark || "无" }}</van-col>
-          </van-row>
-        </div>
-        <div class="des-item">
-          <van-row>
-            <van-col class="label" span="8">创建人：</van-col>
-            <van-col class="value">{{ detailInfo.createUserName }}</van-col>
-          </van-row>
-        </div>
-        <div class="des-item">
-          <van-row>
-            <van-col class="label" span="8">创建日期：</van-col>
-            <van-col class="value">{{ detailInfo.createdate }}</van-col>
-          </van-row>
-        </div>
-      </div>
-      <div class="date">
-        <van-divider content-position="center">请假日期</van-divider>
-        <div class="des-item">
-          <van-row>
-            <van-col class="label" span="8">开始日期：</van-col>
-            <van-col class="value">
-              {{ `${detailInfo.startDate} ${detailInfo.startTime}` }}
-            </van-col>
-          </van-row>
-        </div>
-        <div class="des-item">
-          <van-row>
-            <van-col class="label" span="8">结束日期：</van-col>
-            <van-col class="value">
-              {{ `${detailInfo.endDate} ${detailInfo.endTime}` }}
-            </van-col>
-          </van-row>
-        </div>
-        <div class="des-item">
-          <van-row>
-            <van-col class="label" span="8">天数：</van-col>
-            <van-col class="value">{{ detailInfo.days }}</van-col>
-          </van-row>
-        </div>
-        <div class="des-item">
-          <van-row>
-            <van-col class="label" span="8">时长：</van-col>
-            <van-col class="value">{{ detailInfo.hours }}</van-col>
-          </van-row>
-        </div>
-      </div>
-      <div class="msg">
-        <van-divider content-position="center">审批信息</van-divider>
-        <div class="des-item">
-          <van-row>
-            <van-col class="label" span="8">当前状态：</van-col>
-            <van-col class="value">
-              <van-tag :type="colorSelector(calcStatus(detailInfo.billState))">
-                {{ calcStatus(detailInfo.billState) }}
-              </van-tag>
-            </van-col>
-          </van-row>
-        </div>
-        <div class="des-item" v-if="detailInfo.approver?.length">
-          <van-row v-for="(item, index) in detailInfo.approver">
-            <van-col span="8" class="label"
-              >当前审批人{{
-                detailInfo.approver?.length > 1 ? index + 1 : ""
-              }}：</van-col
-            >
-            <van-col class="value">
-              <van-tag :type="colorSelector(calcStatus(detailInfo.billState))">
-                {{ item }}
-              </van-tag>
-            </van-col>
-          </van-row>
+        <div class="msg">
+          <van-divider content-position="center">审批信息</van-divider>
+          <div class="des-item">
+            <van-row>
+              <van-col class="label" span="8">当前状态：</van-col>
+              <van-col class="value">
+                <van-tag
+                  :type="colorSelector(calcStatus(detailInfo.billState))"
+                >
+                  {{ calcStatus(detailInfo.billState) }}
+                </van-tag>
+              </van-col>
+            </van-row>
+          </div>
+          <div class="des-item" v-if="detailInfo.approver?.length">
+            <van-row v-for="(item, index) in detailInfo.approver">
+              <van-col span="8" class="label"
+                >当前审批人{{
+                  detailInfo.approver?.length > 1 ? index + 1 : ""
+                }}：</van-col
+              >
+              <van-col class="value">
+                <van-tag
+                  :type="colorSelector(calcStatus(detailInfo.billState))"
+                >
+                  {{ item }}
+                </van-tag>
+              </van-col>
+            </van-row>
+          </div>
         </div>
       </div>
     </div>
+    <van-tabbar @change="changeBottomBar" v-if="!route.query.tab">
+      <van-tabbar-item icon="edit" style="display: none"
+        >此项为占位项</van-tabbar-item
+      >
+      <van-tabbar-item icon="edit" v-if="calcActionBtn">修改</van-tabbar-item>
+      <van-tabbar-item icon="delete-o" v-if="calcActionBtn"
+        >删除</van-tabbar-item
+      >
+      <van-dialog :v-model="true" title="标题" show-cancel-button>
+        333
+      </van-dialog>
+      <van-tabbar-item icon="passed" v-if="calcActionBtn">提交</van-tabbar-item>
+      <!-- detailInfo.billState === 1 -->
+      <van-tabbar-item icon="revoke" v-if="detailInfo.billState === 0"
+        >撤销</van-tabbar-item
+      >
+      <van-dialog
+        v-model:show="showRevoke"
+        title="撤销当前请假单"
+        show-cancel-button
+        :before-close="confirmRevoke"
+      >
+        <van-form>
+          <van-cell-group inset style="margin-top: 10px">
+            <van-field
+              ref="inputRef"
+              v-model="revokeReason"
+              rows="2"
+              autosize
+              label="留言"
+              type="textarea"
+              maxlength="50"
+              placeholder="请填写撤销原因"
+              show-word-limit
+              colon
+              clearable
+              required
+              label-align="right"
+              :rules="[{ required: true, message: '请填写撤销原因' }]"
+            />
+          </van-cell-group>
+        </van-form>
+      </van-dialog>
+    </van-tabbar>
   </div>
-  <van-tabbar @change="changeBottomBar">
-    <van-tabbar-item icon="edit" style="display: none"
-      >此项为占位项</van-tabbar-item
-    >
-    <van-tabbar-item icon="edit" v-if="calcActionBtn">修改</van-tabbar-item>
-    <van-tabbar-item icon="delete-o" v-if="calcActionBtn">删除</van-tabbar-item>
-    <van-dialog :v-model="true" title="标题" show-cancel-button>
-      333
-    </van-dialog>
-    <van-tabbar-item icon="passed" v-if="calcActionBtn">提交</van-tabbar-item>
-    <!-- detailInfo.billState === 1 -->
-    <van-tabbar-item icon="revoke" v-if="detailInfo.billState === 0"
-      >撤销</van-tabbar-item
-    >
-    <van-dialog
-      v-model:show="showRevoke"
-      title="撤销当前请假单"
-      show-cancel-button
-      :before-close="confirmRevoke"
-    >
-      <van-form>
-        <van-cell-group inset style="margin-top: 10px">
-          <van-field
-            ref="inputRef"
-            v-model="revokeReason"
-            rows="2"
-            autosize
-            label="留言"
-            type="textarea"
-            maxlength="50"
-            placeholder="请填写撤销原因"
-            show-word-limit
-            colon
-            clearable
-            required
-            label-align="right"
-            :rules="[{ required: true, message: '请填写撤销原因' }]"
-          />
-        </van-cell-group>
-      </van-form>
-    </van-dialog>
-  </van-tabbar>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref, computed } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { showConfirmDialog, showNotify } from "vant";
 import {
   deleteLeaveList,
@@ -184,6 +192,7 @@ interface DetailInfoType {
 
 const props = defineProps({ id: String });
 const router = useRouter();
+const route = useRoute();
 const inputRef = ref(null);
 
 const detailInfo = ref<DetailInfoType>({

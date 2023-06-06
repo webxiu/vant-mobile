@@ -11,6 +11,7 @@ interface AttendanceSheetItemType {
   userCode: string;
   staffName: string;
   yearMonthTime: string;
+  status: string;
 }
 
 const router = useRouter();
@@ -93,9 +94,9 @@ const onJumpDetail = (item: AttendanceSheetItemType) => {
             <van-button
               type="primary"
               size="mini"
-              :color="statusObj[item.status].color"
+              :color="statusObj[item.status]?.color"
             >
-              {{ statusObj[item.status].title }}
+              {{ statusObj[item.status]?.title }}
             </van-button>
           </div>
           <div class="flex just-between align-end mt-46">
