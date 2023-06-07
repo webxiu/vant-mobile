@@ -124,6 +124,65 @@ export default {
       },
     },
     {
+      path: "/internalPurchaseBenefits/user",
+      name: "InternalPurchaseBenefitsUser",
+      component: () =>
+        import("@/views/home/oaModule/internalPurchaseBenefits/userCenter.vue"),
+      meta: {
+        title: "个人中心",
+        icon: "goods-collect-o",
+        hidden: true,
+      },
+    },
+    {
+      path: "/internalPurchaseBenefits/addressList",
+      name: "InternalPurchaseBenefitsAddressList",
+      component: () =>
+        import(
+          "@/views/home/oaModule/internalPurchaseBenefits/addressList.vue"
+        ),
+      meta: {
+        title: "收货地址列表",
+        icon: "goods-collect-o",
+        hidden: true,
+      },
+    },
+    {
+      path: "/internalPurchaseBenefits/addressAdd",
+      name: "InternalPurchaseBenefitsAddressListAdd",
+      component: () =>
+        import("@/views/home/oaModule/internalPurchaseBenefits/addressAdd.vue"),
+      meta: {
+        title: "新增收货地址",
+        icon: "goods-collect-o",
+        hidden: true,
+      },
+    },
+    {
+      path: "/internalPurchaseBenefits/orderList",
+      name: "InternalPurchaseBenefitsOrderList",
+      component: () =>
+        import("@/views/home/oaModule/internalPurchaseBenefits/orderList.vue"),
+      meta: {
+        title: "订单列表",
+        icon: "goods-collect-o",
+        hidden: true,
+      },
+    },
+    {
+      path: "/internalPurchaseBenefits/orderDetail",
+      name: "InternalPurchaseBenefitsOrderDetail",
+      component: () =>
+        import(
+          "@/views/home/oaModule/internalPurchaseBenefits/orderDetail.vue"
+        ),
+      meta: {
+        title: "订单详情",
+        icon: "goods-collect-o",
+        hidden: true,
+      },
+    },
+    {
       path: "/internalPurchaseBenefits/:id",
       name: "InternalPurchaseBenefitsDetail",
       props: true,

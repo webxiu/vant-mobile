@@ -33,7 +33,7 @@ export const getSendOverTimeList = (
   config?: AxiosRequestConfig
 ) => {
   return http.request({
-    url: "/app/qywx/workspace/askforleave/getovertimeapplyforme",
+    url: "/app/qywx/workspace/overtimeapply/getovertimeforme",
     method: "POST",
     ...config,
   });
@@ -265,6 +265,105 @@ export const queryShoppingList = (params = {}, config?: AxiosRequestConfig) => {
     url: "/app/qywx/workspace/welfare/getcommoditieslistdata",
     method: "POST",
     data: params,
+    ...config,
+  });
+};
+
+/** 获取区域列表 */
+export const getAreaList = (params = {}, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/welfare/getarealist",
+    method: "GET",
+    params,
+    ...config,
+  });
+};
+
+/** 新增收货地址 */
+export const addAddressList = (params = {}, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/qywx/useraddress/insertuseraddress",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 编辑收货地址 */
+export const editAddressList = (params = {}, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/qywx/useraddress/updateuseraddressbyid",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 删除收货地址 */
+export const deleteAddressList = (params = {}, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/qywx/useraddress/deleteuseraddressbyid",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 查询收货地址列表 */
+export const queryAddressList = (params = {}, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/qywx/useraddress/getuseraddresslist",
+    method: "GET",
+    params,
+    ...config,
+  });
+};
+
+/** 查询收货地址详情 */
+export const getAddressListDetailInfo = (
+  params = {},
+  config?: AxiosRequestConfig
+) => {
+  return http.request({
+    url: "/app/qywx/workspace/qywx/useraddress/selectuseraddressbyid",
+    method: "GET",
+    params,
+    ...config,
+  });
+};
+
+/** 查询订单列表 */
+export const queryOrderList = (params = {}, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/qywx/insideorder/selectallinsideorderbyuserid",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 查询订单详情 */
+export const queryOrderDetailInfo = (
+  params = {},
+  config?: AxiosRequestConfig
+) => {
+  return http.request({
+    url: "/app/qywx/workspace/qywx/insideorder/selectinsideorderbyid",
+    method: "GET",
+    params,
+    ...config,
+  });
+};
+
+/** 取消订单 */
+export const cancelOrderListItem = (
+  params = {},
+  config?: AxiosRequestConfig
+) => {
+  return http.request({
+    url: "/app/qywx/workspace/qywx/insideorder/deleteinsideordebyid",
+    method: "POST",
+    params,
     ...config,
   });
 };

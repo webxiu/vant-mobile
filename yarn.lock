@@ -1889,6 +1889,11 @@ svg-sprite-loader@^6.0.11:
     svg-baker-runtime "^1.4.7"
     url-slug "2.0.0"
 
+tiny-emitter@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmmirror.com/tiny-emitter/-/tiny-emitter-2.1.0.tgz#1d1a56edfc51c43e863cbb5382a72330e3555423"
+  integrity sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==
+
 to-object-path@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/to-object-path/-/to-object-path-0.3.0.tgz#297588b7b0e7e0ac08e04e672f85c1f4999e17af"
@@ -1993,7 +1998,18 @@ util-deprecate@^1.0.1:
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==
 
-vant@^4.4.0:
+vant-sku@^1.0.19, vant-sku@^1.0.6:
+  version "1.0.19"
+  resolved "https://registry.npmmirror.com/vant-sku/-/vant-sku-1.0.19.tgz#5e2e28b25b98fa4756be10bc81159bd78d4816f9"
+  integrity sha512-NX2ymuvHn6rGy7sehHVRYKQucGExZy/3fcsBYj7D4Uy7ZKfUN1kHLGWpyeTpZ6wOb5nyTHc8LH3wLNmN3kTkqg==
+  dependencies:
+    lodash "^4.17.21"
+    tiny-emitter "^2.1.0"
+    vant "^4.0.2"
+    vant-sku "^1.0.6"
+    vue "^3.2.45"
+
+vant@^4.0.2, vant@^4.4.0:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/vant/-/vant-4.4.1.tgz#ba7499b681d940f6b521a3aec1a3929776c90de2"
   integrity sha512-sHCyuXo6djVcR8H14tF/kF8FWAdk/ynrMGQt3F3adgNZ5vQR4MZrGJHKzfrY8y4EXU+vPbNTCPyaV5EBm67JAQ==
@@ -2077,7 +2093,7 @@ vue@^2.5.11:
     "@vue/compiler-sfc" "2.7.14"
     csstype "^3.1.0"
 
-vue@^3.2.47:
+vue@^3.2.45, vue@^3.2.47:
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.3.4.tgz#8ed945d3873667df1d0fcf3b2463ada028f88bd6"
   integrity sha512-VTyEYn3yvIeY1Py0WaYGZsXnz3y5UnGi62GjVEqvEGPl6nxbOrCXbVOTQWBEJUqAyTUk2uJ5JLVnYJ6ZzGbrSw==

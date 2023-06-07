@@ -42,17 +42,15 @@ export const throttle = (fn: Function, delay = 300) => {
 };
 
 /**
- * 获取年月日
+ * 获取当前年月日
  * @param d 几天前的天数
  * @returns
  */
-export const getDateTime = (d = 0) => {
-  const time = new Date().getTime() - d * 24 * 60 * 60 * 1000;
-  const date = new Date(time);
-  const year = date.getFullYear();
+export const getDateTime = (yyyy?: number) => {
+  const year = yyyy || new Date().getFullYear();
+  const date = new Date();
   const month = date.getMonth() + 1;
   const day = date.getDate();
-
   const mm = `${month}`.padStart(2, "0");
   const dd = `${day}`.padStart(2, "0");
 
@@ -60,8 +58,9 @@ export const getDateTime = (d = 0) => {
     year: year,
     month: mm,
     day: dd,
-    dateText: `${year}年${mm}月${dd}日`,
-    dateTime: `${year}-${mm}-${dd}`,
+    dateText: `${year}年${mm}月${dd}日`, // 当前年月
+    dateTime: `${year}-${mm}-${dd}`, // 当前日期
+    lastDate: `${year}-12-31`, // 当前年的最后一天日期
   };
 };
 

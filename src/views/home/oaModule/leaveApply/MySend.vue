@@ -96,6 +96,7 @@ let listInfo: { records: ItemInfoType[] } = reactive({ records: [] });
 const onLoad = () => {
   setTimeout(() => {
     getList();
+    loading.value = false;
   }, 1000);
 };
 

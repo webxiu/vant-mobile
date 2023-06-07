@@ -61,13 +61,12 @@ export const initEchart_1 = (opeions: OptionsType<SaleItemType>) => {
     grid: {
       top: 80,
       left: "3%",
-      right: "2%",
+      right: "3%",
       bottom: "5%",
       containLabel: true,
     },
     xAxis: { type: "category", boundaryGap: false, data: xAxis },
     yAxis: { type: "value" },
-
     series: [
       {
         type: "line",
@@ -111,7 +110,7 @@ export const initEchart_2 = (opeions: OptionsType<ProductItemType>) => {
     grid: {
       top: 50,
       left: "3%",
-      right: "2%",
+      right: "3%",
       bottom: "5%",
       containLabel: true,
     },
@@ -133,15 +132,14 @@ export interface ComplainItemType {
 // 3.客户投诉
 export const initEchart_3 = (opeions: OptionsType<ComplainItemType>) => {
   const { el, data, year, month } = opeions;
-  const _data: ComplainItemType[] = data;
   let totalNum = 0;
   let complainData: number[] = [];
-  const max = Math.max(..._data.map((item) => item.num));
+  // const max = Math.max(...data.map((item) => item.num));
   const indicator = xAxis.map((name) => ({ name })).reverse();
 
   for (let i = 0; i < 12; i++) {
-    const dataItem = _data[i];
-    const _index = _data.findIndex(({ month }) => month == i + 1);
+    const dataItem = data[i];
+    const _index = data.findIndex(({ month }) => month == i + 1);
     const val = _index > -1 && dataItem ? dataItem.num : 0;
     totalNum += val;
     complainData.push(val);
@@ -155,13 +153,13 @@ export const initEchart_3 = (opeions: OptionsType<ComplainItemType>) => {
     grid: {
       top: 80,
       left: "3%",
-      right: "2%",
+      right: "3%",
       bottom: "5%",
       containLabel: true,
     },
     radar: {
       indicator: indicator,
-      center: ["50%", "55%"],
+      center: ["50%", "60%"],
       radius: 90,
     },
     series: [
@@ -221,7 +219,7 @@ export const initEchart_4 = (opeions: OptionsType<HumanResourcestemType>) => {
     grid: {
       top: 80,
       left: "3%",
-      right: "2%",
+      right: "3%",
       bottom: "5%",
       containLabel: true,
     },

@@ -199,3 +199,12 @@ label {
 .box-border {
   box-sizing: border-box;
 }
+pre {
+  // 兼容多个浏览器
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  *word-wrap: break-word;
+  *white-space: normal;
+}

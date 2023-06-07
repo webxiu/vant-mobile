@@ -19,9 +19,9 @@
         :columns-type="['year', 'month']"
       />
     </van-popup>
-    <div ref="chartRef1" class="graph"></div>
-    <div ref="chartRef2" class="graph"></div>
-    <div ref="chartRef3" class="graph"></div>
+    <div ref="chartRef1" class="graph" style="height: 300px"></div>
+    <div ref="chartRef2" class="graph" style="height: 300px"></div>
+    <div ref="chartRef3" class="graph" style="height: 300px"></div>
     <div ref="chartRef4" class="graph" style="height: 600px"></div>
   </div>
 </template>
@@ -38,7 +38,6 @@ import {
 } from "./config";
 import { showToast } from "vant";
 const { year, month, dateText, dateTime } = getDateTime();
-
 const isOpen = ref();
 const timeValue = ref<string>(`${year}年${month}月`);
 const chartRef1 = ref<HTMLElement>();
@@ -65,19 +64,25 @@ const show = () => {
 
 const onConfirm = ({ selectedValues }) => {
   isOpen.value = false;
+  const curYear = new Date().getFullYear().toString();
+  const selectYear = selectedValues[0];
+  const { year, lastDate, dateTime } = getDateTime(selectYear);
+  const endTime = selectYear < curYear ? lastDate : dateTime;
+
   currentDate.value = selectedValues;
-  querParams.starttime = `${selectedValues[0]}`;
-  querParams.time = `${selectedValues[1]}`;
+  querParams.time = endTime;
+  querParams.starttime = `${year}-01-01`;
+  querParams.year = selectedValues[0];
+  querParams.month = selectedValues[1];
+
   getData();
 };
 
 const getData = async () => {
   try {
-    const { year, month } = querParams;
+    let { year, month } = querParams;
     const res = await getSaleokratedata(querParams);
     if (res.status !== 200) throw new Error(res.data);
-    console.log("图标数据", querParams, res);
-
     const data1 = res.data.saleokratedata;
     const data2 = res.data.productioninstockdetail;
     const data3 = res.data.complaintlistTomanagerdate;
@@ -111,7 +116,6 @@ const getData = async () => {
   padding: 0 20px;
   .graph {
     width: 100%;
-    height: 600px;
     box-sizing: border-box;
     margin-bottom: 40px;
     box-shadow: 0 0 4px 0 #ccc;

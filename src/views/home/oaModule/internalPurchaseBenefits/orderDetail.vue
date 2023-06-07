@@ -1,0 +1,113 @@
+<!-- 订单明细 -->
+<template>
+  <section class="order-detail" name="pull-refresh">
+    <div class="page-header" ref="pageheader">
+      <div class="van-tabs van-tabs-line">
+        <van-nav-bar
+          title="订单详情"
+          left-arrow
+          @click-left="clickLeft"
+        ></van-nav-bar>
+      </div>
+    </div>
+    <div class="van-tabs__content">
+      <div>
+        <van-card
+          v-if="orderInfo.imageFilename"
+          :title="
+            orderInfo.brandName +
+            ' ' +
+            orderInfo.classifyName +
+            ' ' +
+            orderInfo.commodityName
+          "
+          :thumb="`https://test.deogra.com:8443/static/virtual/file/ftpfile/${orderInfo.imageFilename}`"
+        >
+          <!-- https://test.deogra.com:8443/static/virtual/file/ftpfile/ -->
+          <template #price>
+            <div class="van-card__price">
+              <div>
+                <div class="van-card__price">订单金额：</div>
+                <span class="van-card__price-currency">¥</span>
+                <span class="van-card__price-integer">{{
+                  orderInfo.amount
+                }}</span>
+              </div>
+            </div>
+          </template>
+
+          <template #tags>
+            <van-tag plain type="danger">{{ orderInfo.spec }}</van-tag>
+          </template>
+        </van-card>
+        <van-cell-group>
+          <van-cell :title="'订单编号：' + orderInfo.billNo" />
+        </van-cell-group>
+        <van-cell-group>
+          <van-cell :title="'订单数量：' + orderInfo.quantity" />
+        </van-cell-group>
+        <van-cell-group>
+          <van-cell :title="'订单状态：' + orderInfo.stateName" />
+        </van-cell-group>
+        <van-cell-group>
+          <van-cell :title="'下单时间：' + orderInfo.createDate" />
+        </van-cell-group>
+        <van-cell-group>
+          <van-cell
+            :title="
+              '交货方式：' + (orderInfo.deliveryMothed == 0 ? '自提' : '快递')
+            "
+          />
+        </van-cell-group>
+        <van-cell-group>
+          <van-cell :title="'快递公司：' + (orderInfo.expressCompany ?? '')" />
+        </van-cell-group>
+        <van-cell-group>
+          <van-cell :title="'快递单号：' + (orderInfo.expressNumber ?? '')" />
+        </van-cell-group>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script setup lang="ts">
+import { onMounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { queryOrderDetailInfo } from "@/api/oaModule";
+
+const route = useRoute();
+const router = useRouter();
+
+const orderInfo: any = ref({});
+
+const clickLeft = () => {
+  router.push("/internalPurchaseBenefits/orderList");
+};
+
+const getOrderDetailInfo = () => {
+  queryOrderDetailInfo({ id: Number(route.query.id) }).then((res) => {
+    if (res.data) {
+      orderInfo.value = res.data;
+    }
+  });
+};
+
+onMounted(() => {
+  getOrderDetailInfo();
+});
+</script>
+
+<style scoped lang="scss">
+.order-detail {
+  border: 1px solid #dddee1;
+  border-radius: 5px;
+  margin: 6px;
+  padding: 4px;
+  :deep(.van-nav-bar__title) {
+    color: #ff0008;
+  }
+  .van-card__price {
+    color: red;
+  }
+}
+</style>

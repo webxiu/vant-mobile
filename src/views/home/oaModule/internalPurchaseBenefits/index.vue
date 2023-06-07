@@ -33,7 +33,7 @@
                 :title="item.commodityName"
                 :thumb="
                   item.commoditiesImages.length > 0
-                    ? 'https://fastly.jsdelivr.net/npm/@vant/assets/ipad.jpeg' // ? globalData.virtualPath + //   item.commoditiesImages[0].imagefilename
+                    ? `https://test.deogra.com:8443/static/virtual/file/ftpfile/${item.commoditiesImages[0].imagefilename}` // ? globalData.virtualPath + //   item.commoditiesImages[0].imagefilename
                     : 'https://fastly.jsdelivr.net/npm/@vant/assets/ipad.jpeg'
                 "
                 :origin-price="item.commoditiesSpecs[0].officialPrice"
@@ -67,7 +67,11 @@
       </van-swipe>
     </div>
     <div class="bar-group">
-      <van-tabbar v-model="currentBar" active-color="#ff0008">
+      <van-tabbar
+        v-model="currentBar"
+        active-color="#ff0008"
+        @change="bottomChangeBar"
+      >
         <van-tabbar-item icon="home-o">首页</van-tabbar-item>
         <van-tabbar-item icon="orders-o">订单</van-tabbar-item>
         <van-tabbar-item icon="user-o">我的</van-tabbar-item>
@@ -100,6 +104,18 @@ const navigateToDetail = (id) => {
   router.push({ path: "" });
 };
 
+const bottomChangeBar = (v) => {
+  console.log(v, "changed-bottom-bar");
+
+  if (v === 2) {
+    router.push("/internalPurchaseBenefits/user");
+  }
+
+  if (v === 1) {
+    router.push("/internalPurchaseBenefits/orderList");
+  }
+};
+
 const fetchShoppingList = () => {
   queryShoppingList().then((res) => {
     console.log(res, "商品列表返回");
@@ -116,10 +132,6 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .manage {
-  // position: relative;
-  // width: 750px;
-  // height: 750px;
-  // background: #ccc;
   :deep(.van-nav-bar__title) {
     color: red !important;
     font-weight: 800;
@@ -130,11 +142,6 @@ onMounted(() => {
 
   .wrap-swip {
     margin-bottom: 100px;
-    // position: fixed;
-    // width: 100%;
-    // position: absolute;
-    // background-color: red;
-    // top: 0;
 
     .data-list {
       :deep(.van-cell__value) {
