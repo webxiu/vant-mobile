@@ -64,3 +64,13 @@ export const getDateTime = (d = 0) => {
     dateTime: `${year}-${mm}-${dd}`,
   };
 };
+
+/**
+ * 判断是否在移动端应用中打开
+ */
+export const isApp = () => {
+  const device = navigator.userAgent.match(
+    /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+  );
+  return device;
+};

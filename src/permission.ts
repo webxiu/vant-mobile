@@ -1,10 +1,20 @@
+import { getPageTitle, isApp } from "@/utils/common";
+
 import NProgress from "@/utils/progress";
 import { getCookie } from "@/utils/storage";
-import { getPageTitle } from "@/utils/common";
 import router from "@/router";
+import { showToast } from "vant";
 
 const whiteList = ["/login", "/register", "/404", "/401"];
 router.beforeEach(async (to, _, next) => {
+  if (!isApp()) {
+    showToast({
+      message: "请使用手机端打开！",
+      icon: "warning",
+      duration: 0,
+      overlay: true,
+    });
+  }
   NProgress.start();
   document.title = getPageTitle(to.meta?.title);
   const hasToken: string = getCookie();
