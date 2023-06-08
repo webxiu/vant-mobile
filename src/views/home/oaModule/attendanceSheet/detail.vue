@@ -1,6 +1,7 @@
 <template>
   <div class="attendance-detail">
     <van-swipe
+      class="ui-h-100"
       ref="swipeRef"
       :loop="false"
       :immediate="false"
@@ -8,7 +9,7 @@
       :show-indicators="false"
     >
       <van-swipe-item v-for="(_, idx) in tabs" :key="idx">
-        <component :is="tabs[idx]" ref="childRef" />
+        <component :is="tabs[idx]" ref="childRef" @onSubmit="onChange" />
       </van-swipe-item>
     </van-swipe>
     <van-tabbar
@@ -19,27 +20,82 @@
     >
       <van-tabbar-item icon="label-o">考勤详情</van-tabbar-item>
       <van-tabbar-item icon="edit">签名</van-tabbar-item>
-      <van-tabbar-item icon="smile-comment-o">异常反馈</van-tabbar-item>
+      <van-tabbar-item icon="smile-comment-o" v-if="isSign">
+        异常反馈
+      </van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, VNodeRef } from "vue";
+import { ref, VNodeRef, onMounted } from "vue";
 import Attendance from "./components/Attendance.vue";
 import Signature from "./components/Signature.vue";
 import Feedback from "./components/Feedback.vue";
+import { getPreviewSignature, getAttendanceDetail } from "@/api/oaModule";
+import { showToast } from "vant";
 
+import { useRoute } from "vue-router";
+import { SignStatus } from "./config";
+
+const route = useRoute();
+const appId = route.params.id;
+const isSign = ref<boolean>(true);
 const tabs = [Attendance, Signature, Feedback];
 const swipeRef = ref<VNodeRef>("");
 const active = ref<number>(0);
+const childRef = ref();
 
-const onChange = (index: number) => {
+onMounted(() => {
+  getDetailData();
+  getSignStatus();
+});
+
+// 获取签名状态
+const getSignStatus = () => {
+  getPreviewSignature({ appId }).then((res) => {
+    if (res.status !== 200) return;
+    if ([SignStatus.signed, SignStatus.dossier].includes(res.data[0]?.status)) {
+      // isSign.value = false;
+    }
+  });
+};
+
+// 获取详情信息
+const getDetailData = async () => {
+  try {
+    const result = await getAttendanceDetail({ appId });
+    const data = result.data;
+    showToast({ message: "获取详情成功", position: "top" });
+
+    if (!data.length) throw new Error("获取数据失败");
+    childRef.value?.forEach((child, index) => {
+      if (child?.initData) {
+        child.initData(data);
+      }
+    });
+  } catch (error) {
+    console.log("error:", error);
+    showToast({ message: "获取详情失败", position: "top" });
+  }
+};
+
+/**
+ * 切换菜单
+ * @param index 切换的当前索引
+ * @param isReloadDetail 是否重新加载详情信息
+ */
+const onChange = (index: number, isReloadDetail?: boolean) => {
+  active.value = index;
   swipeRef.value?.swipeTo(index);
+  if (isReloadDetail) getDetailData();
 };
 </script>
 
 <style lang="scss" scoped>
+.attendance-detail {
+  height: calc(100vh - 100px);
+}
 :deep(.van-tabbar-item--active) {
   font-weight: 700;
 }

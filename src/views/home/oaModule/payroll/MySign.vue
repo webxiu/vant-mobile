@@ -79,7 +79,7 @@ const querySign = () => {
   queryPayRollsign({ payslipId: gzmbNo + "" + payslipId }).then((res) => {
     if (res.data) {
       showEsign.value = false;
-      resultImgSrc.value = res.data.image1 + "," + res.data.image2;
+      resultImgSrc.value = res.data.image1 + res.data.image2;
     }
   });
 };

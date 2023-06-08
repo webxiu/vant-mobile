@@ -504,6 +504,16 @@ export const submitSignature = (
   });
 };
 
+/** 考勤单 - 获取签名图片 */
+export const getSignature = (params: object, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/attendancedetail/getsignaturebyid",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
 /** 考勤单 - 保存异常信息 */
 export const saveAttendanceException = (
   params: object,
@@ -511,6 +521,18 @@ export const saveAttendanceException = (
 ) => {
   return http.request({
     url: "/app/qywx/workspace/attendancedetail/saveattendancedetailexception",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+/** 考勤单 - 获取人员openID */
+export const saveAttendanceUserOpenID = (
+  params: object,
+  config?: AxiosRequestConfig
+) => {
+  return http.request({
+    url: "/app/qywx/workspace/attendancedetail/getwenyuanbyusercode",
     method: "POST",
     data: params,
     ...config,

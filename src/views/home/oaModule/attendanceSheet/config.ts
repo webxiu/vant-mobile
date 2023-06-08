@@ -1,3 +1,18 @@
+export enum SignStatus {
+  /** 待分发 */
+  distribute = "1",
+  /** 分发失败 */
+  fail = "2",
+  /** 待签名 */
+  noSign = "3",
+  /** 异常反馈 */
+  exception = "4",
+  /** 已签名 */
+  signed = "5",
+  /** 归档 */
+  dossier = "6",
+}
+
 export const statusObj = {
   "1": { color: "blue", title: "待分发" },
   "2": { color: "red", title: "分发失败" },
