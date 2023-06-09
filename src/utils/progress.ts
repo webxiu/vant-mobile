@@ -2,6 +2,9 @@ import "nprogress/nprogress.css";
 
 import NProgress from "nprogress";
 
+/**
+ * 网络加载进度条
+ */
 NProgress.configure({
   // 动画方式
   easing: "ease",

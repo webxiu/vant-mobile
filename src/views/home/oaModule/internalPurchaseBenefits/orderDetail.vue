@@ -2,13 +2,13 @@
 <template>
   <section class="order-detail" name="pull-refresh">
     <div class="page-header" ref="pageheader">
-      <div class="van-tabs van-tabs-line">
+      <!-- <div class="van-tabs van-tabs-line">
         <van-nav-bar
           title="订单详情"
           left-arrow
           @click-left="clickLeft"
         ></van-nav-bar>
-      </div>
+      </div> -->
     </div>
     <div class="van-tabs__content">
       <div>
@@ -60,10 +60,10 @@
           />
         </van-cell-group>
         <van-cell-group>
-          <van-cell :title="'快递公司：' + (orderInfo.expressCompany ?? '')" />
+          <van-cell :title="'快递公司：' + (orderInfo.expressCompany ?? '-')" />
         </van-cell-group>
         <van-cell-group>
-          <van-cell :title="'快递单号：' + (orderInfo.expressNumber ?? '')" />
+          <van-cell :title="'快递单号：' + (orderInfo.expressNumber ?? '-')" />
         </van-cell-group>
       </div>
     </div>
@@ -99,9 +99,9 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .order-detail {
-  border: 1px solid #dddee1;
-  border-radius: 5px;
-  margin: 6px;
+  // border: 1px solid #dddee1;
+  // border-radius: 5px;
+  margin: 10px 6px 6px;
   padding: 4px;
   :deep(.van-nav-bar__title) {
     color: #ff0008;

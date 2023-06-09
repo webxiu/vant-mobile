@@ -121,6 +121,7 @@ export default {
       meta: {
         title: "内购福利",
         icon: "goods-collect-o",
+        showNav: true,
       },
     },
     {

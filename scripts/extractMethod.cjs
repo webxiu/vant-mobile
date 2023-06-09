@@ -20,7 +20,7 @@ const links = tools.getDirPaths({
 
 // 分割readme中的默认内容和动态全局函数字符
 const fileDirs = links.utils;
-const splitChar = "<!-- 以下是脚本自动生成 -->";
+const splitChar = "<!-- 以下是脚本自动生成:请勿删除本注释 -->";
 let outPathCont = tools.readFile(outPath).split(splitChar)[0];
 
 let result = "";

@@ -125,8 +125,7 @@
         333
       </van-dialog>
       <van-tabbar-item icon="passed" v-if="calcActionBtn">提交</van-tabbar-item>
-      <!-- detailInfo.billState === 1 -->
-      <van-tabbar-item icon="revoke" v-if="detailInfo.billState === 0"
+      <van-tabbar-item icon="revoke" v-if="detailInfo.billState === 1"
         >撤销</van-tabbar-item
       >
       <van-dialog
@@ -220,7 +219,7 @@ const calcActionBtn = computed(() => {
   return (
     detailInfo.value.operationType === 2 ||
     detailInfo.value.billState === 1 ||
-    detailInfo.value.billState === 0 // detailInfo.value.billState === 2
+    detailInfo.value.billState === 2
   );
 });
 

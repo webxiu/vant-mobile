@@ -1,8 +1,8 @@
 <template>
   <div class="manage">
-    <van-sticky>
+    <!-- <van-sticky>
       <van-nav-bar title="福利商品" />
-    </van-sticky>
+    </van-sticky> -->
     <div class="wrap-swip">
       <van-swipe
         class="my-swipe"
@@ -69,7 +69,7 @@
     <div class="bar-group">
       <van-tabbar
         v-model="currentBar"
-        active-color="#ff0008"
+        active-color="#1989fa"
         @change="bottomChangeBar"
       >
         <van-tabbar-item icon="home-o">首页</van-tabbar-item>
@@ -81,10 +81,12 @@
 </template>
 
 <script lang="ts" setup>
-import { queryShoppingList } from "@/api/oaModule";
 import { reactive, ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { queryShoppingList } from "@/api/oaModule";
+import { useAppStore } from "@/store/modules/app";
 
+const appStore = useAppStore();
 const currentBar = ref(0);
 const shopEmpty = ref(false);
 const isLoading = ref(false);
@@ -126,6 +128,7 @@ const fetchShoppingList = () => {
 };
 
 onMounted(() => {
+  appStore.setNavTitle("商品列表");
   fetchShoppingList();
 });
 </script>

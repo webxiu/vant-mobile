@@ -2,9 +2,9 @@
   <van-config-provider :theme="theme">
     <router-view v-slot="{ Component }">
       <NavBar />
-      <transition name="fade-transform" mode="out-in">
-        <component :is="Component" />
-      </transition>
+      <!-- <transition name="fade-transform" mode="out-in"> -->
+      <component :is="Component" />
+      <!-- </transition> -->
     </router-view>
   </van-config-provider>
 </template>

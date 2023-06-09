@@ -11,7 +11,6 @@
       >
         <van-swipe-item>
           <div class="detail-form">
-            <!-- <div> -->
             <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
               <van-swipe
                 class="my-swipe1"
@@ -101,7 +100,7 @@
                     :get-container="boxRef"
                     :show-add-cart-btn="false"
                     :quota-used="0"
-                    @buy-clicked="() => {}"
+                    @buy-clicked="saveSkuInfo"
                   >
                     <template #sku-actions-top="props">
                       <div>
@@ -112,8 +111,7 @@
                           <van-radio-group
                             v-model="radio"
                             direction="horizontal"
-                            @change="() => {}"
-                            disabled
+                            @change="changeRadio"
                           >
                             <van-radio name="0" checked-color="#ee0a24"
                               >自提</van-radio
@@ -125,6 +123,7 @@
                         </div>
 
                         <div
+                          v-show="addressDivShow"
                           :class="
                             'van-address-item' +
                             ' ' +
@@ -158,7 +157,12 @@
                                 ' ' +
                                 (addressDivShow ? '' : 'van-cell__disabled')
                               "
-                              v-on:click="() => {}"
+                              v-on:click="
+                                () =>
+                                  router.push(
+                                    '/internalPurchaseBenefits/addressList'
+                                  )
+                              "
                               ><!----></i
                             >
                           </div>
@@ -184,176 +188,178 @@
                 </van-dialog>
               </van-form>
             </van-pull-refresh>
-            <!-- </div> -->
-
-            <div class="van-goods-action">
-              <van-button
-                round
-                block
-                type="danger"
-                native-type="submit"
-                chosenAddress
-                style="background-color: #ff0008"
-                @click="show = true"
-                >购买</van-button
-              >
-            </div>
           </div>
         </van-swipe-item>
       </van-swipe>
     </section>
+    <div class="van-goods-action">
+      <van-sticky :offset-bottom="5" position="bottom">
+        <div style="width: 100vw; display: flex; justify-content: center">
+          <van-button
+            round
+            block
+            type="danger"
+            native-type="submit"
+            chosenAddress
+            style="background-color: #ff0008; width: 80%"
+            @click="show = true"
+            >购买</van-button
+          >
+        </div>
+      </van-sticky>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { queryShoppingList } from "@/api/oaModule";
-import { onMounted } from "vue";
-import { ref } from "vue";
-import { useRoute } from "vue-router";
+import { reactive, onMounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { showNotify } from "vant";
+import {
+  queryShoppingList,
+  saveOrderListItem,
+  getDefaultAddressListByUserId,
+} from "@/api/oaModule";
+import { queryUserInfo } from "@/api/user";
 
 const route = useRoute();
+const router = useRouter();
+const boxRef = ref(null);
+
 const commodityDetail = ref({}) as any;
-const chosenAddressId = ref("1");
 const addressShow = ref(false);
 const addressDivShow = ref(false);
 const radio = ref("0");
-const boxRef = ref(null);
-
-let show = ref(false);
-const discountPrice = ref("");
-const officialPrice = ref("");
-const images = ref([]);
+const show = ref(false); // sku弹出层是否显示
 const isLoading = ref(false);
+const chosenAddress: any = ref({});
+const chosenAddressId = ref("");
+const addressList = ref([]);
+const sku: any = reactive({
+  tree: [
+    {
+      k: "规格",
+      v: [],
+      k_s: "s1",
+    },
+  ],
+  // 所有 sku 的组合列表，如下是：白色1、白色2、天蓝色1、天蓝色2
+  list: [],
+  price: "", // 默认价格
+  stock_num: 0, // 商品总库存
+  none_sku: false, // 是否无规格商品
+});
+const goods: any = reactive({ picture: "" });
+const initialSku: any = ref({});
+const images: any = ref([]);
 
-const chosenAddress = {
-  id: "1",
-  name: "张三",
-  tel: "13000000000",
-  address: "广东省深圳市光明区马田街道合水口社区横岭新村十一巷6号202房间",
-  isDefault: true,
-};
+const goods_id = "1";
 
-const addressList = [
-  {
-    id: "1",
-    name: "张三",
-    tel: "13000000000",
-    address: "浙江省杭州市西湖区文三路 138 ",
-    isDefault: true,
-  },
-];
-
-console.log(route.params, "params");
 const onRefresh = () => {
   setTimeout(() => {
     isLoading.value = true;
   }, 1000);
 };
 
-const goods_id = "1";
+const initSku = (res) => {
+  sku.price = res.commoditiesSpecs[0].discountPrice;
+  sku.stock_num = res.totalStock;
+  //组装规格
+  sku.tree[0].k = "规格";
+  sku.tree[0].k_s = "s1";
+  sku.tree[0].v = [];
+  const virtualPath =
+    "https://test.deogra.com:8443/static/virtual/file/ftpfile/";
+  res.commoditiesSpecs.forEach((item) => {
+    console.log(res, "res");
+    sku.tree[0].v.push({
+      id: item.id,
+      name: item.spec,
+    });
+    sku.list.push({
+      id: item.id, // skuId
+      s1: item.id, // 规格类目 k_s 为 s1 的对应规格值 id
+      price: item.discountPrice * 100, // 价格（单位分）
+      stock_num: item.stock, // 当前 sku 组合对应的库存
+    });
+  });
 
-const sku = {
-  // 所有sku规格类目与其值的从属关系，比如商品有颜色和尺码两大类规格，颜色下面又有红色和蓝色两个规格值。
-  // 可以理解为一个商品可以有多个规格类目，一个规格类目下可以有多个规格值。
-  tree: [
-    {
-      k: "规格",
-      k_id: "1",
-      v: [
-        {
-          id: "30349",
-          name: "天蓝色",
-          imgUrl:
-            "https://img.yzcdn.cn/upload_files/2017/02/21/FjKTOxjVgnUuPmHJRdunvYky9OHP.jpg!100x100.jpg",
-        },
-        {
-          id: "1215",
-          name: "白色",
-        },
-      ],
-      k_s: "s1",
-      count: 2,
-    },
-  ],
-  // 所有 sku 的组合列表，如下是：白色1、白色2、天蓝色1、天蓝色2
-  list: [
-    {
-      id: 2259,
-      price: 120, //价格
-      discount: 122,
-      s1: "1215",
-      s2: "1193",
-      s3: "0",
-      s4: "0",
-      s5: "0",
-      stock_num: 20, //库存
-      goods_id: 946755,
-    },
-    {
-      id: 2260,
-      price: 110,
-      discount: 112,
-      s1: "1215",
-      s2: "1194",
-      s3: "0",
-      s4: "0",
-      s5: "0",
-      stock_num: 2, //库存
-      goods_id: 946755,
-    },
-    {
-      id: 2257,
-      price: 130,
-      discount: 132,
-      s1: "30349",
-      s2: "1193",
-      s3: "0",
-      s4: "0",
-      s5: "0",
-      stock_num: 40, //库存
-      goods_id: 946755,
-    },
-    {
-      id: 2258,
-      price: 100,
-      discount: 100,
-      s1: "30349",
-      s2: "1194",
-      s3: "0",
-      s4: "0",
-      s5: "0",
-      stock_num: 50, //库存
-      goods_id: 946755,
-    },
-  ],
-  price: "5.00",
-  stock_num: 227, // 商品总库存
-  none_sku: false, // 是否无规格商品
-  hide_stock: false, // 是否隐藏剩余库存
-};
-const goods = {
-  title: "测试商品A",
-  picture:
-    "https://img.yzcdn.cn/upload_files/2017/03/16/Fs_OMbSFPa183sBwvG_94llUYiLa.jpeg?imageView2/2/w/100/h/100/q/75/format/jpg",
-};
-const initialSku = {
-  s1: "0001",
-  s2: "1001",
-  selectedNum: 3,
+  if (res.commoditiesImages && res.commoditiesImages.length) {
+    goods.picture = virtualPath + res.commoditiesImages[0].imagefilename;
+    res.commoditiesImages.forEach((img) => {
+      images.value.push(virtualPath + img.imagefilename);
+    });
+  }
 };
 
-const fetchDetailInfo = () => {
-  queryShoppingList({ id: route.params.id }).then((res) => {
-    console.log(res, "detail--res");
-    if (res.data && res.data.length) {
-      commodityDetail.value = res.data[0];
+const saveSkuInfo = (v) => {
+  // 构造请求参数
+  const params = {
+    commoditiesspecId: v.selectedSkuComb.id,
+    commodityId: Number(route.params.id),
+    deliveryMothed: radio.value,
+    quantity: v.selectedNum,
+    useraddressId: chosenAddress.value.id,
+  };
+
+  saveOrderListItem(params).then((res) => {
+    if (res.data) {
+      showNotify({ type: "success", message: "操作成功" });
+      router.push("/internalPurchaseBenefits/orderList");
     }
   });
 };
 
+const changeRadio = (v) => {
+  radio.value = v;
+  //自提
+  if (v === "0") {
+    addressDivShow.value = false;
+  } else {
+    addressDivShow.value = true;
+  }
+};
+
+const fetchDetailInfo = () => {
+  queryShoppingList({ id: route.params.id }).then((res) => {
+    if (res.data && res.data.length) {
+      commodityDetail.value = res.data[0];
+      // init sku
+      initSku(res.data[0]);
+    }
+  });
+};
+
+const fetchUserInfoAndAddress = () => {
+  queryUserInfo({}).then((res) => {
+    if (res.data && res.data.id) {
+      getDefaultAddressListByUserId({ userId: res.data.id }).then(
+        (addressRes) => {
+          if (addressRes && addressRes.data.length) {
+            const data = addressRes.data.filter((item) => item.isDefault)[0];
+            chosenAddress.value = {
+              id: data.id,
+              name: data.addressee,
+              tel: data.addresseePhone,
+              address: data.fullAddress,
+              isDefault: data.isDefault ? true : false,
+            };
+          }
+        }
+      );
+    }
+  });
+};
 onMounted(() => {
   fetchDetailInfo();
+  fetchUserInfoAndAddress();
 });
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+.my-swipe1 {
+  :deep(.van-image__img) {
+    width: 100vw;
+  }
+}
+</style>

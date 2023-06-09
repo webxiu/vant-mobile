@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="page-header" ref="pageheader">
+    <!-- <div class="page-header" ref="pageheader">
       <div class="van-tabs van-tabs-line">
         <van-nav-bar
           title="收货地址管理"
@@ -8,7 +8,7 @@
           @click-left="clickLeft"
         ></van-nav-bar>
       </div>
-    </div>
+    </div> -->
     <div class="van-tabs__content">
       <van-address-list
         v-model="chosenAddressId"

@@ -27,6 +27,9 @@ npm run dev
 
 # 预览发布环境
 npm run preview
+
+# 开发环境 [考勤单] 异常反馈 企业微信通知地址
+http://192.168.1.206:9898
 ```
 
 ## 发布
@@ -34,6 +37,9 @@ npm run preview
 ```bash
 # 构建生产环境
 npm run build   # 需先在.env.production中修改生产环境打包的部署域名和目录
+
+# 生产环境 [考勤单] 异常反馈 企业微信通知地址
+https://erp.deogra.com:8058
 ```
 
 ## 提取工具方法
@@ -95,7 +101,7 @@ npm run method:readme
 
 ## 全局函数
 
-<!-- 以下是脚本自动生成 -->
+<!-- 以下是脚本自动生成:请勿删除本注释 -->
 
 - **src\utils\common.ts**
 
@@ -104,6 +110,8 @@ npm run method:readme
 getPageTitle:  设置网页标题 
 debounce:  函数防抖 
 throttle:  函数节流 
+getDateTime:  获取当前年月日 
+isApp:  判断是否在移动端应用中打开 
 ```
 
 - **src\utils\getStatusColor.ts**
@@ -117,7 +125,14 @@ colorSelector:  TagType
 
 ```bash
 # 方法名称  方法描述
-regExp:  正则表达式 
+regExp:  全局正则表达式 
+```
+
+- **src\utils\request.ts**
+
+```bash
+# 方法名称  方法描述
+request:  AxiosInstance, AxiosRequestConfig, AxiosResponse 
 ```
 
 - **src\utils\storage.ts**

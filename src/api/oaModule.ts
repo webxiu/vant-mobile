@@ -1,11 +1,13 @@
 /**
  * 接口请求说明:
  * @param params 请求参数
- * @param config 配置项
+ * @param config 配置项(配置请求头, 请求超时时间等)
  * @returns 请求实例
  */
 
 import http, { AxiosRequestConfig } from "@/utils/request";
+
+import axios from "axios";
 
 /** 获取个人请假单列表 */
 export const getLeaveList = (params, config?: AxiosRequestConfig) => {
@@ -332,6 +334,19 @@ export const getAddressListDetailInfo = (
   });
 };
 
+/** 查询默认收货地址 */
+export const getDefaultAddressListByUserId = (
+  params = {},
+  config?: AxiosRequestConfig
+) => {
+  return http.request({
+    url: "/app/qywx/workspace/qywx/useraddress/getuseraddresslist",
+    method: "GET",
+    params,
+    ...config,
+  });
+};
+
 /** 查询订单列表 */
 export const queryOrderList = (params = {}, config?: AxiosRequestConfig) => {
   return http.request({
@@ -351,6 +366,16 @@ export const queryOrderDetailInfo = (
     url: "/app/qywx/workspace/qywx/insideorder/selectinsideorderbyid",
     method: "GET",
     params,
+    ...config,
+  });
+};
+
+/** 保存内购订单 */
+export const saveOrderListItem = (params = {}, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/qywx/insideorder/insertinsideorder",
+    method: "POST",
+    data: params,
     ...config,
   });
 };
@@ -515,26 +540,29 @@ export const getSignature = (params: object, config?: AxiosRequestConfig) => {
 };
 
 /** 考勤单 - 保存异常信息 */
-export const saveAttendanceException = (
-  params: object,
-  config?: AxiosRequestConfig
-) => {
+export const saveAttendanceException = (params: object) => {
   return http.request({
     url: "/app/qywx/workspace/attendancedetail/saveattendancedetailexception",
     method: "POST",
     data: params,
-    ...config,
   });
 };
 /** 考勤单 - 获取人员openID */
-export const saveAttendanceUserOpenID = (
-  params: object,
-  config?: AxiosRequestConfig
-) => {
+export const saveAttendanceUserOpenID = (params: object) => {
   return http.request({
     url: "/app/qywx/workspace/attendancedetail/getwenyuanbyusercode",
     method: "POST",
     data: params,
-    ...config,
+  });
+};
+/** 考勤单 - 发送通知消息给企业微信用户 */
+export const sendQywxUser = (params: object, data: object) => {
+  // 域名地址不同, 单独设置
+  return axios({
+    baseURL: import.meta.env.VITE_QYWX_USER_URL,
+    url: "/qywx/oasendmessage",
+    method: "POST",
+    data: data,
+    params: params,
   });
 };

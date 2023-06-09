@@ -1,5 +1,10 @@
 import { TagType } from "vant";
 
+/**
+ * 列表及详情状态tag颜色
+ * @param statusText 状态文本
+ * @returns
+ */
 export const colorSelector = (statusText: string): TagType => {
   let statusColor: TagType;
   switch (statusText) {

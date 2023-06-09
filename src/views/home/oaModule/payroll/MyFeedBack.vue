@@ -50,15 +50,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { submitPayRollFeed } from "@/api/oaModule";
 import { useUserStore } from "@/store/modules/user";
+import { showNotify } from "vant";
 
 const feedBackValue = ref("");
 const fieldRef = ref(null);
 const appStore = useUserStore();
 const route = useRoute();
+const emit = defineEmits(["refreshAction", "setBottomCurrent"]);
 
 const submitFeedBack = () => {
   (fieldRef.value as any).validate();
@@ -75,9 +77,20 @@ const submitFeedBack = () => {
   }).then((res) => {
     if (res.data === 1) {
       // 成功的操作
+      showNotify({ type: "success", message: "提交成功" });
+      // emit("refreshAction");
+      setTimeout(() => {
+        emit("setBottomCurrent", 0);
+        emit("refreshAction");
+      });
     }
   });
 };
+
+onMounted(() => {
+  // console.log("first");
+  // emit("refreshAction", 888);
+});
 </script>
 
 <style scoped lang="scss">

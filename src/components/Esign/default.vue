@@ -108,7 +108,10 @@ onMounted(() => {
 .sign-wrap {
   padding: 0 20px 20px;
   height: 100%;
+  display: flex;
+  flex-direction: column;
   .sign-content {
+    flex: 1;
     border: 5px dotted gray;
   }
 }

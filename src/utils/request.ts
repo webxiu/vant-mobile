@@ -53,7 +53,9 @@ function createRequest(instance: AxiosInstance) {
   };
 }
 
-/** 用于网络请求的方法 */
+/**
+ * 用于网络请求的方法
+ */
 export const request = createRequest(axiosInstance);
 
 export { AxiosRequestConfig, AxiosResponse };

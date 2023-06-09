@@ -55,8 +55,12 @@ onMounted(() => {
 const getSignStatus = () => {
   getPreviewSignature({ appId }).then((res) => {
     if (res.status !== 200) return;
-    if ([SignStatus.signed, SignStatus.dossier].includes(res.data[0]?.status)) {
-      // isSign.value = false;
+    if (
+      [SignStatus.signed, SignStatus.dossier, SignStatus.exception].includes(
+        res.data[0]?.status
+      )
+    ) {
+      isSign.value = false;
     }
   });
 };

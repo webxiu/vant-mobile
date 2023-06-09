@@ -59,7 +59,9 @@ const getYearList = async () => {
 };
 
 const onJumpDetail = (item: AttendanceSheetItemType) => {
-  router.push(`/attendanceSheet/${item.id}?userCode=${item.userCode}`);
+  router.push(
+    `/attendanceSheet/${item.id}?userCode=${item.userCode}&yearMonthTime=${item.yearMonthTime}`
+  );
 };
 </script>
 

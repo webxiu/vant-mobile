@@ -342,6 +342,12 @@ const setCalcTimes = () => {
     startTime: startTime.value,
     endDate: endDate.value,
     endTime: endTime.value,
+    // holidayType: holidayType.value,
+    // remark: remark.value,
+    // userName: userName.value,
+    // days: days.value,
+    // hours: hours.value,
+    // id: "",
   }).then((res) => {
     days.value = res.data.days;
     hours.value = res.data.hours;
