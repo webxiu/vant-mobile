@@ -7,9 +7,9 @@ import {
   getKingdeeAuditedTask,
   getKingdeeLaunchTask,
 } from "@/api/infoCenter";
-import MyAudit from "./MyAudit.vue";
-import MyAudited from "./MyAudited.vue";
-import MyInitiate from "./MyInitiate.vue";
+import MyAudit from "./audit/MyAudit.vue";
+import MyAudited from "./audited/MyAudited.vue";
+import MyInitiate from "./initiate/MyAudited.vue";
 
 const auditList = [
   { title: "我的待办", status: "audit1" },
@@ -84,28 +84,30 @@ const onRefresh = () => {
 </script>
 
 <template>
-  <van-tabs
-    v-model:active="active"
-    class="ui-h-100 info-center"
-    swipeable
-    sticky
-    :color="TabActiveColor"
-    :title-active-color="TabActiveColor"
-    @change="onTabChange"
-  >
-    <van-tab
-      v-for="(item, idx) in auditList"
-      :title="item.title"
-      :key="idx"
-      :badge="idx === 0 && idx === active ? 99 : ''"
+  <van-sticky>
+    <van-tabs
+      v-model:active="active"
+      class="info-center"
+      swipeable
+      sticky
+      :color="TabActiveColor"
+      :title-active-color="TabActiveColor"
+      @change="onTabChange"
+    >
+      <van-tab
+        v-for="(item, idx) in auditList"
+        :title="item.title"
+        :key="idx"
+        :badge="idx === 0 && idx === active ? 99 : ''"
+      />
+    </van-tabs>
+    <van-search
+      v-model="searchValue"
+      shape="round"
+      @search="onSearch"
+      placeholder="请输入搜索关键词"
     />
-  </van-tabs>
-  <van-search
-    v-model="searchValue"
-    shape="round"
-    @search="onSearch"
-    placeholder="请输入搜索关键词"
-  />
+  </van-sticky>
   <van-swipe
     ref="swipeRef"
     :loop="false"

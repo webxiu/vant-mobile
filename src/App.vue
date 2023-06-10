@@ -1,5 +1,5 @@
 <template>
-  <van-config-provider :theme="theme">
+  <van-config-provider :theme="theme" class="ui-h-100 ui-p-r">
     <router-view v-slot="{ Component }">
       <NavBar />
       <!-- <transition name="fade-transform" mode="out-in"> -->

@@ -29,32 +29,61 @@ export const getMyTask = (params, config?: AxiosRequestConfig) => {
 /** ============================== 金蝶业务审批 ============================== */
 
 /** 金蝶业务审批(我的待办) */
-export const getKingdeeAuditTask = (params, config?: AxiosRequestConfig) => {
+export const getKingdeeAuditTask = (params) => {
   return http.request({
     url: "/app/qywx/workspace/jindieapproval/getrunningflowdatasbytheapproval",
     method: "POST",
     data: params,
-    ...config,
+  });
+};
+/** 金蝶业务审批(我的待办) - 获取审批节点详细信息*/
+export const approvalNodeDetails = (params) => {
+  return http.request({
+    url: "/app/qywx/workspace/jindieapproval/getapprovalnodedetails",
+    method: "POST",
+    data: params,
+  });
+};
+/** 金蝶业务审批(我的待办) - 票据编号获取产品详细信息*/
+export const detailsByBillNoforProduce = (params) => {
+  return http.request({
+    url: "/app/qywx/workspace/jindieapproval/getdetailsbybillnoforproduce",
+    method: "POST",
+    data: params,
+  });
+};
+/** 金蝶业务审批(我的待办) - 获取审批实例详细信息*/
+export const approvalInstanceDetails = (params) => {
+  return http.request({
+    url: "/app/qywx/workspace/jindieapproval/getapprovalinstancedetails",
+    method: "POST",
+    data: params,
+  });
+};
+/** 金蝶业务审批(我的待办) - 获取快速选择批准顾问*/
+export const fastSelectApprovalAdviceList = (params) => {
+  return http.request({
+    url: "/app/qywx/workspace/jindieapproval/getfastselectapprovaladvicelist",
+    method: "POST",
+    data: params,
   });
 };
 
 /** 金蝶业务审批(我的已办) */
-export const getKingdeeAuditedTask = (params, config?: AxiosRequestConfig) => {
+export const getKingdeeAuditedTask = (params) => {
   return http.request({
     url: "/app/qywx/workspace/jindieapproval/getrunningflowdatasbyprocessed",
     method: "POST",
     data: params,
-    ...config,
   });
 };
 
 /** 金蝶业务审批(我发起的) */
-export const getKingdeeLaunchTask = (params, config?: AxiosRequestConfig) => {
+export const getKingdeeLaunchTask = (params) => {
   return http.request({
     url: "app/qywx/workspace/jindieapproval/getlanuchflowdatasbyprocessed",
     method: "POST",
     data: params,
-    ...config,
   });
 };
 
@@ -82,6 +111,56 @@ export const getAuditTask2 = (params, config?: AxiosRequestConfig) => {
 export const getAuditTask3 = (params, config?: AxiosRequestConfig) => {
   return http.request({
     url: "/app/qywx/workspace/approval/q3",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 单据详情查询 */
+export const getAuditTaskDetail = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/approval/getformdata",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 撤销单据 */
+export const revokeAuditTask = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/approval/revoke",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 审批单据 */
+export const auditAuditTask = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/approval/approval",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 审批单据回退 */
+export const backAuditTask = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/approval/back",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
+/** 获取可回退节点列表 */
+export const getBackNodesList = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/approval/backnodes",
     method: "POST",
     data: params,
     ...config,

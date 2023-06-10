@@ -82,7 +82,7 @@ const onRefresh = () => {
 <template>
   <van-tabs
     v-model:active="active"
-    class="ui-h-100 info-center"
+    class="info-center"
     swipeable
     sticky
     :color="TabActiveColor"

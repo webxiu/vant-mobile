@@ -56,7 +56,7 @@ const { isLoading, getData } = useAxios({
 <template>
   <van-tabs
     v-model:active="active"
-    class="ui-h-100 info-center"
+    class="info-center"
     @change="onTabChange"
     swipeable
   >

@@ -37,28 +37,8 @@
     </template>
 
     <template #foot>
-      <div>
-        <div class="handle">
-          <van-button
-            plain
-            class="txt-btn no-border yellow-btn"
-            @click="router.push('/forgot')"
-            >忘记密码</van-button
-          >
-          <span class="split-line"></span>
-          <van-button
-            plain
-            class="txt-btn no-border yellow-btn"
-            @click="router.push('/register')"
-            >注册账号</van-button
-          >
-        </div>
-
-        <div class="third">
-          <van-divider class="line">其他登录方式</van-divider>
-          <svg-icon icon-class="wechat" class-name="third-icon wechat" />
-          <svg-icon icon-class="weibo" class-name="third-icon weibo" />
-        </div>
+      <div class="mt-100">
+        <van-divider class="line">Beauty Your Life</van-divider>
       </div>
     </template>
   </login-layout>
@@ -115,40 +95,10 @@ const onSubmit = async (values: LoginInfoType) => {
 
 <style lang="scss">
 @import "./index.scss";
-.handle {
-  text-align: center;
-  .txt-btn {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 14px;
-  }
-  .split-line {
-    vertical-align: middle;
-    display: inline-block;
-    width: 2px;
-    height: 12px;
-    background: var(--yellow-color);
-  }
-}
 
-.third {
-  text-align: center;
-  .line {
-    width: 200px;
-    margin: 80px auto 20px;
-  }
-
-  .third-icon {
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-
-    display: inline-block;
-    color: var(--red-color);
-    margin: 0 20px;
-    &.wechat {
-      color: var(--green-color);
-    }
-  }
+.line {
+  color: var(--main-color);
+  font-size: 34px;
+  margin-top: 30px;
 }
 </style>

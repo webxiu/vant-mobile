@@ -1,11 +1,13 @@
 <template>
-  <div class="section yu-login-layout">
-    <div class="logo-container">
-      <img :src="logo" alt="" />
-    </div>
+  <div class="login-section">
+    <div class="content">
+      <div class="logo-container">
+        <img :src="logo" alt="" />
+      </div>
 
-    <div class="body-container">
-      <slot name="body"></slot>
+      <div class="body-container">
+        <slot name="body"></slot>
+      </div>
     </div>
 
     <div class="foot-container">
@@ -19,12 +21,18 @@ import logo from "@/assets/images/logo.png";
 </script>
 
 <style lang="scss" scoped>
+.login-section {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 .logo-container {
   text-align: center;
-  width: 160px;
-  height: 160px;
+  width: 280px;
+  height: 280px;
   border-radius: 50%;
-  margin: 60px auto 40px;
+  margin: 26% auto 40px;
   overflow: hidden;
   img {
     display: inline-block;

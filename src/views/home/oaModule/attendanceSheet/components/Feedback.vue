@@ -87,7 +87,6 @@ const onHandleClick = async () => {
     if (res.data?.length === 0) {
       throw new Error(`当前部门未配置文员，请联系系统组！`);
     }
-
     if (res.data) {
       configUser.wxOpenIds = res.data
         .map((item) => item.wxOpenid)
@@ -95,13 +94,8 @@ const onHandleClick = async () => {
       configUser.userName = res.data[0].userName;
       getPreviewSubmit(); // 预提交
     }
-  } catch (error) {
-    showDialog({
-      title: "失败提示:",
-      message: error?.toString(),
-      theme: "round-button",
-      confirmButtonText: "确认",
-    });
+  } catch (error: any) {
+    showToastModel("fail", error?.toString());
   }
 };
 
