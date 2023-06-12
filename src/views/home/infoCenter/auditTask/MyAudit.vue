@@ -56,14 +56,16 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 const resultList: any = ref([]);
 const router = useRouter();
+const emit = defineEmits(["setBadgeNum"]);
 
 const initData = (res) => {
   resultList.value = res.data;
   console.log("=待处理initData:", res.data);
+  emit("setBadgeNum", res.data.length);
 };
 
 const gotoDetail = ({ billNo, billId, processDefId, processInstId }) => {
@@ -73,6 +75,7 @@ const gotoDetail = ({ billNo, billId, processDefId, processInstId }) => {
     query: { billNo, billId, processDefId, processInstId, tab: 1 },
   });
 };
+
 defineExpose({ initData });
 </script>
 

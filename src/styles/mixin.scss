@@ -4,6 +4,7 @@
   .color-#{$i} {
     color: #{"#" + $i};
   }
+
   .bg-#{$i} {
     background-color: #{"#" + $i};
   }

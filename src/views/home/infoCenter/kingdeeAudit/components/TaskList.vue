@@ -52,6 +52,7 @@ export interface TaskItemType {
   detailMasterResults: any;
   detailChildrenResults: any;
   detailChildrenColumns: any;
+  billType: any;
 }
 
 defineProps({

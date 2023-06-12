@@ -68,6 +68,14 @@ export const fastSelectApprovalAdviceList = (params) => {
     data: params,
   });
 };
+/** 金蝶业务审批(我的待办) - 审核通过*/
+export const auditPass = (params) => {
+  return http.request({
+    url: "/app/qywx/workspace/jindieapproval/auditBills",
+    method: "POST",
+    data: params,
+  });
+};
 
 /** 金蝶业务审批(我的已办) */
 export const getKingdeeAuditedTask = (params) => {

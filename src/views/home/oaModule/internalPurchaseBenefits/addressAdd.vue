@@ -43,6 +43,7 @@ import {
 } from "@/api/oaModule";
 import { queryUserInfo } from "@/api/user";
 import { showNotify } from "vant";
+import { useAppStore } from "@/store/modules/app";
 
 const router = useRouter();
 const route = useRoute();
@@ -140,9 +141,11 @@ const fetchDetailInfo = () => {
 
 onMounted(() => {
   if (route.query.id && route.query.type === "edit") {
+    useAppStore().setNavTitle("编辑收货地址");
+
     isEdit.value = true;
     fetchDetailInfo();
-  }
+  } else useAppStore().setNavTitle("新增收货地址");
   fetchAreaListInfo();
 
   queryUserInfo({}).then((res) => {

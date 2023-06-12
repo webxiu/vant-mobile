@@ -43,19 +43,15 @@
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
 import { useRoute } from "vue-router";
-import {
-  showConfirmDialog,
-  showLoadingToast,
-  closeToast,
-  showDialog,
-} from "vant";
+import { showConfirmDialog, showLoadingToast, closeToast } from "vant";
+import { SignStatus } from "../config";
+import { showToastModel } from "@/utils/getStatusColor";
 import {
   saveAttendanceException,
   saveAttendanceUserOpenID,
   getPreviewSignature,
   sendQywxUser,
 } from "@/api/oaModule";
-import { SignStatus } from "../config";
 
 const content = ref("");
 const route = useRoute();
@@ -69,16 +65,6 @@ const configUser = reactive<{ wxOpenIds: string[]; userName: string }>({
 const detailId = route.params.id;
 const { userCode, yearMonthTime } = route.query;
 const noticeText = ref<string>("如您发现考勤明细有异常，可以提交反馈内容。");
-
-const showToastModel = (type: "success" | "fail", message: string) => {
-  showDialog({
-    title: "提示信息:",
-    message: message,
-    theme: "round-button",
-    confirmButtonColor: type === "success" ? "green" : "red",
-    confirmButtonText: "确认",
-  });
-};
 
 const onHandleClick = async () => {
   try {

@@ -17,7 +17,7 @@
           "
         >
           <div class="list-item" style="margin: 2px">
-            <van-cell value="详情" is-link :to="`/leaveApply/${item.id}`">
+            <van-cell value="详情" is-link @click="gotoDetail(item)">
               <!-- 使用title插槽来自定义标题 -->
               <template #title>
                 <van-badge :content="index + 1" color="#5686ff"></van-badge>
@@ -63,11 +63,21 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+
 const resultList: any = ref([]);
 
+const router = useRouter();
 const initData = (res) => {
   resultList.value = res.data;
   console.log("=已办:", res.data);
+};
+const gotoDetail = ({ billNo, billId, processDefId, processInstId }) => {
+  // console.log(item, "item");
+  router.push({
+    path: "/auditTask/detail",
+    query: { billNo, billId, processDefId, processInstId, tab: 2 },
+  });
 };
 defineExpose({ initData });
 </script>

@@ -158,7 +158,7 @@ onMounted(() => {
     :deep(.van-cell__title) {
       display: flex;
       align-items: center;
-      flex: 30%;
+      flex: 50%;
     }
   }
 }

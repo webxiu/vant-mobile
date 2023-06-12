@@ -26,6 +26,7 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { queryAddressList } from "@/api/oaModule";
 import { queryUserInfo } from "@/api/user";
+import { useAppStore } from "@/store/modules/app";
 
 const router = useRouter();
 
@@ -69,6 +70,7 @@ onMounted(() => {
       fetchAddressList();
     }
   });
+  useAppStore().setNavTitle("收货地址列表");
 });
 </script>
 

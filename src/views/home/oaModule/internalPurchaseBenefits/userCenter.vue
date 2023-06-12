@@ -20,7 +20,13 @@
 </template>
 
 <script setup lang="ts">
+import { useAppStore } from "@/store/modules/app";
+import { onMounted } from "vue";
 const userInfo = { userName: "谢健" };
+
+onMounted(() => {
+  useAppStore().setNavTitle("个人中心");
+});
 </script>
 
 <style scoped lang="scss"></style>

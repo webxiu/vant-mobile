@@ -81,7 +81,6 @@ interface ItemInfoType {
 }
 
 const props = defineProps(["dropKey"]);
-const emit = defineEmits(["setBadgeNum"]);
 
 const loading = ref(false);
 const finished = ref(false);
@@ -91,7 +90,8 @@ let listInfo: { records: ItemInfoType[] } = reactive({ records: [] });
 
 const onLoad = () => {
   setTimeout(() => {
-    getList();
+    loading.value = false;
+    finished.value = true;
   }, 1000);
 };
 

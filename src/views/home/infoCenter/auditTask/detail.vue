@@ -9,36 +9,46 @@
       >
         【{{ detailInfo.formName }}】
       </van-notice-bar>
-      <div>
-        <div class="detail" v-if="detailInfo.itemList">
-          <div
-            class="des-item"
-            v-for="item in detailInfo.itemList[0].detailList"
-          >
-            <van-row>
-              <van-col class="label" span="8">{{ item.inputItemName }}</van-col>
+      <van-collapse v-model="activeNames" accordion>
+        <van-collapse-item
+          :title="item.itemName"
+          :name="index"
+          v-for="(item, index) in detailInfo.itemList"
+        >
+          <div class="des-item" v-for="el in item.detailList">
+            <van-row :wrap="false">
+              <van-col class="label" span="9">{{ el.inputItemName }}</van-col>
               <van-col
                 class="value"
                 v-if="
-                  item.inputItemName === '开始日期:' ||
-                  item.inputItemName === '结束日期:'
+                  el.inputItemName === '开始日期:' ||
+                  el.inputItemName === '结束日期:' ||
+                  el.inputItemName === '申请时间'
                 "
-                >{{ item.inputItemValue.split("T")[0] }}</van-col
+                >{{ el.inputItemValue.split("T")[0] }}</van-col
               >
-              <van-col v-else class="value">{{ item.inputItemValue }}</van-col>
+              <van-col v-else class="value">{{
+                el.inputItemValue || "无"
+              }}</van-col>
             </van-row>
           </div>
-        </div>
-      </div>
+        </van-collapse-item>
+      </van-collapse>
     </div>
     <van-tabbar @change="changeBottomBar" v-model="curActive">
       <van-tabbar-item icon="edit" style="display: none"
         >此项为占位项</van-tabbar-item
       >
 
-      <van-tabbar-item icon="revoke">撤销</van-tabbar-item>
-      <van-tabbar-item icon="success">审核</van-tabbar-item>
-      <van-tabbar-item icon="replay">回退</van-tabbar-item>
+      <van-tabbar-item icon="revoke" v-show="route.query.tab === '3'"
+        >撤销</van-tabbar-item
+      >
+      <van-tabbar-item icon="success" v-show="route.query.tab !== '3'"
+        >审核</van-tabbar-item
+      >
+      <van-tabbar-item icon="replay" v-show="route.query.tab !== '3'"
+        >回退</van-tabbar-item
+      >
       <van-tabbar-item icon="todo-list-o">审核节点详情</van-tabbar-item>
 
       <van-dialog
@@ -47,7 +57,11 @@
         show-cancel-button
         :before-close="notNodeDetailAction"
       >
-        <van-form @submit="modalSubmit" ref="formRef">
+        <van-form
+          @submit="modalSubmit"
+          ref="formRef"
+          validate-trigger="onSubmit"
+        >
           <van-cell-group inset style="margin-top: 10px" v-if="curActive === 2">
             <van-field
               v-model="auditReason"
@@ -174,7 +188,7 @@
                 <span class="person-firstname">{{ item.firstName }}</span>
                 <span class="personname">{{ item.approvalName }}</span>
               </van-col>
-              <van-col span="4">
+              <van-col span="6">
                 <span class="sp-status" :style="{ color: item.color }">{{
                   item.nodeStatus
                 }}</span>
@@ -192,7 +206,7 @@
               "
               style="margin-top: 14px"
             >
-              <van-col span="6">审批意见：</van-col>
+              <van-col span="8">审批意见：</van-col>
               <van-col span="16">
                 {{ item.approvalRemark }}
               </van-col>
@@ -222,7 +236,7 @@
                 <span class="person-firstname">{{ item.firstName }}</span>
                 <span class="personname">{{ item.approvalName }}</span></van-col
               >
-              <van-col span="4">
+              <van-col span="6">
                 <span class="sp-status" :style="{ color: item.color }">{{
                   item.nodeStatus
                 }}</span>
@@ -240,8 +254,8 @@
               "
               style="margin-top: 14px"
             >
-              <van-col span="5">审批意见：</van-col>
-              <van-col span="17">
+              <van-col span="8">审批意见：</van-col>
+              <van-col span="16">
                 {{ item.approvalRemark }}
               </van-col>
             </van-row>
@@ -270,6 +284,7 @@ import {
   backAuditTask,
 } from "@/api/infoCenter";
 import { useAppStore } from "@/store/modules/app";
+import { resolve } from "path";
 
 const props = defineProps({ id: String });
 const router = useRouter();
@@ -314,6 +329,7 @@ const showNodeDetailPanel = ref(false);
 const backToActivityId = ref("");
 const isAuditAction = ref(false);
 const nodeDetailData: any = ref({});
+const activeNames = ref(0);
 
 const modalSubmit = () => {
   console.log("first");
@@ -345,82 +361,62 @@ const calcActionBtn = computed(() => {
   );
 });
 
-const notNodeDetailAction = (action) => {
-  (formRef.value as any)
-    .validate()
-    .then(() => {
-      const { processDefId, processInstId, billNo, billId } = route.query;
-      let defRes;
-      if (curActive.value === 1) {
-        defRes = revokeAuditTask({
-          processDefId,
-          processInsId: processInstId,
-          billNo,
-          ...(formRef.value as any).getValues(),
-        });
-      } else if (curActive.value === 2) {
-        defRes = auditAuditTask({
-          processDefId,
-          processInsId: processInstId,
-          billNo,
-          billId,
-          comment: (formRef.value as any).getValues().auditSugges,
-        });
-      } else if (curActive.value === 3) {
-        console.log((formRef.value as any).getValues(), "33333");
-        defRes = backAuditTask({
-          processInsId: processInstId,
-          processDefId,
-          billNo,
-          comment: (formRef.value as any).getValues().bkReason,
-          backToActivityId: backToActivityId.value,
-        });
-      }
-
-      defRes.then((res) => {
-        console.log(res, "操作返回");
-      });
-      // console.log("formRef", (formRef.value as any).getValues());
-      // console.log(route.query, "query");
-      // const { processDefId, processInstId, billNo } = route.query;
-      // revokeAuditTask({
-      //   processDefId,
-      //   processInsId: processInstId,
-      //   billNo,
-      //   ...(formRef.value as any).getValues(),
-      // }).then((res) => {
-      //   if (res.data) {
-      //     console.log(res, "撤销成功");
-      //   }
-      // });
-    })
-    .catch(() => {
-      console.log("fail");
-    });
-
+const notNodeDetailAction = (action: string) => {
   // return new Promise((resolve) => {
-  //   if (action === "cancel") {
-  //     resolve(true);
-  //     return;
-  //   }
-  //   if (auditReason.value) {
-  //     // revokeLeaveList({ id: props.id, remark: auditReason.value }).then(
-  //     //   (res) => {
-  //     //     if (res.data) {
-  //     //       resolve(true);
-  //     //       showNotify({ message: (res as any).message });
-  //     //       setTimeout(() => router.push("/leaveApply"), 100);
-  //     //     } else {
-  //     //       resolve(false);
-  //     //       showNotify({ message: "操作失败，请联系开发人员处理！" });
-  //     //     }
-  //     //   }
-  //     // );
-  //     console.log(auditReason.value);
-  //   }
-  //   resolve(false);
-  //   (inputRef.value as any).validate();
-  // });
+  if (action === "cancel") {
+    // resolve(true);
+    curActive.value = 0;
+    return true;
+  }
+  if (action === "confirm") {
+    (formRef.value as any)
+      .validate()
+      .then(() => {
+        const { processDefId, processInstId, billNo, billId } = route.query;
+        let defRes;
+        if (curActive.value === 1) {
+          defRes = revokeAuditTask({
+            processDefId,
+            processInsId: processInstId,
+            billNo,
+            ...(formRef.value as any).getValues(),
+          });
+        } else if (curActive.value === 2) {
+          defRes = auditAuditTask({
+            processDefId,
+            processInsId: processInstId,
+            billNo,
+            billId,
+            comment: (formRef.value as any).getValues().auditSugges,
+          });
+        } else if (curActive.value === 3) {
+          console.log((formRef.value as any).getValues(), "33333");
+          defRes = backAuditTask({
+            processInsId: processInstId,
+            processDefId,
+            billNo,
+            comment: (formRef.value as any).getValues().bkReason,
+            backToActivityId: backToActivityId.value,
+          });
+        }
+
+        defRes.then((res) => {
+          if (res.data) {
+            // resolve(true);
+            showNotify({ message: (res as any).message, type: "success" });
+            setTimeout(() => router.push("/auditTask"), 500);
+          } else {
+            // resolve(false);
+            showNotify({ message: "操作失败，请联系开发人员处理！" });
+            return false;
+          }
+        });
+      })
+      .catch(() => {
+        // resolve(false);
+        return false;
+      });
+  }
 };
 
 const getDetailInfo = () => {
@@ -506,7 +502,7 @@ const fetchType2DetailInfo = () => {
 };
 
 const changeBottomBar = (active) => {
-  console.log(active, "active");
+  console.log(active, "changeBottomBar===active");
   curActive.value = active;
   // 点击修改跳转到添加页面并且携带参数，修改标志以及记录id
   switch (active) {
@@ -565,16 +561,33 @@ const calcStatus = (statusNum: number): string => {
 
 onMounted(() => {
   appStore.setNavTitle("业务审批详情");
+  console.log(route.query.tab, "tab", typeof route.query.tab);
   getDetailInfo();
   fetchType2DetailInfo();
 });
 </script>
 
 <style lang="scss" scoped>
+.person-firstname {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #75b9e6;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+  display: inline-block;
+  color: white;
+  background-color: #75b9e6;
+  font-size: 16px;
+}
+.personname {
+  margin-left: 10px;
+}
 .audit-detail {
+  // margin-bottom:160px;
   .detail-page {
     padding: 60px 80px;
-    margin-bottom: 80px;
+    // margin-bottom: 1080px;
 
     .des-item {
       margin-bottom: 24px;

@@ -144,7 +144,8 @@ onMounted(() => {
   }
 
   .wrap-swip {
-    margin-bottom: 100px;
+    padding-bottom: 100px;
+    // margin-bottom: 180px;
 
     .data-list {
       :deep(.van-cell__value) {

@@ -74,6 +74,7 @@
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { queryOrderDetailInfo } from "@/api/oaModule";
+import { useAppStore } from "@/store/modules/app";
 
 const route = useRoute();
 const router = useRouter();
@@ -94,6 +95,7 @@ const getOrderDetailInfo = () => {
 
 onMounted(() => {
   getOrderDetailInfo();
+  useAppStore().setNavTitle("订单详情");
 });
 </script>
 

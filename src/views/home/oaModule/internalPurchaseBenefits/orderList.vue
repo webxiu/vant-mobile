@@ -71,6 +71,7 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { showConfirmDialog, showNotify } from "vant";
 import { cancelOrderListItem, queryOrderList } from "@/api/oaModule";
+import { useAppStore } from "@/store/modules/app";
 
 const router = useRouter();
 const list: any = ref([]);
@@ -131,6 +132,7 @@ const fetchOrderList = () => {
 
 onMounted(() => {
   fetchOrderList();
+  useAppStore().setNavTitle("订单列表");
 });
 
 const onLoad = () => {

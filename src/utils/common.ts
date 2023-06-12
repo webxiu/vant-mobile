@@ -42,6 +42,38 @@ export const throttle = (fn: Function, delay = 300) => {
 };
 
 /**
+ * 获取信息中心列表tag相关颜色
+ * @param priority 优先级中文汉字
+ * @returns 对应的颜色字符串
+ */
+export const getColorByPriority = (priority: string): string => {
+  let pri: string;
+  switch (priority) {
+    case "最高":
+      pri = "red";
+      break;
+    case "较高":
+      pri = "orange";
+      break;
+    case "普通":
+      pri = "#722ed1";
+      break;
+    case "较低":
+      pri = "#946A2C";
+      break;
+    case "最低":
+      pri = "green";
+      break;
+
+    default:
+      pri = "#fff";
+      break;
+  }
+
+  return pri;
+};
+
+/**
  * 获取当前年月日
  * @param d 几天前的天数
  * @returns

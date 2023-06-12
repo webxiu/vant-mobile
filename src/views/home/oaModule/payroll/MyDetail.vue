@@ -177,7 +177,7 @@ defineProps(["detailInfo"]);
 
 <style scoped lang="scss">
 .detail-page {
-  padding: 60px 80px;
+  padding: 60px 80px 120px;
   margin-bottom: 100px;
 
   .des-item {

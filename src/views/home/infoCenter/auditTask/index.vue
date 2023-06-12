@@ -23,6 +23,7 @@ const swipeRef = ref();
 const childRef = ref();
 const apiKey = ref("audit1");
 const active = ref<number>(0);
+const badgeNum = ref(0);
 const searchValue = ref<string>("");
 const isLoading = ref<boolean>(false);
 const queryParams: AuditTaskType = reactive({
@@ -77,31 +78,35 @@ const onRefresh = () => {
     if (active.value === index) getData();
   });
 };
+
+const setBadgeNum = (num) => (badgeNum.value = num);
 </script>
 
 <template>
-  <van-tabs
-    v-model:active="active"
-    class="info-center"
-    swipeable
-    sticky
-    :color="TabActiveColor"
-    :title-active-color="TabActiveColor"
-    @change="onTabChange"
-  >
-    <van-tab
-      v-for="(item, idx) in auditList"
-      :title="item.title"
-      :key="idx"
-      :badge="idx === 0 && idx === active ? 99 : ''"
+  <van-sticky>
+    <van-tabs
+      v-model:active="active"
+      class="info-center"
+      swipeable
+      sticky
+      :color="TabActiveColor"
+      :title-active-color="TabActiveColor"
+      @change="onTabChange"
+    >
+      <van-tab
+        v-for="(item, idx) in auditList"
+        :title="item.title"
+        :key="idx"
+        :badge="idx === 0 && idx === active ? badgeNum : ''"
+      />
+    </van-tabs>
+    <van-search
+      v-model="searchValue"
+      shape="round"
+      @search="onSearch"
+      placeholder="请输入搜索关键词"
     />
-  </van-tabs>
-  <van-search
-    v-model="searchValue"
-    shape="round"
-    @search="onSearch"
-    placeholder="请输入搜索关键词"
-  />
+  </van-sticky>
   <van-swipe
     ref="swipeRef"
     :loop="false"
@@ -111,7 +116,7 @@ const onRefresh = () => {
   >
     <van-swipe-item v-for="(_, idx) in tabs" :key="idx">
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <component :is="tabs[idx]" ref="childRef" />
+        <component :is="tabs[idx]" ref="childRef" @setBadgeNum="setBadgeNum" />
       </van-pull-refresh>
     </van-swipe-item>
   </van-swipe>

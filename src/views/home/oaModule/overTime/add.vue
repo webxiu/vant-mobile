@@ -1,7 +1,7 @@
 <template>
   <div class="form-content">
     <van-notice-bar
-      style="font-size: 12px;"
+      style="font-size: 12px"
       color="#1989fa"
       background="#ecf9ff"
       :speed="30"
@@ -147,14 +147,12 @@
           placeholder="请填写时长"
           :rules="[{ required: true, message: '加班时长不能为空' }]"
         />
-
-        
       </van-cell-group>
 
       <!-- 保存按钮 -->
       <div style="margin: 30px">
         <van-button round block type="primary" native-type="submit">
-          {{route.query.id ? '修改' : '新增' }}
+          {{ route.query.id ? "修改" : "新增" }}
         </van-button>
       </div>
     </van-form>
@@ -165,11 +163,17 @@
 import { ref, onMounted } from "vue";
 import { showNotify } from "vant";
 
-import { addOverTimeList, calcJBTimes, getOverTimeDetail, editOverTimeList } from "@/api/oaModule";
+import {
+  addOverTimeList,
+  calcJBTimes,
+  getOverTimeDetail,
+  editOverTimeList,
+} from "@/api/oaModule";
 import { queryUserInfo } from "@/api/user";
 import router from "@/router";
 import { useUserStore } from "@/store/modules/user";
 import { useRoute } from "vue-router";
+import { useAppStore } from "@/store/modules/app";
 
 const userStore = useUserStore();
 
@@ -193,10 +197,7 @@ const showInstruct = ref(false);
 const route = useRoute();
 
 // 加班类型配置
-const typeColumns = [
-  { text: "周末加班", value: "周末加班" },
-  
-];
+const typeColumns = [{ text: "周末加班", value: "周末加班" }];
 
 const lastBlur = () => {
   // 只有开始日期时间和结束日期时间都有值才发起请求
@@ -208,9 +209,8 @@ const lastBlur = () => {
 
 // 表单提交事件
 const onSubmit = (values) => {
-
   // 如果是编辑则调用编辑接口然后返回
-  if (route.query.id && route.query.mode === 'edit') {
+  if (route.query.id && route.query.mode === "edit") {
     const editConfig = {
       ...values,
       id: route.query.id,
@@ -220,15 +220,14 @@ const onSubmit = (values) => {
       itemSequence: 1,
       createrid: userStore.userInfo.userNo,
       operationType: 1,
-      overtimeType: overtimeType.value
+      overtimeType: overtimeType.value,
     };
-    console.log(editConfig, 'edit-editConfig');
-    editOverTimeList(editConfig).then(res => {
+    editOverTimeList(editConfig).then((res) => {
       if (res.status === 200 && res.data) {
         showNotify({ type: "success", message: (res as any).message });
-        setTimeout(() => router.push("/overTime/"+''+route.query.id), 100);
+        setTimeout(() => router.push("/overTime/" + "" + route.query.id), 100);
       }
-    })
+    });
     return;
   }
 
@@ -291,7 +290,6 @@ const setCalcTimes = () => {
 const getEditInfo = () => {
   getOverTimeDetail({ id: route.query.id }).then((res) => {
     // detailInfo.value = res.data;
-    console.log(res.data, 'query-edit')
     // 初始化表单的值
     userName.value = res.data.userName;
     overtimeType.value = res.data.overtimeType;
@@ -303,16 +301,17 @@ const getEditInfo = () => {
     days.value = res.data.days;
     hours.value = res.data.hours;
   });
-}
-
+};
 
 onMounted(() => {
   queryUserInfo({}).then((res) => {
     userName.value = res.data.userName;
   });
 
-  console.log(route.query, 'route')
-  if (route.query.id && route.query.mode === 'edit') getEditInfo();
+  if (route.query.id && route.query.mode === "edit") {
+    getEditInfo();
+    useAppStore().setNavTitle("新增加班单");
+  } else useAppStore().setNavTitle("编辑加班单");
 });
 </script>
 

@@ -113,18 +113,19 @@
         </div>
       </div>
     </div>
-    <van-tabbar @change="changeBottomBar" v-if="!route.query.tab">
+    <van-tabbar
+      @change="changeBottomBar"
+      v-if="!route.query.tab && calcActionBtn"
+    >
       <van-tabbar-item icon="edit" style="display: none"
         >此项为占位项</van-tabbar-item
       >
-      <van-tabbar-item icon="edit" v-if="calcActionBtn">修改</van-tabbar-item>
-      <van-tabbar-item icon="delete-o" v-if="calcActionBtn"
-        >删除</van-tabbar-item
-      >
+      <van-tabbar-item icon="edit">修改</van-tabbar-item>
+      <van-tabbar-item icon="delete-o">删除</van-tabbar-item>
       <van-dialog :v-model="true" title="标题" show-cancel-button>
         333
       </van-dialog>
-      <van-tabbar-item icon="passed" v-if="calcActionBtn">提交</van-tabbar-item>
+      <van-tabbar-item icon="passed">提交</van-tabbar-item>
       <!-- detailInfo.billState === 1 -->
       <van-tabbar-item icon="revoke" v-if="detailInfo.billState === 0"
         >撤销</van-tabbar-item
@@ -171,6 +172,7 @@ import {
   revokeOverTimeList,
 } from "@/api/oaModule";
 import { colorSelector } from "@/utils/getStatusColor";
+import { useAppStore } from "@/store/modules/app";
 
 interface DetailInfoType {
   remark: string;
@@ -343,12 +345,15 @@ const calcStatus = (statusNum: number): string => {
   return statusStr;
 };
 
-onMounted(() => getDetailInfo());
+onMounted(() => {
+  getDetailInfo();
+  useAppStore().setNavTitle("加班单详情");
+});
 </script>
 
 <style lang="scss" scoped>
 .detail-page {
-  padding: 60px 80px;
+  padding: 60px 80px 120px;
   margin-bottom: 80px;
 
   .des-item {

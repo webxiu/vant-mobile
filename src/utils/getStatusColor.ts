@@ -1,4 +1,4 @@
-import { TagType } from "vant";
+import { TagType, showDialog } from "vant";
 
 /**
  * 列表及详情状态tag颜色
@@ -25,4 +25,24 @@ export const colorSelector = (statusText: string): TagType => {
       break;
   }
   return statusColor;
+};
+
+/**
+ * 封装vant的showDialog提示信息
+ * @param type 类型(成功或失败)
+ * @param message 提示信息
+ * @param title 显示标题
+ */
+export const showToastModel = (
+  type: "success" | "fail",
+  message: string,
+  title = "提示信息:"
+) => {
+  showDialog({
+    title: title,
+    message: message,
+    theme: "round-button",
+    confirmButtonColor: type === "success" ? "green" : "red",
+    confirmButtonText: "确认",
+  });
 };

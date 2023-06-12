@@ -221,6 +221,7 @@ import {
   getDefaultAddressListByUserId,
 } from "@/api/oaModule";
 import { queryUserInfo } from "@/api/user";
+import { useAppStore } from "@/store/modules/app";
 
 const route = useRoute();
 const router = useRouter();
@@ -353,6 +354,7 @@ const fetchUserInfoAndAddress = () => {
 onMounted(() => {
   fetchDetailInfo();
   fetchUserInfoAndAddress();
+  useAppStore().setNavTitle("商品详情");
 });
 </script>
 

@@ -171,6 +171,10 @@ label {
   user-select: none;
 }
 
+.no-wrap {
+  white-space: nowrap;
+}
+
 .ui-p-r {
   position: relative;
 }
@@ -178,6 +182,25 @@ label {
 .ui-p-a {
   position: absolute;
 }
+
+.ui-ovy-a {
+  overflow-y: auto;
+}
+.ui-ovx-a {
+  overflow-x: auto;
+}
+.ui-ov-h {
+  overflow: hidden;
+}
+
+.text-ellipsis-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
 .ui-w-100 {
   width: 100%;
 }

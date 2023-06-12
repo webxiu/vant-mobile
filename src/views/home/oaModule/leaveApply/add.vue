@@ -224,6 +224,7 @@ import { queryUserInfo } from "@/api/user";
 import router from "@/router";
 import { useUserStore } from "@/store/modules/user";
 import { useRoute } from "vue-router";
+import { useAppStore } from "@/store/modules/app";
 
 const userStore = useUserStore();
 
@@ -249,7 +250,6 @@ const route = useRoute();
 // 请假类型配置
 const typeColumns = [
   { text: "年休假", value: "年休假" },
-  { text: "调休假", value: "调休假" },
   { text: "事假", value: "事假" },
   { text: "婚假", value: "婚假" },
   { text: "产假", value: "产假" },
@@ -280,7 +280,6 @@ const onSubmit = (values) => {
       createrid: userStore.userInfo.userNo,
       operationType: 1,
     };
-    console.log(editConfig, "edit-editConfig");
     editLeaveList(editConfig).then((res) => {
       if (res.status === 200 && res.data) {
         showNotify({ type: "success", message: (res as any).message });
@@ -342,12 +341,6 @@ const setCalcTimes = () => {
     startTime: startTime.value,
     endDate: endDate.value,
     endTime: endTime.value,
-    // holidayType: holidayType.value,
-    // remark: remark.value,
-    // userName: userName.value,
-    // days: days.value,
-    // hours: hours.value,
-    // id: "",
   }).then((res) => {
     days.value = res.data.days;
     hours.value = res.data.hours;
@@ -358,7 +351,6 @@ const setCalcTimes = () => {
 const getEditInfo = () => {
   getLeaveDetail({ id: route.query.id }).then((res) => {
     // detailInfo.value = res.data;
-    console.log(res.data, "query-edit");
     // 初始化表单的值
     userName.value = res.data.userName;
     holidayType.value = res.data.holidayType;
@@ -377,8 +369,10 @@ onMounted(() => {
     userName.value = res.data.userName;
   });
 
-  console.log(route.query, "route");
-  if (route.query.id && route.query.mode === "edit") getEditInfo();
+  if (route.query.id && route.query.mode === "edit") {
+    getEditInfo();
+    useAppStore().setNavTitle("编辑请假单");
+  } else useAppStore().setNavTitle("新增请假单");
 });
 </script>
 
