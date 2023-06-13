@@ -1,5 +1,5 @@
 <template>
-  <div class="my-apply">
+  <div class="my-send">
     <div class="list-content">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list
@@ -96,20 +96,20 @@ const onLoad = () => {
   setTimeout(() => {
     loading.value = false;
     finished.value = true;
-  }, 1000);
+  }, 500);
 };
 
 const onRefresh = () => {
   setTimeout(() => {
     getList();
     refreshing.value = false;
-  }, 1000);
+  }, 500);
 };
 
 // 获取列表
 const getList = () => {
   getSendLeaveList().then((res) => {
-    listInfo.records = res.data;
+    res.data && (listInfo.records = res.data);
   });
 };
 
@@ -123,7 +123,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.my-apply {
+.my-send {
   .list-content {
     margin-top: 4px;
     padding: 6px;

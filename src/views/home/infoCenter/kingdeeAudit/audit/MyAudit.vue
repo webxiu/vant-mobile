@@ -21,7 +21,12 @@ defineExpose({ initData });
 </script>
 
 <template>
-  <TaskList :dataList="resultList?.data" @onLookInfo="onLookInfo" />
+  <TaskList
+    v-if="resultList?.data.length > 0"
+    :dataList="resultList?.data"
+    @onLookInfo="onLookInfo"
+  />
+  <van-empty v-else description="暂无数据" />
 </template>
 
 <style lang="scss" scoped></style>

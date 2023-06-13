@@ -51,7 +51,7 @@ const handleToAdd = () => router.push("/leaveApply/add");
             :key="0"
             title="我申请的"
             :badge="badgeNum"
-            :show-zero="false"
+            :show-zero-badge="false"
           />
           <van-tab :key="1" title="抄送我的" />
         </van-tabs>

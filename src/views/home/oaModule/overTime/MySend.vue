@@ -92,14 +92,14 @@ const onLoad = () => {
   setTimeout(() => {
     loading.value = false;
     finished.value = true;
-  }, 1000);
+  }, 500);
 };
 
 const onRefresh = () => {
   setTimeout(() => {
     getList();
     refreshing.value = false;
-  }, 1000);
+  }, 500);
 };
 
 // 获取列表

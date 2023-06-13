@@ -84,43 +84,50 @@ const onRefresh = () => {
 </script>
 
 <template>
-  <van-sticky>
-    <van-tabs
-      v-model:active="active"
-      class="info-center"
-      swipeable
-      sticky
-      :color="TabActiveColor"
-      :title-active-color="TabActiveColor"
-      @change="onTabChange"
-    >
-      <van-tab
-        v-for="(item, idx) in auditList"
-        :title="item.title"
-        :key="idx"
-        :badge="idx === 0 && idx === active ? 99 : ''"
+  <div class="flex-col ui-h-100">
+    <van-sticky>
+      <van-tabs
+        v-model:active="active"
+        class="info-center"
+        swipeable
+        sticky
+        :color="TabActiveColor"
+        :title-active-color="TabActiveColor"
+        @change="onTabChange"
+      >
+        <van-tab
+          v-for="(item, idx) in auditList"
+          :title="item.title"
+          :key="idx"
+          :badge="idx === 0 && idx === active ? 99 : ''"
+        />
+      </van-tabs>
+      <van-search
+        v-model="searchValue"
+        shape="round"
+        @search="onSearch"
+        placeholder="请输入搜索关键词"
       />
-    </van-tabs>
-    <van-search
-      v-model="searchValue"
-      shape="round"
-      @search="onSearch"
-      placeholder="请输入搜索关键词"
-    />
-  </van-sticky>
-  <van-swipe
-    ref="swipeRef"
-    :loop="false"
-    :immediate="false"
-    :show-indicators="false"
-    @change="onSwipeChange"
-  >
-    <van-swipe-item v-for="(_, idx) in tabs" :key="idx">
-      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
-        <component :is="tabs[idx]" ref="childRef" />
-      </van-pull-refresh>
-    </van-swipe-item>
-  </van-swipe>
+    </van-sticky>
+    <van-swipe
+      ref="swipeRef"
+      class="flex-1 ui-h-100"
+      :loop="false"
+      :immediate="false"
+      :show-indicators="false"
+      @change="onSwipeChange"
+    >
+      <van-swipe-item v-for="(_, idx) in tabs" :key="idx">
+        <van-pull-refresh
+          class="ui-h-100 ui-ovy-a"
+          v-model="isLoading"
+          @refresh="onRefresh"
+        >
+          <component :is="tabs[idx]" ref="childRef" />
+        </van-pull-refresh>
+      </van-swipe-item>
+    </van-swipe>
+  </div>
 </template>
 
 <style lang="scss" scoped>

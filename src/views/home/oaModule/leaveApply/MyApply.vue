@@ -91,17 +91,16 @@ let listInfo: { records: ItemInfoType[] } = reactive({ records: [] });
 
 const onLoad = () => {
   setTimeout(() => {
-    // getList();
     loading.value = false;
     finished.value = true;
-  }, 1000);
+  }, 500);
 };
 
 const onRefresh = () => {
   setTimeout(() => {
     getList();
     refreshing.value = false;
-  }, 1000);
+  }, 500);
 };
 
 // 获取列表

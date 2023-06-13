@@ -1,5 +1,5 @@
 <template>
-  <div class="my-apply">
+  <div class="my-overtime">
     <div class="list-content">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
         <van-list
@@ -91,15 +91,16 @@ let listInfo: { records: ItemInfoType[] } = reactive({ records: [] });
 
 const onLoad = () => {
   setTimeout(() => {
-    getList();
-  }, 1000);
+    loading.value = false;
+    finished.value = true;
+  }, 500);
 };
 
 const onRefresh = () => {
   setTimeout(() => {
     getList();
     refreshing.value = false;
-  }, 1000);
+  }, 500);
 };
 
 // 获取列表
@@ -121,7 +122,7 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-.my-apply {
+.my-overtime {
   .list-content {
     margin-top: 4px;
     padding: 6px;

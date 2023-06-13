@@ -86,10 +86,8 @@
             <van-row>
               <van-col class="label" span="8">当前状态：</van-col>
               <van-col class="value">
-                <van-tag
-                  :type="colorSelector(calcStatus(detailInfo.billState))"
-                >
-                  {{ calcStatus(detailInfo.billState) }}
+                <van-tag :type="colorSelector(detailInfo.billStateName)">
+                  {{ detailInfo.billStateName }}
                 </van-tag>
               </van-col>
             </van-row>
@@ -102,9 +100,7 @@
                 }}：</van-col
               >
               <van-col class="value">
-                <van-tag
-                  :type="colorSelector(calcStatus(detailInfo.billState))"
-                >
+                <van-tag :type="colorSelector(detailInfo.billStateName)">
                   {{ item }}
                 </van-tag>
               </van-col>
@@ -120,14 +116,19 @@
       <van-tabbar-item icon="edit" style="display: none"
         >此项为占位项</van-tabbar-item
       >
-      <van-tabbar-item icon="edit">修改</van-tabbar-item>
-      <van-tabbar-item icon="delete-o">删除</van-tabbar-item>
+      <van-tabbar-item v-show="!calcActionBtn" icon="edit"
+        >修改</van-tabbar-item
+      >
+      <van-tabbar-item v-show="!calcActionBtn" icon="delete-o"
+        >删除</van-tabbar-item
+      >
       <van-dialog :v-model="true" title="标题" show-cancel-button>
         333
       </van-dialog>
-      <van-tabbar-item icon="passed">提交</van-tabbar-item>
-      <!-- detailInfo.billState === 1 -->
-      <van-tabbar-item icon="revoke" v-if="detailInfo.billState === 0"
+      <van-tabbar-item v-show="!calcActionBtn" icon="passed"
+        >提交</van-tabbar-item
+      >
+      <van-tabbar-item icon="revoke" v-if="detailInfo.billState === 1"
         >撤销</van-tabbar-item
       >
       <van-dialog
@@ -190,6 +191,7 @@ interface DetailInfoType {
   approver: string[];
   operationType: number;
   overtimeType: string;
+  billStateName: string;
 }
 
 const props = defineProps({ id: String });
@@ -213,6 +215,7 @@ const detailInfo = ref<DetailInfoType>({
   approver: [],
   operationType: 0,
   overtimeType: "",
+  billStateName: "",
 });
 
 const revokeReason = ref("");
@@ -237,11 +240,14 @@ const confirmRevoke = (action: string): boolean | Promise<boolean> => {
         (res) => {
           if (res.data) {
             resolve(true);
-            showNotify({ message: (res as any).message });
+            showNotify({ type: "success", message: (res as any).message });
             setTimeout(() => router.push("/overTime"), 100);
           } else {
             resolve(false);
-            showNotify({ message: "操作失败，请联系开发人员处理！" });
+            showNotify({
+              type: "danger",
+              message: "操作失败，请联系开发人员处理！",
+            });
           }
         }
       );
@@ -279,11 +285,14 @@ const handleAction = (actionType) => {
           actionRes.then((res) => {
             if (res.data) {
               resolve(true);
-              showNotify({ message: (res as any).message });
+              showNotify({ type: "success", message: (res as any).message });
               setTimeout(() => router.push("/overTime"), 100);
             } else {
               resolve(false);
-              showNotify({ message: "操作失败，请联系开发人员处理！" });
+              showNotify({
+                type: "danger",
+                message: "操作失败，请联系开发人员处理！",
+              });
             }
           });
         } else resolve(true);
@@ -318,31 +327,6 @@ const changeBottomBar = (active) => {
     default:
       break;
   }
-};
-
-// 根据字典数字计算出对应的字符串
-const calcStatus = (statusNum: number): string => {
-  let statusStr;
-
-  switch (statusNum) {
-    case 0:
-      statusStr = "待提交";
-      break;
-    case 1:
-      statusStr = "审核中";
-      break;
-    case 2:
-      statusStr = "已审核";
-      break;
-    case 3:
-      statusStr = "重新审核";
-      break;
-
-    default:
-      break;
-  }
-
-  return statusStr;
 };
 
 onMounted(() => {

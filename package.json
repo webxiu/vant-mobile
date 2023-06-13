@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --mode development",
+    "test": "vite --mode test",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "method:readme": "node ./scripts/extractMethod.cjs"

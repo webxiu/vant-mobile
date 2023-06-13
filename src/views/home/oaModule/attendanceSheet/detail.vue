@@ -72,7 +72,7 @@ const getDetailData = async () => {
     const data = result.data;
     showToast({ message: "获取详情成功", position: "top" });
 
-    if (!data.length) throw new Error("获取数据失败");
+    if (!data.length) throw "获取数据失败";
     childRef.value?.forEach((child, index) => {
       if (child?.initData) {
         child.initData(data);

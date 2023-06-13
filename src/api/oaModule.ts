@@ -261,6 +261,16 @@ export const queryPayRollsign = (params, config?: AxiosRequestConfig) => {
   });
 };
 
+/** 查询文员信息 */
+export const queryClerkInfo = (params, config?: AxiosRequestConfig) => {
+  return http.request({
+    url: "/app/qywx/workspace/payslip/getwenyuanbyusercode",
+    method: "POST",
+    data: params,
+    ...config,
+  });
+};
+
 /** 查询内购商品列表 */
 export const queryShoppingList = (params = {}, config?: AxiosRequestConfig) => {
   return http.request({

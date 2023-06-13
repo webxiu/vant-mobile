@@ -16,6 +16,21 @@ export interface SaleItemType {
   FMonthName: string;
 }
 
+// 暂无数据时绘制提示文本
+const noDataText = [
+  {
+    type: "text",
+    top: "50%",
+    left: "40%",
+    cursor: "default",
+    style: {
+      text: "暂无数据",
+      font: "16px Microsoft YaHei",
+      fill: "#969799",
+    },
+  },
+];
+// X轴1-12月份坐标
 const xAxis = Array.from(new Array(12)).map((_, i) => `${i + 1}月`);
 
 // 1.销售数据
@@ -67,6 +82,9 @@ export const initEchart_1 = (opeions: OptionsType<SaleItemType>) => {
     },
     xAxis: { type: "category", boundaryGap: false, data: xAxis },
     yAxis: { type: "value" },
+    graphic: {
+      elements: realData.length || plainData.length ? [] : noDataText,
+    },
     series: [
       {
         type: "line",
@@ -116,6 +134,7 @@ export const initEchart_2 = (opeions: OptionsType<ProductItemType>) => {
     },
     xAxis: { type: "category", boundaryGap: false, data: xAxis },
     yAxis: { type: "value" },
+    graphic: { elements: prodData.length ? [] : noDataText },
     series: [
       { type: "line", label: { show: true }, smooth: true, data: prodData },
     ],
@@ -162,6 +181,7 @@ export const initEchart_3 = (opeions: OptionsType<ComplainItemType>) => {
       center: ["50%", "60%"],
       radius: 90,
     },
+    graphic: { elements: complainData.length ? [] : noDataText },
     series: [
       {
         type: "radar",
@@ -226,6 +246,12 @@ export const initEchart_4 = (opeions: OptionsType<HumanResourcestemType>) => {
 
     xAxis: { type: "category", boundaryGap: false, data: xAxis },
     yAxis: { type: "value" },
+    graphic: {
+      elements:
+        clerkData.length || tempData.length || staffData.length
+          ? []
+          : noDataText,
+    },
     series: [
       {
         name: "职员人数",

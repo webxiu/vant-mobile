@@ -67,7 +67,7 @@ onMounted(() => {
     margin: 0 auto;
     border: 1px dotted gray;
     width: 100%;
-    height: calc(100vh - 500px);
+    height: calc(100vh - 420px);
     overflow: hidden;
   }
   .dialog-footer {

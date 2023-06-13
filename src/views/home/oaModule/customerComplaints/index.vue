@@ -1,5 +1,5 @@
 <template>
-  <div class="customer-complaints">
+  <div class="ui-h-100 flex-col">
     <van-sticky>
       <van-search
         v-model="queryParams.searchKey"
@@ -16,13 +16,18 @@
       </van-dropdown-menu>
     </van-sticky>
 
-    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+    <van-pull-refresh
+      v-model="isLoading"
+      @refresh="onRefresh"
+      class="flex-1 ui-ovy-a"
+    >
       <van-list
         v-model:loading="isLoading"
         :finished="true"
         finished-text="没有更多了"
         @load="onLoad"
         class="p-16 box-border"
+        v-if="dataList.length > 0"
       >
         <van-cell
           v-for="(item, index) in dataList"
@@ -58,6 +63,7 @@
           </div>
         </van-cell>
       </van-list>
+      <van-empty v-else description="暂无数据" />
     </van-pull-refresh>
   </div>
 </template>

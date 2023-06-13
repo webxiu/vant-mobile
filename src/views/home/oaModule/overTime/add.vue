@@ -49,6 +49,7 @@
           type="textarea"
           maxlength="100"
           placeholder="请输入加班缘由"
+          :rules="[{ required: true, message: '加班缘由不能为空' }]"
           show-word-limit
         />
       </van-cell-group>
@@ -160,8 +161,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import { showNotify } from "vant";
+import { useRoute, useRouter } from "vue-router";
 
 import {
   addOverTimeList,
@@ -170,12 +172,12 @@ import {
   editOverTimeList,
 } from "@/api/oaModule";
 import { queryUserInfo } from "@/api/user";
-import router from "@/router";
 import { useUserStore } from "@/store/modules/user";
-import { useRoute } from "vue-router";
 import { useAppStore } from "@/store/modules/app";
 
 const userStore = useUserStore();
+const router = useRouter();
+const route = useRoute();
 
 const userName = ref(""); // 加班人
 const overtimeType = ref(""); // 加班类型
@@ -192,12 +194,25 @@ const showStartTime = ref(false);
 const showEndDate = ref(false);
 const showEndTime = ref(false);
 const showTypePicker = ref(false);
-const showInstruct = ref(false);
-
-const route = useRoute();
 
 // 加班类型配置
-const typeColumns = [{ text: "周末加班", value: "周末加班" }];
+const typeColumns = [
+  { text: "工作日加班", value: "工作日加班" },
+  { text: "周末加班", value: "周末加班" },
+  { text: "节日加班", value: "节日加班" },
+];
+
+watch([startDate, startTime, endDate, endTime], () => {
+  if (isFullTimeValue.value) {
+    setCalcTimes();
+  }
+});
+
+const isFullTimeValue = computed(() => {
+  return startDate.value && startTime.value && endDate.value && endTime.value
+    ? true
+    : false;
+});
 
 const lastBlur = () => {
   // 只有开始日期时间和结束日期时间都有值才发起请求
@@ -226,7 +241,7 @@ const onSubmit = (values) => {
       if (res.status === 200 && res.data) {
         showNotify({ type: "success", message: (res as any).message });
         setTimeout(() => router.push("/overTime/" + "" + route.query.id), 100);
-      }
+      } else showNotify({ type: "danger", message: (res as any).message });
     });
     return;
   }
@@ -243,7 +258,7 @@ const onSubmit = (values) => {
     if (res.status === 200 && res.data) {
       showNotify({ type: "success", message: (res as any).message });
       setTimeout(() => router.push("/overTime"), 100);
-    }
+    } else showNotify({ type: "danger", message: (res as any).message });
   });
 };
 
@@ -280,16 +295,18 @@ const setCalcTimes = () => {
     startTime: startTime.value,
     endDate: endDate.value,
     endTime: endTime.value,
+    overtimeType: overtimeType.value,
   }).then((res) => {
-    days.value = res.data.days;
-    hours.value = res.data.hours;
+    if (res.data) {
+      days.value = res.data.days;
+      hours.value = res.data.hours;
+    }
   });
 };
 
 // 编辑页面获取数据
 const getEditInfo = () => {
   getOverTimeDetail({ id: route.query.id }).then((res) => {
-    // detailInfo.value = res.data;
     // 初始化表单的值
     userName.value = res.data.userName;
     overtimeType.value = res.data.overtimeType;

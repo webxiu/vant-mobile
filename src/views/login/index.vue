@@ -45,23 +45,28 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue";
-// import { validPhone } from "@/utils/validate";
-import { login } from "@/api/user";
-import { LoginLayout } from "./components/Layout";
-import { useRouter } from "vue-router";
-import { showFailToast, FieldRule } from "vant";
+import { reactive, onMounted } from "vue";
 import md5 from "md5";
+import { login, autoLogin, getWxCode } from "@/api/user";
+import { useRoute, useRouter } from "vue-router";
 import { regExp } from "@/utils/regExp";
+import { showFailToast, FieldRule, showConfirmDialog, showDialog } from "vant";
+import { LoginLayout } from "./components/Layout";
+
+// import { validPhone } from "@/utils/validate";
 
 import { useUserStore, LoginInfoType } from "@/store/modules/user";
-const userStore = useUserStore();
-
+const route = useRoute();
 const router = useRouter();
+const userStore = useUserStore();
 
 const formState = reactive<LoginInfoType>({
   userNo: "",
   password: "",
+});
+
+onMounted(() => {
+  getAutoLogin();
 });
 
 const checkUserName = (value, rule) => {
@@ -78,18 +83,69 @@ const rules: { [key: string]: FieldRule[] } = {
   password: [{ required: true, message: "密码不能为空", trigger: "onBlur" }],
 };
 
-const onSubmit = async (values: LoginInfoType) => {
+const onSubmit = (values: LoginInfoType) => {
   const password = md5(values.password).substr(8, 16).toUpperCase();
-  const params = { ...values, password };
-  try {
-    const { data } = await login(params);
-    const { token } = data;
-    userStore.setUserInfo(params);
-    router.push("/workspace");
-  } catch (e) {
-    showFailToast("登录失败，请稍后再试...");
-  } finally {
-  }
+  const orgDomain = "app.deogra.com"; // 仅仅测试使用
+  const params = { ...values, password, orgDomain };
+  login(params)
+    .then((res) => {
+      if (res.status !== 200) throw (res as any).message;
+      userStore.setUserInfo(params);
+      router.push("/workspace");
+    })
+    .catch((err) => showFailToast(err || "登录失败，请稍后再试..."));
+};
+
+const getAutoLogin = () => {
+  const { state } = route.query;
+  alert(11);
+  getWxCode({})
+    .then((res) => {
+      console.log("getWxCode:", res);
+
+      showDialog({
+        title: "",
+        message: JSON.stringify(res.data),
+        theme: "round-button",
+        confirmButtonColor: "green",
+        confirmButtonText: "确认",
+      });
+
+      showConfirmDialog({
+        title: "",
+        message: "自动登录成功state:" + state + JSON.stringify(res.data),
+      }).then(() => {
+        const orgDomain =
+          location.hostname === "nginx.deogra.com"
+            ? "app.deogra.com"
+            : location.hostname;
+        autoLogin({ orgDomain, state })
+          .then((res) => {
+            // router.push("/workspace");
+            showDialog({
+              title: "",
+              message: JSON.stringify(res.data),
+              theme: "round-button",
+              confirmButtonColor: "green",
+              confirmButtonText: "确认",
+            });
+            console.log("自动登录成功:", res);
+          })
+          .catch((err) => {
+            console.log("自动登录err:", err);
+            router.push("/login");
+          });
+      });
+    })
+    .catch((err) => {
+      showDialog({
+        title: "",
+        message: JSON.stringify(err),
+        theme: "round-button",
+        confirmButtonColor: "green",
+        confirmButtonText: "确认",
+      });
+    });
 };
 </script>
 

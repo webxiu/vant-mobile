@@ -1,11 +1,16 @@
 <template>
-  <div class="supplier-complaints">
-    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+  <div class="ui-h-100">
+    <van-pull-refresh
+      v-model="isLoading"
+      @refresh="onRefresh"
+      class="ui-h-100 ui-ovy-a"
+    >
       <van-list
         v-model:loading="isLoading"
         :finished="true"
         finished-text="没有更多了"
         class="p-16 box-border"
+        v-if="dataList.length > 0"
       >
         <van-cell
           v-for="(item, index) in dataList"
@@ -38,6 +43,7 @@
           </div>
         </van-cell>
       </van-list>
+      <van-empty v-else description="暂无数据" />
     </van-pull-refresh>
   </div>
 </template>
@@ -46,6 +52,8 @@
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { getSupplierComplaints } from "@/api/oaModule";
+import { showToast } from "vant";
+import { useAppStore } from "@/store/modules/app";
 
 interface SupplierItemType {
   id: number;
@@ -58,20 +66,28 @@ interface SupplierItemType {
   creattime: string;
 }
 const router = useRouter();
+const appStore = useAppStore();
 const isLoading = ref<boolean>(false);
 const dataList = ref<SupplierItemType[]>([]);
 
-onMounted(() => getData());
+onMounted(() => {
+  getData();
+  appStore.setNavTitle("供应商投诉");
+});
+
 const onRefresh = () => getData();
 
 const getData = async () => {
   try {
     isLoading.value = true;
     const res = await getSupplierComplaints({});
+    if (res.status !== 200) throw (res as any).message;
+    showToast({ message: "数据获取成功", position: "top" });
     dataList.value = res.data;
     isLoading.value = false;
-    console.log("data", res.data);
-  } catch (error) {}
+  } catch (error) {
+    showToast(error?.toString() || "数据获取失败");
+  }
 };
 
 const onJumpDetail = (item: SupplierItemType) => {

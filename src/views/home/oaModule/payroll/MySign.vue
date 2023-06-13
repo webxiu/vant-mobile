@@ -46,6 +46,7 @@ import { useRoute } from "vue-router";
 import Esign from "@/components/Esign/index.vue";
 import { savePayRollsign, queryPayRollsign } from "@/api/oaModule";
 import { useUserStore } from "@/store/modules/user";
+import { showNotify } from "vant";
 
 const route = useRoute();
 const childRef = ref(null);
@@ -66,7 +67,10 @@ const handleImg = (imgStr) => {
   }).then((res) => {
     if (res.data && res.status === 200) {
       // 操作成功处理
-    }
+      showNotify({ type: "success", message: "操作成功" });
+      querySign();
+    } else
+      showNotify({ type: "danger", message: "提交失败，请联系系统组开发人员" });
   });
 };
 
@@ -99,8 +103,12 @@ nextTick(() => (childRef.value as any)?.init());
 }
 
 .sign-img {
+  margin: 10px;
+  border: 5px dotted gray;
+  height: calc(100vh - 220px);
+  overflow: hidden;
   img {
-    width: 100vw;
+    object-fit: fill;
   }
 }
 </style>

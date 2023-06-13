@@ -125,11 +125,11 @@
 </template>
 
 <script lang="ts" setup>
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { reactive, ref, PropType, onMounted } from "vue";
 import { useAppStore } from "@/store/modules/app";
 import { showToastModel } from "@/utils/getStatusColor";
-import { showConfirmDialog, showDialog, showToast } from "vant";
+import { showConfirmDialog, showSuccessToast, showToast } from "vant";
 import FlowAudit, { AuditNodeItemType } from "../components/FlowAudit.vue";
 import {
   detailsByBillNoforProduce,
@@ -166,7 +166,7 @@ defineProps({
 });
 const appStore = useAppStore();
 const route = useRoute();
-const emits = defineEmits(["onLookInfo"]);
+const router = useRouter();
 const { billNo, billType, fbillNumber } = route.query;
 
 const auditNodeList = ref<AuditNodeItemType[]>([]);
@@ -215,7 +215,7 @@ const getData = () => {
   // 1.获取采购订单和明细
   detailsByBillNoforProduce({ billNo, billType, fbillNumber, searchType: 1 })
     .then((res: any) => {
-      if (res.status !== 200) throw new Error((res as any).message);
+      if (res.status !== 200) throw (res as any).message;
       const data: BillNoForProduceType = res.data;
       // 测试采购订单审批
       data?.detailMasterResults.forEach((item) => {
@@ -245,7 +245,7 @@ const getData = () => {
   // 获取意见下拉框选项
   fastSelectApprovalAdviceList({ billType })
     .then((res) => {
-      if (res.status !== 200) throw new Error((res as any).message);
+      if (res.status !== 200) throw (res as any).message;
       const data = res.data;
       const agreeList = data[1].map((text: string) => ({ text, value: text }));
       const rejectList = data[2].map((text: string) => ({ text, value: text }));
@@ -259,7 +259,7 @@ const getData = () => {
   // 2.获取审批流程
   approvalNodeDetails({ billNo })
     .then((res) => {
-      if (res.status !== 200) throw new Error((res as any).message);
+      if (res.status !== 200) throw (res as any).message;
       const data: AuditNodeItemType[] = res.data;
       auditNodeList.value = data;
     })
@@ -271,7 +271,7 @@ const getData = () => {
 const getRuningAudit = () => {
   approvalInstanceDetails({ billNo })
     .then((res) => {
-      if (res.status !== 200) throw new Error((res as any).message);
+      if (res.status !== 200) throw (res as any).message;
       const data: AuditNodeItemType[] = res.data;
       auditNodeList.value = [
         ...JSON.parse(JSON.stringify(auditNodeList.value)),
@@ -314,8 +314,9 @@ const onSubmit = () => {
     loading.value = true;
     auditPass(params)
       .then((res) => {
-        if (res.status !== 200) throw new Error((res as any).message);
-        showToastModel("success", "提交成功");
+        if (res.status !== 200) throw (res as any).message;
+        showSuccessToast("处理成功！");
+        router.go(-1);
       })
       .catch((err) => showToastModel("fail", err.message, "德龙电器温馨提示"))
       .finally(() => (loading.value = false));

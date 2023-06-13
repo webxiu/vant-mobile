@@ -34,11 +34,11 @@ onMounted(() => {
 const onGetSignature = () => {
   getSignature({ detailId: route.params.id })
     .then((res) => {
-      if (res.status !== 200) throw new Error("签名信息获取失败");
+      if (res.status !== 200) throw "签名信息获取失败";
       imgSrc.value = res.data.image1 + res.data.image2;
     })
     .catch((err) => {
-      showToast({ message: "获取签名信息失败!", position: "top" });
+      showToast({ message: err, position: "top" });
     });
 };
 

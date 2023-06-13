@@ -17,10 +17,7 @@ interface AttendanceSheetItemType {
 const router = useRouter();
 const attendanceList = ref<AttendanceSheetItemType[]>([]);
 const yearList = ref<Array<{ text: string; value: string }>>([]);
-const queryParams = reactive({
-  date: "",
-  status: "",
-});
+const queryParams = reactive({ date: "", status: "" });
 
 onMounted(() => getYearList());
 
@@ -66,19 +63,20 @@ const onJumpDetail = (item: AttendanceSheetItemType) => {
 </script>
 
 <template>
-  <div class="attendance-sheet">
+  <div class="flex-col ui-h-100">
     <van-sticky>
       <van-dropdown-menu>
         <van-dropdown-item v-model="queryParams.date" :options="yearList" />
       </van-dropdown-menu>
     </van-sticky>
-    <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+    <van-pull-refresh v-model="isLoading" @refresh="onRefresh" class="flex-1">
       <van-list
         v-model:loading="isLoading"
         :finished="true"
         finished-text="没有更多了"
         @load="onLoad"
         class="p-16 box-border"
+        v-if="attendanceList.length > 0"
       >
         <van-cell
           v-for="(item, index) in attendanceList"
@@ -114,6 +112,7 @@ const onJumpDetail = (item: AttendanceSheetItemType) => {
           </div>
         </van-cell>
       </van-list>
+      <van-empty v-else description="暂无数据" />
     </van-pull-refresh>
   </div>
 </template>

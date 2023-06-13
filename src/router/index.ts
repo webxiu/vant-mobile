@@ -1,4 +1,9 @@
-import { RouteRecordRaw, createRouter, createWebHashHistory } from "vue-router";
+import {
+  RouteRecordRaw,
+  createRouter,
+  createWebHashHistory,
+  createWebHistory,
+} from "vue-router";
 
 // 公共全局路由
 const commonRoute: RouteConfigRawType[] = [
@@ -55,7 +60,7 @@ export const routes = [
 ] as RouteRecordRaw[];
 
 const router = createRouter({
-  history: createWebHashHistory("./"),
+  history: createWebHistory("./"),
   routes: routes,
   scrollBehavior: () => ({ left: 0, top: 0 }),
 });

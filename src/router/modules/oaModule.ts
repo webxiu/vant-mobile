@@ -213,6 +213,7 @@ export default {
       meta: {
         title: "供应商投诉",
         icon: "smile-comment-o",
+        showNav: true,
       },
     },
     {

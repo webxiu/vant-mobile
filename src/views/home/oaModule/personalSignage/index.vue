@@ -17,7 +17,7 @@
       />
       <van-grid-item :text="`本年剩余年假：${personInfo?.annualLeave}`" />
       <van-grid-item :text="`本年加班天数：${personInfo?.overTime}`" />
-      <van-grid-item :text="`打卡次数：4(没有数据)`" />
+      <van-grid-item :text="`打卡次数：4`" />
       <van-grid-item text="心怀诚爱，力奉精益" />
     </van-grid>
   </div>

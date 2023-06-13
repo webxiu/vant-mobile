@@ -69,9 +69,9 @@ const noticeText = ref<string>("如您发现考勤明细有异常，可以提交
 const onHandleClick = async () => {
   try {
     const res = await saveAttendanceUserOpenID({ userCode });
-    if (res.status !== 200) throw new Error(`部门文员信息获取失败！`);
+    if (res.status !== 200) throw "部门文员信息获取失败！";
     if (res.data?.length === 0) {
-      throw new Error(`当前部门未配置文员，请联系系统组！`);
+      throw "当前部门未配置文员，请联系系统组！";
     }
     if (res.data) {
       configUser.wxOpenIds = res.data
@@ -88,9 +88,9 @@ const onHandleClick = async () => {
 const getPreviewSubmit = async () => {
   try {
     const res = await getPreviewSignature({ appId: route.params.id });
-    if (res.status !== 200) throw new Error(`签名状态获取失败！`);
+    if (res.status !== 200) throw "签名状态获取失败！";
     if (res.data?.length === 0) {
-      throw new Error(`系统中不存在该考勤明细！`);
+      throw "系统中不存在该考勤明细！";
     }
 
     // 验证签名状态

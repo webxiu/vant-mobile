@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, reactive, VNodeRef } from "vue";
+import { onMounted, ref, reactive } from "vue";
 import { getDateTime } from "@/utils/common";
 import { getSaleokratedata } from "@/api/oaModule";
 import {
@@ -37,8 +37,8 @@ import {
   initEchart_4,
 } from "./config";
 import { showToast } from "vant";
-const { year, month, dateText, dateTime } = getDateTime();
-const isOpen = ref();
+const { year, month, dateTime } = getDateTime();
+const isOpen = ref<boolean>(false);
 const timeValue = ref<string>(`${year}年${month}月`);
 const chartRef1 = ref<HTMLElement>();
 const chartRef2 = ref<HTMLElement>();
@@ -82,7 +82,7 @@ const getData = async () => {
   try {
     let { year, month } = querParams;
     const res = await getSaleokratedata(querParams);
-    if (res.status !== 200) throw new Error((res as any).message);
+    if (res.status !== 200) throw (res as any).message;
     const data1 = res.data.saleokratedata;
     const data2 = res.data.productioninstockdetail;
     const data3 = res.data.complaintlistTomanagerdate;
