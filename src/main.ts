@@ -3,6 +3,7 @@ import "@/styles/index.scss";
 import "@/permission";
 import "~/types/global.d";
 import "vant-sku/dist/index.css";
+import "./assets/fonts/iconfont.js";
 
 import App from "@/App.vue";
 import VanSku from "vant-sku";

@@ -1,14 +1,5 @@
 <template>
   <div>
-    <!-- <div class="page-header" ref="pageheader">
-      <div class="van-tabs van-tabs-line">
-        <van-nav-bar
-          title="收货地址管理"
-          left-arrow
-          @click-left="clickLeft"
-        ></van-nav-bar>
-      </div>
-    </div> -->
     <div class="van-tabs__content">
       <van-address-list
         v-model="chosenAddressId"
@@ -50,18 +41,19 @@ const onEdit = (addressItem) => {
 const fetchAddressList = () => {
   queryAddressList({ userId: userInfo.value.id }).then((res) => {
     if (res.data && res.data.length) {
-      list.value = res.data.map((item) => ({
-        id: item.id,
-        name: item.addressee,
-        tel: item.addresseePhone,
-        address: item.fullAddress,
-        isDefault: item.isDefault === 1 ? true : false,
-      }));
+      list.value = res.data.map((item) => {
+        if (item.isDefault) chosenAddressId.value = item.id;
+        return {
+          id: item.id,
+          name: item.addressee,
+          tel: item.addresseePhone,
+          address: item.fullAddress,
+          isDefault: item.isDefault === 1 ? true : false,
+        };
+      });
     }
   });
 };
-
-const clickLeft = () => router.replace("/internalPurchaseBenefits/user");
 
 onMounted(() => {
   queryUserInfo({}).then((res) => {

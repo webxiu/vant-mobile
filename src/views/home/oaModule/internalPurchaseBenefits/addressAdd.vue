@@ -5,15 +5,6 @@
       id="addressdetail"
       name="pull-refresh"
     >
-      <!-- <div class="page-header" ref="pageheader">
-        <div class="van-tabs van-tabs-line">
-          <van-nav-bar
-            title="收货地址编辑"
-            left-arrow
-            @click-left="clickLeft"
-          ></van-nav-bar>
-        </div>
-      </div> -->
       <div class="van-tabs__content">
         <van-address-edit
           :area-list="areaList"
@@ -53,7 +44,6 @@ const addressInfo: any = ref({});
 const userInfo: any = ref({});
 const isEdit = ref(false);
 
-const clickLeft = () => router.replace("/internalPurchaseBenefits/addressList");
 
 const onSave = (val) => {
   // 提取通用请求参数
@@ -78,7 +68,6 @@ const onSave = (val) => {
     editAddressList({
       ...params,
     }).then((res) => {
-      console.log(res, "update--res");
       if (res.data) {
         // 编辑成功
         showNotify({ type: "success", message: "操作成功" });
@@ -95,7 +84,6 @@ const onSave = (val) => {
     addAddressList({
       ...params,
     }).then((res) => {
-      console.log(res, "insert--res");
       if (res.data) {
         // 新增成功
         showNotify({ type: "success", message: "操作成功" });

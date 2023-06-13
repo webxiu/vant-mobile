@@ -155,7 +155,11 @@
     >
       <van-nav-bar title="审批节点详情" id="popup-navbar"></van-nav-bar>
       <div
-        :style="{ marginTop: '10px', 'overflow-y': 'scroll', height: '60vh' }"
+        :style="{
+          marginTop: '10px',
+          'overflow-y': 'scroll',
+          // height: '100%',
+        }"
       >
         <van-steps direction="vertical" :active="curActiveStep">
           <van-step v-for="(item, index) in approvalNodeData.list">

@@ -7,9 +7,9 @@ import {
   getKingdeeAuditedTask,
   getKingdeeLaunchTask,
 } from "@/api/infoCenter";
-import MyAudit from "./audit/MyAudit.vue";
-import MyAudited from "./audited/MyAudited.vue";
-import MyInitiate from "./initiate/MyAudited.vue";
+import MyAudit from "./MyAudit.vue";
+import MyAudited from "./MyAudited.vue";
+import MyInitiate from "./MyInitiate.vue";
 
 const auditList = [
   { title: "我的待办", status: "audit1" },
@@ -35,19 +35,47 @@ const queryParams: AuditTaskType = reactive({
   searchKey: "",
 });
 
-onMounted(() => getData());
+const curCount = ref<number>(0);
+const curCount1 = ref<number>(0);
+const curCount2 = ref<number>(0);
+
+onMounted(() => {
+  Object.keys(API).forEach((key, index) => {
+    getData(key, index);
+  });
+});
 
 watch(active, (newVal) => {
   const taskState = auditList[newVal].status;
   apiKey.value = taskState;
-  getData();
 });
 
-const getData = () => {
+const getCount = (index: number) => {
+  const countObj = {
+    0: [curCount.value],
+    1: [curCount1.value],
+    2: [curCount2.value],
+  };
+  return countObj[index] || "";
+};
+
+const getData = (aKey: string, index: number) => {
   isLoading.value = true;
-  API[apiKey.value](queryParams)
+  API[aKey](queryParams)
     .then((res) => {
-      setData(res);
+      if (!res.data) throw "数据获取失败";
+      childRef.value?.forEach((child, idx) => {
+        if (index === 0) {
+          curCount.value = res.data.length;
+        } else if (index === 1) {
+          curCount1.value = res.data.length;
+        } else if (index === 2) {
+          curCount2.value = res.data.length;
+        }
+        if (index === idx) {
+          child.initData(res);
+        }
+      });
       isLoading.value = false;
       showToast({ message: "数据获取成功", position: "top" });
     })
@@ -55,14 +83,6 @@ const getData = () => {
       console.log("err", err);
       showToast({ message: "数据获取失败", position: "top" });
     });
-};
-
-const setData = (data) => {
-  childRef.value?.forEach((child, index) => {
-    if (active.value === index) {
-      child.initData(data);
-    }
-  });
 };
 
 const onTabChange = (index: number) => {
@@ -73,12 +93,12 @@ const onSwipeChange = (index: number) => {
 };
 const onSearch = (value: string) => {
   queryParams.searchKey = value;
-  getData();
+  getData(apiKey.value, active.value);
 };
 
 const onRefresh = () => {
   childRef.value?.forEach((_, index) => {
-    if (active.value === index) getData();
+    if (active.value === index) getData(apiKey.value, active.value);
   });
 };
 </script>
@@ -99,7 +119,7 @@ const onRefresh = () => {
           v-for="(item, idx) in auditList"
           :title="item.title"
           :key="idx"
-          :badge="idx === 0 && idx === active ? 99 : ''"
+          :badge="idx === active ? `${getCount(idx)}` : ''"
         />
       </van-tabs>
       <van-search

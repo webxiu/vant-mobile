@@ -54,12 +54,12 @@ onMounted(() => {
 // 获取签名状态
 const getSignStatus = () => {
   getPreviewSignature({ appId }).then((res) => {
-    if (res.status !== 200) return;
-    if (
-      [SignStatus.signed, SignStatus.dossier, SignStatus.exception].includes(
-        res.data[0]?.status
-      )
-    ) {
+    const statusList = [
+      SignStatus.signed,
+      SignStatus.dossier,
+      SignStatus.exception,
+    ];
+    if (statusList.includes(res.data[0]?.status)) {
       isSign.value = false;
     }
   });
@@ -71,15 +71,11 @@ const getDetailData = async () => {
     const result = await getAttendanceDetail({ appId });
     const data = result.data;
     showToast({ message: "获取详情成功", position: "top" });
-
     if (!data.length) throw "获取数据失败";
-    childRef.value?.forEach((child, index) => {
-      if (child?.initData) {
-        child.initData(data);
-      }
+    childRef.value?.forEach((child) => {
+      if (child?.initData) child.initData(data);
     });
   } catch (error) {
-    console.log("error:", error);
     showToast({ message: "获取详情失败", position: "top" });
   }
 };

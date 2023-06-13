@@ -1,0 +1,114 @@
+{
+  "id": "4119739",
+  "name": "delog",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1277206",
+      "name": "供应商管理",
+      "font_class": "4",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "2923219",
+      "name": "leasing cloud_请假审核",
+      "font_class": "leasingcloud_qingjiashenhe",
+      "unicode": "e8a6",
+      "unicode_decimal": 59558
+    },
+    {
+      "icon_id": "4300104",
+      "name": "我的福利",
+      "font_class": "wodefuli",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "4707458",
+      "name": "信访投诉",
+      "font_class": "xinfangtousu",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "13185575",
+      "name": "12.人力考勤",
+      "font_class": "renlikaoqin",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "13185580",
+      "name": "5.设备维修维护",
+      "font_class": "shebeiweixiuweihu",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "13351657",
+      "name": "审批",
+      "font_class": "icon_app_examine_",
+      "unicode": "e7d7",
+      "unicode_decimal": 59351
+    },
+    {
+      "icon_id": "13444448",
+      "name": "对象创建",
+      "font_class": "duixiangchuangjian",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "14424327",
+      "name": "审批",
+      "font_class": "shenpi",
+      "unicode": "e750",
+      "unicode_decimal": 59216
+    },
+    {
+      "icon_id": "15704354",
+      "name": "加班",
+      "font_class": "jiaban",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "18887276",
+      "name": "需求",
+      "font_class": "xuqiu",
+      "unicode": "e6fc",
+      "unicode_decimal": 59132
+    },
+    {
+      "icon_id": "19633764",
+      "name": "投诉建议",
+      "font_class": "tousujianyi",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "20769822",
+      "name": "工资条",
+      "font_class": "gongzitiaoicon1x",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "23949492",
+      "name": "数据",
+      "font_class": "shuju",
+      "unicode": "ec5e",
+      "unicode_decimal": 60510
+    },
+    {
+      "icon_id": "35514036",
+      "name": "分析看板",
+      "font_class": "fenxikanban",
+      "unicode": "e761",
+      "unicode_decimal": 59233
+    }
+  ]
+}

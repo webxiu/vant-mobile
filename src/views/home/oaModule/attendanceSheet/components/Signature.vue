@@ -34,19 +34,18 @@ onMounted(() => {
 const onGetSignature = () => {
   getSignature({ detailId: route.params.id })
     .then((res) => {
-      if (res.status !== 200) throw "签名信息获取失败";
       imgSrc.value = res.data.image1 + res.data.image2;
     })
     .catch((err) => {
-      showToast({ message: err, position: "top" });
+      showToast({ message: "签名信息获取失败", position: "top" });
     });
 };
 
 // 提交前预请求
 const onHandleImg = (imgStr: string) => {
   loading.value = true;
-  getPreviewSignature({ appId: route.params.id }).then((res) => {
-    if (res.status === 200) {
+  getPreviewSignature({ appId: route.params.id })
+    .then((res) => {
       if (
         ![SignStatus.noSign, SignStatus.exception].includes(res.data[0]?.status)
       ) {
@@ -56,17 +55,18 @@ const onHandleImg = (imgStr: string) => {
           theme: "round-button",
           confirmButtonText: "确认",
         });
+        loading.value = false;
         return;
       }
 
       showConfirmDialog({ title: "", message: "您确定要提交当前签名吗？" })
         .then(() => onSubmitSignature(imgStr))
         .finally(() => (loading.value = false));
-    } else {
+    })
+    .catch((err) => {
       loading.value = false;
       showToast({ message: "网络错误", position: "top" });
-    }
-  });
+    });
 };
 
 // 提交签名

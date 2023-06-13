@@ -1,20 +1,23 @@
 <template>
   <div class="sign-wrap">
     <van-nav-bar :title="imgSrc ? '已完成签名' : '请在下面虚线范围內签名'" />
-    <div class="sign-content">
-      <div v-if="!imgSrc">
+    <div class="sign-content flex-1 flex" ref="boxRef">
+      <div v-if="!imgSrc" class="flex-1 ui-ov-h">
         <vue-esign
           ref="signRef"
-          :width="600"
-          :height="800"
+          :width="width"
+          :height="height"
           :isCrop="isCrop"
           :lineWidth="lineWidth"
           :lineColor="lineColor"
           :bgColor.sync="bgColor"
         />
       </div>
-      <div v-else class="sign-img">
-        <img :src="imgSrc" alt="图片加载失败" />
+      <div v-else class="flex flex-1 p-20">
+        <div
+          class="sign-img flex-1"
+          :style="{ backgroundImage: `url(${imgSrc})` }"
+        ></div>
       </div>
     </div>
     <div class="button" v-if="!imgSrc">
@@ -63,7 +66,10 @@ const lineWidth = ref(6);
 const lineColor = ref("#000000");
 const bgColor = ref("#fff");
 const isCrop = ref(false); // 是否裁剪，在画布设定尺寸基础上裁掉四周空白部分
+const boxRef = ref<HTMLElement>();
 const signRef = ref(null);
+const width = ref(600);
+const height = ref(800);
 
 const props = defineProps({
   showDefaultBtn: { type: Boolean, default: false },
@@ -98,6 +104,11 @@ defineExpose({ init, handleReset, handleGenerate, signRef });
 
 onMounted(() => {
   init();
+  if (boxRef.value) {
+    const rect = boxRef.value.getBoundingClientRect();
+    width.value = rect.width;
+    height.value = rect.height;
+  }
   if (signRef.value) {
     (signRef.value as any).resultImg = "";
   }
@@ -109,17 +120,17 @@ onMounted(() => {
   padding: 0 20px 20px;
   height: 100%;
   display: flex;
+  box-sizing: border-box;
+  overflow: hidden;
   flex-direction: column;
   .sign-content {
-    flex: 1;
     border: 5px dotted gray;
+    overflow: hidden;
   }
 }
 .sign-img {
-  height: 100%;
-  padding: 20px;
-  img {
-    width: 100%;
-  }
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 </style>

@@ -82,7 +82,7 @@ const getData = async () => {
   try {
     let { year, month } = querParams;
     const res = await getSaleokratedata(querParams);
-    if (res.status !== 200) throw (res as any).message;
+    if (!res.data) throw (res as any).message;
     const data1 = res.data.saleokratedata;
     const data2 = res.data.productioninstockdetail;
     const data3 = res.data.complaintlistTomanagerdate;

@@ -64,12 +64,10 @@ const emit = defineEmits(["setBadgeNum"]);
 
 const initData = (res) => {
   resultList.value = res.data;
-  console.log("=待处理initData:", res.data);
   emit("setBadgeNum", res.data.length);
 };
 
 const gotoDetail = ({ billNo, billId, processDefId, processInstId }) => {
-  // console.log(item, "item");
   router.push({
     path: "/auditTask/detail",
     query: { billNo, billId, processDefId, processInstId, tab: 1 },

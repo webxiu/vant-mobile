@@ -1,15 +1,6 @@
 <!-- 订单明细 -->
 <template>
   <section class="order-detail" name="pull-refresh">
-    <div class="page-header" ref="pageheader">
-      <!-- <div class="van-tabs van-tabs-line">
-        <van-nav-bar
-          title="订单详情"
-          left-arrow
-          @click-left="clickLeft"
-        ></van-nav-bar>
-      </div> -->
-    </div>
     <div class="van-tabs__content">
       <div>
         <van-card
@@ -77,13 +68,8 @@ import { queryOrderDetailInfo } from "@/api/oaModule";
 import { useAppStore } from "@/store/modules/app";
 
 const route = useRoute();
-const router = useRouter();
 
 const orderInfo: any = ref({});
-
-const clickLeft = () => {
-  router.push("/internalPurchaseBenefits/orderList");
-};
 
 const getOrderDetailInfo = () => {
   queryOrderDetailInfo({ id: Number(route.query.id) }).then((res) => {
@@ -101,8 +87,6 @@ onMounted(() => {
 
 <style scoped lang="scss">
 .order-detail {
-  // border: 1px solid #dddee1;
-  // border-radius: 5px;
   margin: 10px 6px 6px;
   padding: 4px;
   :deep(.van-nav-bar__title) {

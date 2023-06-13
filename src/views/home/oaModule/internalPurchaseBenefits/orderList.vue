@@ -1,68 +1,71 @@
 <template>
   <div class="order-list-page">
-    <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-      <van-list
-        v-model:loading="loading"
-        :finished="finished"
-        finished-text="没有更多了"
-        @load="onLoad"
+    <my-layout>
+      <van-pull-refresh
+        v-model="refreshing"
+        @refresh="onRefresh"
+        v-if="list.length"
       >
-        <div class="card-item" v-for="(item, index) in list" :key="index">
-          <van-card
-            :num="item.quantity"
-            :tag="item.stateName"
-            :desc="item.commodityName"
-            :thumb="`https://test.deogra.com:8443/static/virtual/file/ftpfile/${item.imageFilename}`"
-          >
-            <template #price>
-              <span style="color: red; font-size: 16px"
-                >￥{{ item.amount.toFixed(2) }}</span
-              >
-            </template>
-            <template #title>
-              <span style="font-size: 14px; font-weight: 700">{{
-                item.billNo
-              }}</span>
-            </template>
-            <template #tags>
-              <!-- <van-tag plain type="primary">标签</van-tag>
+        <van-list v-model:loading="loading" :finished="finished" @load="onLoad">
+          <div class="card-item" v-for="(item, index) in list" :key="index">
+            <van-card
+              :num="item.quantity"
+              :tag="item.stateName"
+              :desc="item.commodityName"
+              :thumb="`https://test.deogra.com:8443/static/virtual/file/ftpfile/${item.imageFilename}`"
+            >
+              <template #price>
+                <span style="color: red; font-size: 16px"
+                  >￥{{ item.amount.toFixed(2) }}</span
+                >
+              </template>
+              <template #title>
+                <span style="font-size: 14px; font-weight: 700">{{
+                  item.billNo
+                }}</span>
+              </template>
+              <template #tags>
+                <!-- <van-tag plain type="primary">标签</van-tag>
               <van-tag plain type="primary">标签</van-tag> -->
-              <div style="color: #969799">规格：/</div>
-              <!-- <div style="color: #969799">库存：{{ item.totalStock }}</div> -->
-            </template>
-            <template #footer>
-              <div
-                style="
-                  display: flex;
-                  justify-content: space-between;
-                  margin-top: 20px;
-                  align-items: center;
-                "
-              >
-                <div style="color: #969799; font-size: 13px">
-                  {{ item.createDate }}
+                <div style="color: #969799">规格：/</div>
+                <!-- <div style="color: #969799">库存：{{ item.totalStock }}</div> -->
+              </template>
+              <template #footer>
+                <div
+                  style="
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 20px;
+                    align-items: center;
+                  "
+                >
+                  <div style="color: #969799; font-size: 13px">
+                    {{ item.createDate }}
+                  </div>
+                  <div>
+                    <van-button
+                      size="mini"
+                      type="primary"
+                      style="margin-right: 8px"
+                      @click="navigateToDetail(item.id)"
+                      >查看详情</van-button
+                    >
+                    <van-button
+                      size="mini"
+                      type="danger"
+                      @click="cancelAction(item.id)"
+                      >取消订单</van-button
+                    >
+                  </div>
                 </div>
-                <div>
-                  <van-button
-                    size="mini"
-                    type="primary"
-                    style="margin-right: 8px"
-                    @click="navigateToDetail(item.id)"
-                    >查看详情</van-button
-                  >
-                  <van-button
-                    size="mini"
-                    type="danger"
-                    @click="cancelAction(item.id)"
-                    >取消订单</van-button
-                  >
-                </div>
-              </div>
-            </template>
-          </van-card>
-        </div>
-      </van-list>
-    </van-pull-refresh>
+              </template>
+            </van-card>
+          </div>
+        </van-list>
+      </van-pull-refresh>
+      <!-- 无数据时页面 -->
+      <van-empty v-else description="暂无订单记录" />
+    </my-layout>
   </div>
 </template>
 
@@ -72,6 +75,7 @@ import { useRouter } from "vue-router";
 import { showConfirmDialog, showNotify } from "vant";
 import { cancelOrderListItem, queryOrderList } from "@/api/oaModule";
 import { useAppStore } from "@/store/modules/app";
+import MyLayout from "./MyLayout.vue";
 
 const router = useRouter();
 const list: any = ref([]);
@@ -90,7 +94,7 @@ const onRefresh = () => {
   setTimeout(() => {
     fetchOrderList();
     refreshing.value = false;
-  }, 1000);
+  }, 500);
 };
 
 const navigateToDetail = (id) => {
@@ -151,7 +155,7 @@ const onLoad = () => {
     //   finished.value = true;
     // }
     finished.value = true;
-  }, 1000);
+  }, 500);
 };
 </script>
 

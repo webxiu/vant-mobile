@@ -18,10 +18,9 @@
         >工资详情</van-tabbar-item
       >
       <van-tabbar-item icon="edit" v-show="calcSign">签名</van-tabbar-item>
-      <!-- <van-tabbar-item icon="smile-comment-o" v-show="calcFeedBack"
+      <van-tabbar-item icon="smile-comment-o" v-show="calcFeedBack"
         >异常反馈</van-tabbar-item
-      > -->
-      <van-tabbar-item icon="smile-comment-o">异常反馈</van-tabbar-item>
+      >
     </van-tabbar>
   </div>
 </template>

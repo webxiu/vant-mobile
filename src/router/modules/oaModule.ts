@@ -13,7 +13,7 @@ export default {
       component: () => import("@/views/home/oaModule/leaveApply/index.vue"),
       meta: {
         title: "请假单",
-        icon: "description",
+        icon: "leasingcloud_qingjiashenhe",
       },
     },
     {
@@ -58,7 +58,8 @@ export default {
       component: () => import("@/views/home/oaModule/overTime/index.vue"),
       meta: {
         title: "加班单",
-        icon: "orders-o",
+        icon: "jiaban",
+        hidden: true,
       },
     },
     {
@@ -79,7 +80,8 @@ export default {
         import("@/views/home/oaModule/requireRegister/index.vue"),
       meta: {
         title: "需求登记",
-        icon: "records",
+        icon: "xuqiu",
+        disable: true,
       },
     },
     {
@@ -88,7 +90,7 @@ export default {
       component: () => import("@/views/home/oaModule/suggestionBox/index.vue"),
       meta: {
         title: "建议箱",
-        icon: "envelop-o",
+        icon: "tousujianyi",
         disable: true,
       },
     },
@@ -98,8 +100,7 @@ export default {
       component: () => import("@/views/home/oaModule/payroll/index.vue"),
       meta: {
         title: "工资单",
-        icon: "balance-list-o",
-        disable: true,
+        icon: "gongzitiaoicon1x",
       },
     },
     {
@@ -120,7 +121,7 @@ export default {
         import("@/views/home/oaModule/internalPurchaseBenefits/index.vue"),
       meta: {
         title: "内购福利",
-        icon: "goods-collect-o",
+        icon: "wodefuli",
         showNav: true,
       },
     },
@@ -202,7 +203,7 @@ export default {
       component: () => import("@/views/home/oaModule/businessData/index.vue"),
       meta: {
         title: "经营数据",
-        icon: "chart-trending-o",
+        icon: "shuju",
       },
     },
     {
@@ -212,7 +213,7 @@ export default {
         import("@/views/home/oaModule/supplierComplaints/index.vue"),
       meta: {
         title: "供应商投诉",
-        icon: "smile-comment-o",
+        icon: "4",
         showNav: true,
       },
     },
@@ -235,7 +236,7 @@ export default {
         import("@/views/home/oaModule/customerComplaints/index.vue"),
       meta: {
         title: "客户投诉",
-        icon: "bullhorn-o",
+        icon: "xinfangtousu",
       },
     },
     {
@@ -257,7 +258,7 @@ export default {
         import("@/views/home/oaModule/personalSignage/index.vue"),
       meta: {
         title: "个人看板",
-        icon: "friends-o",
+        icon: "fenxikanban",
       },
     },
     {
@@ -267,7 +268,7 @@ export default {
         import("@/views/home/oaModule/attendanceSheet/index.vue"),
       meta: {
         title: "考勤单",
-        icon: "label-o",
+        icon: "renlikaoqin",
       },
     },
     {

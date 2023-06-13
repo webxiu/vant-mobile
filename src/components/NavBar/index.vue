@@ -1,9 +1,9 @@
 <template>
-  <van-sticky v-if="showNav">
+  <van-sticky v-if="isShow || showNav">
     <van-nav-bar
       :title="appStore.navTitle"
       left-text="返回"
-      right-text="退出"
+      right-text="首页"
       left-arrow
       @click-left="onClickLeft"
       @click-right="onClickRight"
@@ -12,10 +12,8 @@
 </template>
 
 <script lang="ts" setup>
-import { showToast } from "vant";
 import { unref, ref, watch, toRaw } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { removeCookie } from "@/utils/storage";
 import { routeCateList } from "@/router";
 import { useAppStore } from "@/store/modules/app";
 
@@ -23,6 +21,11 @@ const route = useRoute();
 const router = useRouter();
 const appStore = useAppStore();
 const showNav = ref<boolean>(false);
+
+defineProps({
+  // 引入组件显示,优先级大于showNav, 不能控制隐藏
+  isShow: { type: Boolean, value: false },
+});
 
 /** 获取路由meta中配置showNav: true的路由地址 */
 const getNavList = (routers: RouteConfigRawType[]) => {
@@ -46,9 +49,7 @@ const onClickLeft = () => {
   router.go(-1);
 };
 const onClickRight = () => {
-  removeCookie();
-  showToast({ message: "退出成功", type: "success", position: "top" });
-  router.push("/login");
+  router.push("/workspace");
 };
 
 watch(route, (_, newVal) => {

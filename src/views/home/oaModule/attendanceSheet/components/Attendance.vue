@@ -1,46 +1,36 @@
 <template>
-  <div>
-    <van-sticky>
-      <van-nav-bar
-        :title="`${navTitle}考勤明细`"
-        left-text="返回"
-        right-text="退出"
-        left-arrow
-        @click-left="onClickLeft"
-        @click-right="onClickRight"
-      />
-    </van-sticky>
-    <div class="customer-complaints">
-      <van-form class="pt-40">
-        <van-row
-          :key="idx"
-          v-for="(item, idx) in dataList"
-          type="flex"
-          class="mt-28 fz-28"
-        >
-          <van-col span="10" class="ui-ta-r fw-700 color-666">
-            {{ item.label }}
-          </van-col>
-          <van-col span="14" class="ui-ta-l pl-28 fw-700 color-111">
-            {{ item.value }}
-          </van-col>
-        </van-row>
-      </van-form>
-    </div>
+  <div class="ui-h-100 flex-col">
+    <NavBar :isShow="true" />
+    <van-form class="flex-1 ui-ovy-a">
+      <van-row
+        :key="idx"
+        v-for="(item, idx) in dataList"
+        type="flex"
+        class="mt-28 fz-28"
+      >
+        <van-col span="10" class="ui-ta-r fw-700 color-666">
+          {{ item.label }}
+        </van-col>
+        <van-col span="14" class="ui-ta-l pl-28 fw-700 color-111">
+          {{ item.value }}
+        </van-col>
+      </van-row>
+    </van-form>
   </div>
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
-import { showToast } from "vant";
-import { removeCookie } from "@/utils/storage";
 import { statusObj } from "../config";
+import NavBar from "@/components/NavBar/index.vue";
+import { useAppStore } from "@/store/modules/app";
 
 const columnObj = {
   userCode: "编号",
   productionGroup: "组别",
   status: "状态",
   staffName: "姓名",
+  beOnDuty: "应出勤(H)",
+  actualAttendance: "实际出勤(H)",
   annualLeaveTerms: "年假(H)",
   beLateTime: "迟到时间(M)",
   earlyTime: "早退时间(M)",
@@ -50,36 +40,24 @@ const columnObj = {
   beAttendanceDay: "应出勤(天)",
   actualAttendanceDay: "实际出勤(天)",
   restOverTime: "休息加班时间(H)",
+  specialOverTime: "特殊加班(H)",
   overTimeSum: "加班汇总(H)",
   yearMonthTime: "时间",
-  // beOnDuty: "应出勤(H)",
-  // actualAttendance: "实际出勤(H)",
-  // description: "备注",
+  description: "备注",
   // signature: "签名",
 };
+const appStore = useAppStore();
 
-const props = defineProps({
-  detailData: {
-    type: Array,
-    default: () => [],
-  },
+defineProps({
+  detailData: { type: Array, default: () => [] },
 });
 
-const router = useRouter();
 const navTitle = ref<string>("");
 const dataList = ref<Array<{ label: string; value: any }>>([]);
 
-const onClickLeft = () => {
-  router.go(-1);
-};
-const onClickRight = () => {
-  removeCookie();
-  showToast({ message: "退出成功", type: "success", position: "top" });
-  router.push("/login");
-};
-
 const initData = (data: Array<Record<string, any>>) => {
   navTitle.value = data[0].yearMonthTime;
+  appStore.setNavTitle(`${navTitle.value}考勤明细`);
   data.forEach((item) => {
     for (const k in columnObj) {
       const value = k === "status" ? statusObj[item[k]]?.title : item[k];

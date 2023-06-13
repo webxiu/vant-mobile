@@ -26,12 +26,6 @@
                     height="300px"
                     :src="`https://test.deogra.com:8443/static/virtual/file/ftpfile/${image.imagefilename}`"
                   />
-                  <!-- <img
-                    :src="`https://test.deogra.com:8443/static/virtual/file/ftpfile/${image.imagefilename}`"
-                    lazy="loaded"
-                    height="300px"
-                    width="300px"
-                  /> -->
                 </van-swipe-item>
               </van-swipe>
 
@@ -222,10 +216,12 @@ import {
 } from "@/api/oaModule";
 import { queryUserInfo } from "@/api/user";
 import { useAppStore } from "@/store/modules/app";
+import { useShopStore } from "@/store/modules/shop";
 
 const route = useRoute();
 const router = useRouter();
 const boxRef = ref(null);
+const shopStore = useShopStore();
 
 const commodityDetail = ref({}) as any;
 const addressShow = ref(false);
@@ -271,11 +267,11 @@ const initSku = (res) => {
   sku.tree[0].v = [];
   const virtualPath =
     "https://test.deogra.com:8443/static/virtual/file/ftpfile/";
-  res.commoditiesSpecs.forEach((item) => {
-    console.log(res, "res");
+  res.commoditiesSpecs.forEach((item, idx) => {
     sku.tree[0].v.push({
       id: item.id,
       name: item.spec,
+      imgUrl: virtualPath + res.commoditiesImages[idx].imagefilename,
     });
     sku.list.push({
       id: item.id, // skuId
@@ -307,6 +303,7 @@ const saveSkuInfo = (v) => {
     if (res.data) {
       showNotify({ type: "success", message: "操作成功" });
       router.push("/internalPurchaseBenefits/orderList");
+      shopStore.setCurentShopBottomTab(1);
     }
   });
 };

@@ -16,6 +16,10 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.response.use(
   (response: AxiosRequestConfig<BaseResponseType<{}>>): any => {
     const data = response.data;
+    if (data?.status === 200) {
+      return response.data;
+    }
+
     if (data?.status === 401) {
       const timer = setTimeout(() => {
         showToast({ message: "请重新登录", type: "fail", position: "top" });
@@ -24,8 +28,9 @@ axiosInstance.interceptors.response.use(
       }, 3000);
     } else if (data?.status === 403) {
       showToast({ message: "未授权", position: "top" });
+    } else {
+      return Promise.reject(data);
     }
-    return response.data;
   },
   (err) => {
     const isTimeout = err.message.includes("timeout");

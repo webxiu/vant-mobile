@@ -111,7 +111,7 @@
     </div>
     <van-tabbar
       @change="changeBottomBar"
-      v-if="!route.query.tab && calcActionBtn"
+      v-if="!route.query.tab && !calcActionBtn"
     >
       <van-tabbar-item icon="edit" style="display: none"
         >此项为占位项</van-tabbar-item

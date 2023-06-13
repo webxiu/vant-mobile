@@ -70,10 +70,8 @@ const resultList: any = ref([]);
 const router = useRouter();
 const initData = (res) => {
   resultList.value = res.data;
-  console.log("=已办:", res.data);
 };
 const gotoDetail = ({ billNo, billId, processDefId, processInstId }) => {
-  // console.log(item, "item");
   router.push({
     path: "/auditTask/detail",
     query: { billNo, billId, processDefId, processInstId, tab: 2 },

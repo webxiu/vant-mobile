@@ -47,12 +47,11 @@
 <script lang="ts" setup>
 import { reactive, onMounted } from "vue";
 import md5 from "md5";
-import { login, autoLogin, getWxCode } from "@/api/user";
+import { login, autoLogin } from "@/api/user";
 import { useRoute, useRouter } from "vue-router";
 import { regExp } from "@/utils/regExp";
-import { showFailToast, FieldRule, showConfirmDialog, showDialog } from "vant";
+import { showFailToast, FieldRule, showDialog } from "vant";
 import { LoginLayout } from "./components/Layout";
-
 // import { validPhone } from "@/utils/validate";
 
 import { useUserStore, LoginInfoType } from "@/store/modules/user";
@@ -65,8 +64,16 @@ const formState = reactive<LoginInfoType>({
   password: "",
 });
 
+const hostObj = {
+  localhost: "app.deogra.com",
+  "127.0.0.1": "app.deogra.com",
+  "test.deogra.com": "app.deogra.com",
+  "nginx.deogra.com": "app.deogra.com",
+};
+const orgDomain = hostObj[location.hostname] || location.hostname;
+
 onMounted(() => {
-  getAutoLogin();
+  // getAutoLogin();
 });
 
 const checkUserName = (value, rule) => {
@@ -85,7 +92,6 @@ const rules: { [key: string]: FieldRule[] } = {
 
 const onSubmit = (values: LoginInfoType) => {
   const password = md5(values.password).substr(8, 16).toUpperCase();
-  const orgDomain = "app.deogra.com"; // 仅仅测试使用
   const params = { ...values, password, orgDomain };
   login(params)
     .then((res) => {
@@ -97,55 +103,33 @@ const onSubmit = (values: LoginInfoType) => {
 };
 
 const getAutoLogin = () => {
-  const { state } = route.query;
-  alert(11);
-  getWxCode({})
-    .then((res) => {
-      console.log("getWxCode:", res);
-
-      showDialog({
-        title: "",
-        message: JSON.stringify(res.data),
-        theme: "round-button",
-        confirmButtonColor: "green",
-        confirmButtonText: "确认",
+  const { state, code } = route.query;
+  if (code) {
+    autoLogin({ orgDomain, state, code })
+      .then((res) => {
+        router.push("/workspace");
+        showDialog({
+          title: "自动登录成功:",
+          message: JSON.stringify(res.data),
+          theme: "round-button",
+          confirmButtonColor: "red",
+          confirmButtonText: "确认",
+        });
+      })
+      .catch((err) => {
+        console.log("自动登录err:", err);
+        showDialog({
+          title: "登录失败:",
+          message: JSON.stringify(err),
+          theme: "round-button",
+          confirmButtonColor: "red",
+          confirmButtonText: "确认",
+        });
       });
-
-      showConfirmDialog({
-        title: "",
-        message: "自动登录成功state:" + state + JSON.stringify(res.data),
-      }).then(() => {
-        const orgDomain =
-          location.hostname === "nginx.deogra.com"
-            ? "app.deogra.com"
-            : location.hostname;
-        autoLogin({ orgDomain, state })
-          .then((res) => {
-            // router.push("/workspace");
-            showDialog({
-              title: "",
-              message: JSON.stringify(res.data),
-              theme: "round-button",
-              confirmButtonColor: "green",
-              confirmButtonText: "确认",
-            });
-            console.log("自动登录成功:", res);
-          })
-          .catch((err) => {
-            console.log("自动登录err:", err);
-            router.push("/login");
-          });
-      });
-    })
-    .catch((err) => {
-      showDialog({
-        title: "",
-        message: JSON.stringify(err),
-        theme: "round-button",
-        confirmButtonColor: "green",
-        confirmButtonText: "确认",
-      });
-    });
+  } else {
+    window.location.href =
+      "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wwa8df5d5593162528&redirect_uri=https%3A%2F%2Fnginx.deogra.com%3A7443%2Flogin&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
+  }
 };
 </script>
 
