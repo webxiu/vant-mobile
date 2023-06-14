@@ -12,7 +12,7 @@
             ' ' +
             orderInfo.commodityName
           "
-          :thumb="`https://test.deogra.com:8443/static/virtual/file/ftpfile/${orderInfo.imageFilename}`"
+          :thumb="`${vpath}${orderInfo.imageFilename}`"
         >
           <!-- https://test.deogra.com:8443/static/virtual/file/ftpfile/ -->
           <template #price>
@@ -66,6 +66,8 @@ import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { queryOrderDetailInfo } from "@/api/oaModule";
 import { useAppStore } from "@/store/modules/app";
+
+const vpath = import.meta.env.VITE_BASE_API + "/static/virtual/file/ftpfile/";
 
 const route = useRoute();
 

@@ -12,7 +12,7 @@
               :num="item.quantity"
               :tag="item.stateName"
               :desc="item.commodityName"
-              :thumb="`https://test.deogra.com:8443/static/virtual/file/ftpfile/${item.imageFilename}`"
+              :thumb="`${vpath}${item.imageFilename}`"
             >
               <template #price>
                 <span style="color: red; font-size: 16px"
@@ -76,6 +76,8 @@ import { showConfirmDialog, showNotify } from "vant";
 import { cancelOrderListItem, queryOrderList } from "@/api/oaModule";
 import { useAppStore } from "@/store/modules/app";
 import MyLayout from "./MyLayout.vue";
+
+const vpath = import.meta.env.VITE_BASE_API + "/static/virtual/file/ftpfile/";
 
 const router = useRouter();
 const list: any = ref([]);

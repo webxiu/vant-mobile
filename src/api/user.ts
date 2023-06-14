@@ -17,5 +17,10 @@ export function queryUserInfo(params) {
 
 /** 使用Code自动登录(接口未出) */
 export function autoLogin(params) {
-  return http.request({ url: "/app/qywx/api/applogin", method: "GET", params });
+  // return http.request({ url: "/app/qywx/api/applogin", method: "GET", params });
+  return http.request({
+    url: "/app/qywx/api/mobileAppLogin",
+    method: "GET",
+    params,
+  });
 }

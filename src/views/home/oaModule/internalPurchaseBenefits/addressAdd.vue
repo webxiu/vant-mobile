@@ -6,13 +6,13 @@
       name="pull-refresh"
     >
       <div class="van-tabs__content">
+        <!-- :area-columns-placeholder="['请选择', '请选择', '请选择']" -->
         <van-address-edit
           :area-list="areaList"
           :address-info="addressInfo"
           show-postal
           :show-delete="isEdit"
           show-set-default
-          :area-columns-placeholder="['请选择', '请选择', '请选择']"
           @save="onSave"
           @delete="onDelete"
         >
@@ -43,7 +43,6 @@ const areaList: any = ref({});
 const addressInfo: any = ref({});
 const userInfo: any = ref({});
 const isEdit = ref(false);
-
 
 const onSave = (val) => {
   // 提取通用请求参数

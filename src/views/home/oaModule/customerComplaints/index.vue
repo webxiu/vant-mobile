@@ -111,7 +111,7 @@ const onSearch = (value: string) => {
   queryParams.searchKey = value;
 };
 
-const onRefresh = () => getData();
+const onRefresh = () => getData(true);
 
 const onLoad = (data) => {
   if (data) dataList.value = data.data;

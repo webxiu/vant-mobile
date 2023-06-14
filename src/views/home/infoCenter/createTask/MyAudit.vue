@@ -8,7 +8,7 @@
         finish-text="没有更多了"
       >
         <div
-          v-for="(item, index) in resultList"
+          v-for="item in resultList"
           :key="item.userName"
           style="
             border-radius: 6px;
@@ -72,6 +72,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { getColorByPriority } from "@/utils/common";
+
 const resultList: any = ref([]);
 const emit = defineEmits(["setBadgeNum"]);
 
@@ -88,9 +89,6 @@ defineExpose({ initData });
   margin: 10px 0 10px;
   height: calc(100vh - 90px);
   .list-content {
-    // margin-top: 4px;
-    // padding: 6px;
-
     .list-item {
       .content-offset {
         margin-left: 12px;

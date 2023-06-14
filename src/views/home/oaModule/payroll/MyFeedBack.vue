@@ -102,6 +102,11 @@ const submitFeedBack = () => {
         console.log("send_qywx_error:", error);
         showToastModel("fail", "发送到企业微信通知失败！");
       });
+  } else {
+    showNotify({
+      type: "danger",
+      message: "当前部门未配置文员，请联系系统组！",
+    });
   }
 };
 </script>

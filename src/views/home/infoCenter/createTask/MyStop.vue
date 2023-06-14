@@ -8,7 +8,7 @@
         finish-text="没有更多了"
       >
         <div
-          v-for="(item, index) in resultList"
+          v-for="item in resultList"
           :key="item.userName"
           style="
             border-radius: 6px;
@@ -20,7 +20,7 @@
             <van-cell>
               <!-- 使用title插槽来自定义标题 -->
               <template #title>
-                <van-badge :content="index + 1" color="#5686ff"></van-badge>
+                <van-badge :content="item.taskNo" color="#5686ff"></van-badge>
                 【{{ item.projectName }}】
 
                 <van-tag type="primary" style="margin-left: 10px">
@@ -71,12 +71,12 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { getColorByPriority } from "@/utils/common";
-const resultList: any = ref([]);
+
+const resultList = ref([]) as any;
 const emit = defineEmits(["setBadgeNum"]);
 
 const initData = (res) => {
   resultList.value = res.data;
-  console.log("=待处理initData:", res.data);
   emit("setBadgeNum", res.data.length);
 };
 
@@ -88,9 +88,6 @@ defineExpose({ initData });
   margin: 10px 0 10px;
   height: calc(100vh - 90px);
   .list-content {
-    // margin-top: 4px;
-    // padding: 6px;
-
     .list-item {
       .content-offset {
         margin-left: 12px;

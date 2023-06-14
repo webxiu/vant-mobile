@@ -37,7 +37,7 @@ const onGetSignature = () => {
       imgSrc.value = res.data.image1 + res.data.image2;
     })
     .catch((err) => {
-      showToast({ message: "签名信息获取失败", position: "top" });
+      showToast({ message: "获取签名失败", position: "top" });
     });
 };
 

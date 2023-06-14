@@ -5,18 +5,19 @@
       .van-field__control {
         height: 36px;
         line-height: 36px;
+        font-size: 28px;
       }
     }
   }
   .form-btn {
-    margin: 40px auto 30px;
+    margin: 80px auto 30px;
     .btn-item {
       display: block;
       width: 80%;
       margin: 0 auto;
       border: none;
-      height: 100px;
-      line-height: 100px;
+      height: 80px;
+      line-height: 80px;
       background: var(--main-bg-color);
     }
   }

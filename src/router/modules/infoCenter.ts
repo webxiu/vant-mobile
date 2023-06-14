@@ -37,7 +37,7 @@ export default {
       props: true,
       component: () =>
         import("@/views/home/infoCenter/kingdeeAudit/detail.vue"),
-      meta: { title: "金蝶业务审批 - 待办详情", hidden: true, showNav: true },
+      meta: { title: "我的待办详情", hidden: true, showNav: true },
     },
     {
       path: "/kingdeeAudit/audited/detail",
@@ -45,7 +45,7 @@ export default {
       props: true,
       component: () =>
         import("@/views/home/infoCenter/kingdeeAudit/detail.vue"),
-      meta: { title: "金蝶业务审批 - 已办详情", hidden: true, showNav: true },
+      meta: { title: "我的已办详情", hidden: true, showNav: true },
     },
     {
       path: "/kingdeeAudit/initiate/detail",
@@ -53,14 +53,14 @@ export default {
       props: true,
       component: () =>
         import("@/views/home/infoCenter/kingdeeAudit/detail.vue"),
-      meta: { title: "金蝶业务审批 - 发起详情", hidden: true, showNav: true },
+      meta: { title: "我的发起详情", hidden: true, showNav: true },
     },
     {
       path: "/auditTask",
       name: "AuditTask",
       component: () => import("@/views/home/infoCenter/auditTask/index.vue"),
       meta: {
-        title: "业务审批",
+        title: "业务审批列表",
         icon: "icon_app_examine_",
       },
     },

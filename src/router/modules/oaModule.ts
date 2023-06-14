@@ -12,7 +12,7 @@ export default {
       name: "LeaveApply",
       component: () => import("@/views/home/oaModule/leaveApply/index.vue"),
       meta: {
-        title: "请假单",
+        title: "请假单列表",
         icon: "leasingcloud_qingjiashenhe",
       },
     },
@@ -22,7 +22,7 @@ export default {
       name: "LeaveApplyAdd",
       component: () => import("@/views/home/oaModule/leaveApply/add.vue"),
       meta: {
-        title: "添加申请",
+        title: "请假申请",
         icon: "description",
         hidden: true,
         showNav: true,
@@ -34,7 +34,7 @@ export default {
       props: true,
       component: () => import("@/views/home/oaModule/leaveApply/detail.vue"),
       meta: {
-        title: "详情页面",
+        title: "请假单详情",
         icon: "description",
         hidden: true,
         showNav: true,
@@ -46,7 +46,7 @@ export default {
       props: true,
       component: () => import("@/views/home/oaModule/overTime/detail.vue"),
       meta: {
-        title: "详情页面",
+        title: "加班单详情",
         icon: "description",
         hidden: true,
         showNav: true,
@@ -57,7 +57,7 @@ export default {
       name: "OverTime",
       component: () => import("@/views/home/oaModule/overTime/index.vue"),
       meta: {
-        title: "加班单",
+        title: "加班单列表",
         icon: "jiaban",
         hidden: true,
       },
@@ -67,7 +67,7 @@ export default {
       name: "OverTimeAdd",
       component: () => import("@/views/home/oaModule/overTime/add.vue"),
       meta: {
-        title: "添加申请",
+        title: "加班申请",
         icon: "description",
         hidden: true,
         showNav: true,
@@ -99,7 +99,7 @@ export default {
       name: "Payroll",
       component: () => import("@/views/home/oaModule/payroll/index.vue"),
       meta: {
-        title: "工资单",
+        title: "工资单列表",
         icon: "gongzitiaoicon1x",
       },
     },
@@ -120,7 +120,7 @@ export default {
       component: () =>
         import("@/views/home/oaModule/internalPurchaseBenefits/index.vue"),
       meta: {
-        title: "内购福利",
+        title: "商品列表",
         icon: "wodefuli",
         showNav: true,
       },
@@ -191,7 +191,7 @@ export default {
       component: () =>
         import("@/views/home/oaModule/internalPurchaseBenefits/shopDetail.vue"),
       meta: {
-        title: "详情页面",
+        title: "商品详情",
         icon: "description",
         hidden: true,
         showNav: true,
@@ -223,7 +223,7 @@ export default {
       component: () =>
         import("@/views/home/oaModule/supplierComplaints/detail.vue"),
       meta: {
-        title: "供应商投诉-详情",
+        title: "投诉详情",
         icon: "description",
         hidden: true,
         showNav: true,
@@ -245,7 +245,7 @@ export default {
       component: () =>
         import("@/views/home/oaModule/customerComplaints/detail.vue"),
       meta: {
-        title: "详情页面",
+        title: "投诉详情",
         icon: "description",
         hidden: true,
         showNav: true,
@@ -277,7 +277,7 @@ export default {
       component: () =>
         import("@/views/home/oaModule/attendanceSheet/detail.vue"),
       meta: {
-        title: "详情页面",
+        title: "考勤明细",
         icon: "description",
         hidden: true,
       },

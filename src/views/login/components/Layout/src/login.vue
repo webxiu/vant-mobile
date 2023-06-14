@@ -1,6 +1,6 @@
 <template>
   <div class="login-section">
-    <div class="content">
+    <div class="content flex-1">
       <div class="logo-container">
         <img :src="logo" alt="" />
       </div>
@@ -32,7 +32,7 @@ import logo from "@/assets/images/logo.png";
   width: 280px;
   height: 280px;
   border-radius: 50%;
-  margin: 26% auto 40px;
+  margin: 20% auto 80px;
   overflow: hidden;
   img {
     display: inline-block;

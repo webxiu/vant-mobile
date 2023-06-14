@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { routeCateList } from "@/router";
+import { useRouter } from "vue-router";
 import MyIcon from "@/components/MyIcon/index.vue";
+
+const router = useRouter();
 </script>
 
 <template>
@@ -13,7 +16,7 @@ import MyIcon from "@/components/MyIcon/index.vue";
             class="no-select"
             :class="{ disable: cell.meta.disable }"
             v-if="cell.meta && !cell.meta.hidden"
-            :to="cell.meta.disable ? '' : cell.path"
+            @click="() => !cell.meta?.disable && router.push(cell.path)"
           >
             <template #icon>
               <MyIcon :iconClass="cell.meta.icon" class-name="iconClass" />
@@ -35,12 +38,12 @@ import MyIcon from "@/components/MyIcon/index.vue";
   width: 750px;
 
   .iconClass {
-    width: 60px;
-    height: 60px;
+    width: 90px;
+    height: 90px;
   }
 
   .icon-text-span {
-    font-size: 16px;
+    font-size: 26px;
     margin-top: 5px;
     color: #646566;
   }

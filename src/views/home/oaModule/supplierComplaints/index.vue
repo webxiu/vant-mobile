@@ -75,14 +75,14 @@ onMounted(() => {
   appStore.setNavTitle("供应商投诉");
 });
 
-const onRefresh = () => getData();
+const onRefresh = () => getData(true);
 
-const getData = async () => {
+const getData = async (isRefresh = false) => {
   try {
     isLoading.value = true;
     const res = await getSupplierComplaints({});
-    if (res.status !== 200) throw (res as any).message;
-    showToast({ message: "数据获取成功", position: "top" });
+    if (!res.data?.length) throw "暂无数据";
+    if (isRefresh) showToast({ message: "数据获取成功", position: "top" });
     dataList.value = res.data;
     isLoading.value = false;
   } catch (error) {

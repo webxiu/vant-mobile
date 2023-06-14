@@ -14,7 +14,8 @@ export type RequestParamsType = Record<string, any>;
 export interface ResponseType<T> {
   data: Ref<BaseResponseType<T>>;
   isLoading: Ref<boolean>;
-  getData: () => void;
+  /** 获取数据: {showMsg} 是否显示提示信息, 默认不提示 */
+  getData: (showMsg?: boolean) => void;
 }
 
 export interface RequestOptionType<D> {
@@ -67,15 +68,19 @@ export function useAxios<
     throttle(() => getData())
   );
 
-  const getData = () => {
+  /**
+   * 获取接口数据
+   * @param showMsg 是否显示提示信息
+   */
+  const getData = (showMsg = false) => {
     isLoading.value = true;
     api(params)
       .then((res) => {
-        if (res.status !== 200) throw res;
+        if (!res.data) throw "暂无数据";
         _data.value = res as any;
         isLoading.value = false;
         callback && callback(res);
-        showToast({ message: successMsg, position: "top" });
+        showMsg && showToast({ message: successMsg, position: "top" });
       })
       .catch((err) => {
         console.log("err:", err);

@@ -18,19 +18,19 @@ const commonRoute: RouteConfigRawType[] = [
     path: "/login",
     name: "Login",
     component: () => import("@/views/login/index.vue"),
-    meta: { title: "登录" },
+    meta: { title: "用户登录" },
   },
   {
     path: "/401",
     name: "Error401",
     component: () => import("@/views/notFound/401.vue"),
-    meta: { title: "401" },
+    meta: { title: "无访问权限" },
   },
   {
     path: "/:pathMatch(.*)",
     name: "Error404",
     component: () => import("@/views/notFound/404.vue"),
-    meta: { title: "404" },
+    meta: { title: "页面找不到" },
   },
 ];
 // 动态加载

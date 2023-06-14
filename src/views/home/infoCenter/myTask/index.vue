@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
+
 import { AuditTaskType } from "../index";
 import MyAudit from "./MyAudit.vue";
 import MyAudited from "./MyAudited.vue";
@@ -40,7 +41,7 @@ const onTabChange = (index: number) => {
 };
 
 const onRefresh = () => {
-  childRef.value?.forEach((_, index) => {
+  childRef.value?.forEach((_: any, index: number) => {
     if (active.value === index) getData();
   });
 };

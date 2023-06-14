@@ -6,17 +6,17 @@
       :thumb="personInfo?.avatar"
     />
     <van-grid :column-num="3" :gutter="10" square>
-      <van-grid-item :text="`待审批的任务：${personInfo?.approve}条`" />
-      <van-grid-item :text="`我负责的任务：${personInfo?.pending}条`" />
-      <van-grid-item :text="`我创建的任务：${personInfo?.creation}条`" />
+      <van-grid-item :text="`待审批的任务：${personInfo?.approve || 0}条`" />
+      <van-grid-item :text="`我负责的任务：${personInfo?.pending || 0}条`" />
+      <van-grid-item :text="`我创建的任务：${personInfo?.creation || 0}条`" />
     </van-grid>
     <van-grid :column-num="2" :gutter="10" square>
-      <van-grid-item :text="`本年请假天数：${personInfo?.askForLeave}`" />
+      <van-grid-item :text="`本年请假天数：${personInfo?.askForLeave || 0}`" />
       <van-grid-item
-        :text="`剩余调休时长：${personInfo?.compensatoryLeaveDuration}h`"
+        :text="`剩余调休时长：${personInfo?.compensatoryLeaveDuration || 0}h`"
       />
-      <van-grid-item :text="`本年剩余年假：${personInfo?.annualLeave}`" />
-      <van-grid-item :text="`本年加班天数：${personInfo?.overTime}`" />
+      <van-grid-item :text="`本年剩余年假：${personInfo?.annualLeave || 0}`" />
+      <van-grid-item :text="`本年加班天数：${personInfo?.overTime || 0}`" />
       <van-grid-item :text="`打卡次数：4`" />
       <van-grid-item text="心怀诚爱，力奉精益" />
     </van-grid>
@@ -25,6 +25,7 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
+import { showToast } from "vant";
 import { getPersonInfo } from "@/api/oaModule";
 import { onMounted } from "vue";
 import { computed } from "@vue/reactivity";
@@ -51,19 +52,21 @@ onMounted(() => {
 
 const dateTime = computed(
   () =>
-    `${personInfo.value?.joinTimeYear}年(${personInfo.value?.joinTimeDays}天)`
+    `${personInfo.value?.joinTimeYear || 0}年(${
+      personInfo.value?.joinTimeDays || 0
+    }天)`
 );
 
 const getData = () => {
   isLoading.value = true;
   getPersonInfo({})
     .then((res) => {
-      console.log("res", res);
+      if (!res.data) throw "暂无数据";
       personInfo.value = res.data;
       isLoading.value = false;
     })
     .catch((err) => {
-      console.log("err", err);
+      showToast({ message: "数据获取失败", position: "top" });
     });
 };
 </script>

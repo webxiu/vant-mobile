@@ -65,9 +65,9 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
+const router = useRouter();
 const resultList: any = ref([]);
 
-const router = useRouter();
 const initData = (res) => {
   resultList.value = res.data;
 };
@@ -85,7 +85,6 @@ defineExpose({ initData });
   margin: 10px;
   .list-content {
     margin-top: 4px;
-    // padding: 6px;
 
     .list-item {
       .content-offset {

@@ -19,8 +19,10 @@
             label=""
             placeholder="密码"
             clearable
+            class="mt-20"
             :rules="rules.password"
           />
+          <van-field />
         </van-cell-group>
         <div class="form-btn">
           <van-button
@@ -28,7 +30,7 @@
             block
             type="primary"
             native-type="submit"
-            class="btn-item h50"
+            class="btn-item"
           >
             提交
           </van-button>
@@ -37,43 +39,30 @@
     </template>
 
     <template #foot>
-      <div class="mt-100">
-        <van-divider class="line">Beauty Your Life</van-divider>
+      <div class="mb-20">
+        <van-divider class="line">心怀成爱&nbsp;&nbsp;力奉精益</van-divider>
       </div>
     </template>
   </login-layout>
 </template>
 
 <script lang="ts" setup>
-import { reactive, onMounted } from "vue";
+import { reactive } from "vue";
 import md5 from "md5";
-import { login, autoLogin } from "@/api/user";
-import { useRoute, useRouter } from "vue-router";
+import { login } from "@/api/user";
+import { useRouter } from "vue-router";
 import { regExp } from "@/utils/regExp";
-import { showFailToast, FieldRule, showDialog } from "vant";
+import { orgDomain } from "@/permission";
+import { showFailToast, FieldRule } from "vant";
 import { LoginLayout } from "./components/Layout";
-// import { validPhone } from "@/utils/validate";
-
 import { useUserStore, LoginInfoType } from "@/store/modules/user";
-const route = useRoute();
+
 const router = useRouter();
 const userStore = useUserStore();
 
 const formState = reactive<LoginInfoType>({
   userNo: "",
   password: "",
-});
-
-const hostObj = {
-  localhost: "app.deogra.com",
-  "127.0.0.1": "app.deogra.com",
-  "test.deogra.com": "app.deogra.com",
-  "nginx.deogra.com": "app.deogra.com",
-};
-const orgDomain = hostObj[location.hostname] || location.hostname;
-
-onMounted(() => {
-  // getAutoLogin();
 });
 
 const checkUserName = (value, rule) => {
@@ -90,46 +79,16 @@ const rules: { [key: string]: FieldRule[] } = {
   password: [{ required: true, message: "密码不能为空", trigger: "onBlur" }],
 };
 
+// 用户密码登录
 const onSubmit = (values: LoginInfoType) => {
   const password = md5(values.password).substr(8, 16).toUpperCase();
   const params = { ...values, password, orgDomain };
   login(params)
-    .then((res) => {
-      if (res.status !== 200) throw (res as any).message;
-      userStore.setUserInfo(params);
+    .then(() => {
       router.push("/workspace");
+      userStore.setUserInfo();
     })
     .catch((err) => showFailToast(err || "登录失败，请稍后再试..."));
-};
-
-const getAutoLogin = () => {
-  const { state, code } = route.query;
-  if (code) {
-    autoLogin({ orgDomain, state, code })
-      .then((res) => {
-        router.push("/workspace");
-        showDialog({
-          title: "自动登录成功:",
-          message: JSON.stringify(res.data),
-          theme: "round-button",
-          confirmButtonColor: "red",
-          confirmButtonText: "确认",
-        });
-      })
-      .catch((err) => {
-        console.log("自动登录err:", err);
-        showDialog({
-          title: "登录失败:",
-          message: JSON.stringify(err),
-          theme: "round-button",
-          confirmButtonColor: "red",
-          confirmButtonText: "确认",
-        });
-      });
-  } else {
-    window.location.href =
-      "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wwa8df5d5593162528&redirect_uri=https%3A%2F%2Fnginx.deogra.com%3A7443%2Flogin&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect";
-  }
 };
 </script>
 
@@ -138,7 +97,6 @@ const getAutoLogin = () => {
 
 .line {
   color: var(--main-color);
-  font-size: 34px;
-  margin-top: 30px;
+  font-size: 28px;
 }
 </style>

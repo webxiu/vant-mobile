@@ -235,6 +235,7 @@ const endDate = ref(""); // 结束日期
 const endTime = ref(""); // 结束时间
 const days = ref("0"); // 请假天数
 const hours = ref("0"); // 请假时长
+const userId = ref("");
 
 const showStartDate = ref(false);
 const showStartTime = ref(false);
@@ -269,9 +270,9 @@ const onSubmit = (values) => {
       id: route.query.id,
       days: +values.days,
       hours: +values.hours,
-      userId: userStore.userInfo.userNo,
+      userId: userStore.userInfo.userNo || userId.value,
       itemSequence: 1,
-      createrid: userStore.userInfo.userNo,
+      createrid: userStore.userInfo.userNo || userId.value,
       operationType: 1,
     };
     editLeaveList(editConfig).then((res) => {
@@ -287,9 +288,9 @@ const onSubmit = (values) => {
     ...values,
     days: +values.days,
     hours: +values.hours,
-    userId: userStore.userInfo.userNo,
+    userId: userStore.userInfo.userNo || userId.value,
     itemSequence: 1,
-    createrid: userStore.userInfo.userNo,
+    createrid: userStore.userInfo.userNo || userId.value,
     operationType: 1,
   }).then((res) => {
     if (res.status === 200 && res.data) {
@@ -333,11 +334,12 @@ const isFullTimeValue = computed(() => {
 // 计算出请假时长和天数并且设置表单值
 const setCalcTimes = () => {
   calcTimes({
-    userId: userStore.userInfo.userNo,
+    userId: userStore.userInfo.userNo || userId.value,
     startDate: startDate.value,
     startTime: startTime.value,
     endDate: endDate.value,
     endTime: endTime.value,
+    holidayType: holidayType.value,
   }).then((res) => {
     if (res.data) {
       days.value = res.data.days;
@@ -367,6 +369,7 @@ const getEditInfo = () => {
 onMounted(() => {
   queryUserInfo({}).then((res) => {
     userName.value = res.data.userName;
+    userId.value = res.data.userCode;
   });
 
   if (route.query.id && route.query.mode === "edit") {

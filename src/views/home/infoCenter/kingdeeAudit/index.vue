@@ -59,7 +59,13 @@ const getCount = (index: number) => {
   return countObj[index] || "";
 };
 
-const getData = (aKey: string, index: number) => {
+/**
+ * 获取数据
+ * @param aKey tab的key名称
+ * @param index 获取第几个tab接口
+ * @param isShowMsg 是否显示请求成功提示
+ */
+const getData = (aKey: string, index: number, isShowMsg = false) => {
   isLoading.value = true;
   API[aKey](queryParams)
     .then((res) => {
@@ -72,17 +78,12 @@ const getData = (aKey: string, index: number) => {
         } else if (index === 2) {
           curCount2.value = res.data.length;
         }
-        if (index === idx) {
-          child.initData(res);
-        }
+        if (index === idx) child.initData(res);
       });
       isLoading.value = false;
-      showToast({ message: "数据获取成功", position: "top" });
+      isShowMsg && showToast({ message: "数据获取成功", position: "top" });
     })
-    .catch((err) => {
-      console.log("err", err);
-      showToast({ message: "数据获取失败", position: "top" });
-    });
+    .catch((err) => showToast({ message: "数据获取失败", position: "top" }));
 };
 
 const onTabChange = (index: number) => {
@@ -98,7 +99,7 @@ const onSearch = (value: string) => {
 
 const onRefresh = () => {
   childRef.value?.forEach((_, index) => {
-    if (active.value === index) getData(apiKey.value, active.value);
+    if (active.value === index) getData(apiKey.value, active.value, true);
   });
 };
 </script>

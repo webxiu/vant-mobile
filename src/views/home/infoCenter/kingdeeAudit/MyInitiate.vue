@@ -8,7 +8,6 @@ const resultList = ref();
 const router = useRouter();
 
 const onLookInfo = (item: TaskItemType) => {
-  console.log("item", item);
   router.push(
     `/kingdeeAudit/initiate/detail?billNo=${item.billNo}&fbillNumber=${item.fbillNumber}&billType=${item.formId}&deployKey=${item.deployKey}`
   );

@@ -153,12 +153,13 @@ const fetchClerkInfo = () => {
     if (res.data?.length > 0) {
       wxOpenIds.value = res.data.map((item) => item.wxOpenid);
       userName.value = res.data[0].userName;
-    } else {
-      showNotify({
-        type: "danger",
-        message: "当前部门未配置文员，请联系系统组！",
-      });
     }
+    // else {
+    //   showNotify({
+    //     type: "danger",
+    //     message: "当前部门未配置文员，请联系系统组！",
+    //   });
+    // }
   });
 };
 

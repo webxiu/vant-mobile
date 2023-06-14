@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { showToast } from "vant";
 import { reactive, ref, watch, onMounted } from "vue";
+import { showToast } from "vant";
+
 import { AuditTaskType, TabActiveColor } from "../index";
 import { getAuditTask1, getAuditTask2, getAuditTask3 } from "@/api/infoCenter";
 import MyAudit from "./MyAudit.vue";
@@ -74,7 +75,7 @@ const onSearch = (value: string) => {
 };
 
 const onRefresh = () => {
-  childRef.value?.forEach((_, index) => {
+  childRef.value?.forEach((_: any, index) => {
     if (active.value === index) getData();
   });
 };

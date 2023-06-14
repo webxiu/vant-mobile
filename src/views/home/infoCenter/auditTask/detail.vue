@@ -1,36 +1,67 @@
 <template>
   <div class="audit-detail">
     <div class="detail-page">
-      <van-notice-bar
-        class="user-title"
-        color="#1989fa"
-        background="#ecf9ff"
-        left-icon="info-o"
-      >
-        【{{ detailInfo.formName }}】
-      </van-notice-bar>
       <van-collapse v-model="activeNames" accordion>
         <van-collapse-item
-          :title="item.itemName"
+          :title="item.formName"
           :name="index"
-          v-for="(item, index) in detailInfo.itemList"
+          v-for="(item, index) in detailInfo"
         >
-          <div class="des-item" v-for="el in item.detailList">
-            <van-row :wrap="false">
+          <div class="des-item" v-for="el in item.itemList">
+            <van-row :wrap="false" v-if="item.formModel === 'info'">
+              <van-row v-if="el.itemName">{{ el.itemName }}</van-row>
               <van-col class="label" span="9">{{ el.inputItemName }}</van-col>
               <van-col
-                class="value"
-                v-if="
-                  el.inputItemName === '开始日期:' ||
-                  el.inputItemName === '结束日期:' ||
-                  el.inputItemName === '申请时间'
-                "
-                >{{ el.inputItemValue.split("T")[0] }}</van-col
+                v-if="el.inputItemModel === 'date'"
+                span="16"
+                class="textright"
               >
+                {{ dateFormatYMD(el.inputItemValue) }}
+              </van-col>
               <van-col v-else class="value">{{
                 el.inputItemValue || "无"
               }}</van-col>
             </van-row>
+            <div v-if="item.formModel === 'detail'">
+              <van-collapse v-model="activeNames1" accordion>
+                <van-collapse-item
+                  :title="child.itemName || '-'"
+                  :name="index"
+                  v-for="(child, idx) in item.itemList"
+                >
+                  <div class="des-item" v-for="el in child.detailList">
+                    <van-row :wrap="false">
+                      <van-col class="label" span="12">{{
+                        el.inputItemName
+                      }}</van-col>
+                      <van-col
+                        v-if="el.inputItemModel === 'date'"
+                        span="16"
+                        class="textright"
+                      >
+                        {{ dateFormatYMD(el.inputItemValue) }}
+                      </van-col>
+                      <van-col
+                        v-else-if="el.inputItemModel === 'file'"
+                        span="16"
+                        class="textright"
+                      >
+                        <a
+                          target="_blank"
+                          :href="
+                            vPath + '/static/virtual/files/' + el.inputItemValue
+                          "
+                          >点击预览或下载</a
+                        >
+                      </van-col>
+                      <van-col v-else span="16" class="textright">
+                        {{ el.inputItemValue }}
+                      </van-col>
+                    </van-row>
+                  </div>
+                </van-collapse-item>
+              </van-collapse>
+            </div>
           </div>
         </van-collapse-item>
       </van-collapse>
@@ -57,11 +88,7 @@
         show-cancel-button
         :before-close="notNodeDetailAction"
       >
-        <van-form
-          @submit="modalSubmit"
-          ref="formRef"
-          validate-trigger="onSubmit"
-        >
+        <van-form ref="formRef" validate-trigger="onSubmit">
           <van-cell-group inset style="margin-top: 10px" v-if="curActive === 2">
             <van-field
               v-model="auditReason"
@@ -123,8 +150,6 @@
                 @cancel="showBackPicker = false"
               />
             </van-popup>
-            <!-- </van-cell-group> -->
-            <!-- <van-cell-group v-if="isBackAction" inset style="margin-top: 10px"> -->
             <van-field
               ref="backReasonRef"
               v-model="backReason"
@@ -158,7 +183,6 @@
         :style="{
           marginTop: '10px',
           'overflow-y': 'scroll',
-          // height: '100%',
         }"
       >
         <van-steps direction="vertical" :active="curActiveStep">
@@ -173,11 +197,6 @@
                 </div>
                 <div class="sp-type" v-if="item.nodeType">
                   <van-tag type="primary">{{ item.nodeType }}</van-tag>
-                  <!-- <van-badge color="#1989fa">
-                  <template #content>
-                    {{ item.nodeType }}
-                  </template>
-                </van-badge> -->
                 </div>
               </div>
               <div
@@ -225,7 +244,6 @@
       closeable
       position="bottom"
       id="popuppanel"
-      @opened="openPopupCallBack(2)"
       :style="{ height: '90%', overflow: 'visible' }"
     >
       <van-nav-bar
@@ -273,13 +291,8 @@
 <script setup lang="ts">
 import { onMounted, ref, computed, reactive } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { showConfirmDialog, showNotify } from "vant";
-import {
-  deleteLeaveList,
-  submitLeaveList,
-  revokeLeaveList,
-} from "@/api/oaModule";
-import { colorSelector } from "@/utils/getStatusColor";
+import { showNotify } from "vant";
+
 import {
   getAuditTaskDetail,
   revokeAuditTask,
@@ -288,13 +301,13 @@ import {
   backAuditTask,
 } from "@/api/infoCenter";
 import { useAppStore } from "@/store/modules/app";
-import { resolve } from "path";
 
-const props = defineProps({ id: String });
+const vPath = import.meta.env.VITE_BASE_API;
+
+defineProps({ id: String });
 const router = useRouter();
 const route = useRoute();
 const appStore = useAppStore();
-const inputRef = ref(null);
 const formRef = ref(null);
 const curActive = ref(0);
 const curActiveStep = ref(0);
@@ -331,21 +344,16 @@ const backPickerColumns = ref([]);
 const isRevokeAction = ref(false);
 const showNodeDetailPanel = ref(false);
 const backToActivityId = ref("");
-const isAuditAction = ref(false);
 const nodeDetailData: any = ref({});
 const activeNames = ref(0);
+const activeNames1 = ref(0);
 
-const modalSubmit = () => {
-  console.log("first");
-};
+const dateFormatYMD = (date: string) => date.split("T")[0];
 
 const backOnConfirm = ({ selectedOptions, selectedValues }) => {
-  console.log(selectedValues, "selectedValues");
   backNode.value = selectedOptions[0].text;
   backToActivityId.value = selectedValues[0];
-
   showBackPicker.value = false;
-  // backConfirm
 };
 
 const openDetailOfNode = (taskDefId) => {
@@ -355,20 +363,8 @@ const openDetailOfNode = (taskDefId) => {
   )[0];
 };
 
-const openPopupCallBack = (num) => {};
-
-const calcActionBtn = computed(() => {
-  return (
-    detailInfo.value.operationType === 2 ||
-    detailInfo.value.billState === 1 ||
-    detailInfo.value.billState === 2
-  );
-});
-
 const notNodeDetailAction = (action: string) => {
-  // return new Promise((resolve) => {
   if (action === "cancel") {
-    // resolve(true);
     curActive.value = 0;
     return true;
   }
@@ -406,25 +402,21 @@ const notNodeDetailAction = (action: string) => {
 
         defRes.then((res) => {
           if (res.data) {
-            // resolve(true);
             showNotify({ message: (res as any).message, type: "success" });
             setTimeout(() => router.push("/auditTask"), 500);
           } else {
-            // resolve(false);
             showNotify({ message: "操作失败，请联系开发人员处理！" });
             return false;
           }
         });
       })
       .catch(() => {
-        // resolve(false);
         return false;
       });
   }
 };
 
 const getDetailInfo = () => {
-  console.log(route.query, "query");
   const { billId, billNo, processDefId, processInstId } = route.query;
 
   getAuditTaskDetail({
@@ -435,31 +427,23 @@ const getDetailInfo = () => {
     searchType: 1,
   }).then((res) => {
     if (res.data) {
-      detailInfo.value = res.data[0];
-      console.log(res.data[0], "审批详情返回");
+      detailInfo.value = res.data;
     }
   });
 };
 
 const handleAction = (actionType) => {
   if (actionType === "back") {
-    // showAuditModal.value = true;
-    // return;
     showAuditModal.value = true;
     isBackAction.value = true;
   }
   if (actionType === "revoke") {
     showAuditModal.value = true;
-
     isRevokeAction.value = true;
-    // isBackAction.value = false;
   }
 
   if (actionType === "audit") {
     showAuditModal.value = true;
-
-    // isRevokeAction.value = true;
-    // isBackAction.value = false;
   }
 
   if (actionType === "auditPop") {
@@ -475,8 +459,6 @@ const fetchNodesList = () => {
     billNo: route.query.billNo,
   }).then((res) => {
     if (res.data) {
-      // fetch success
-      console.log(res.data, "节点列表返回");
       backPickerColumns.value = res.data.map((item) => ({
         text: item.activeName,
         value: item.activeId,
@@ -496,17 +478,13 @@ const fetchType2DetailInfo = () => {
     searchType: 2,
   }).then((res) => {
     if (res.data) {
-      // detailInfo.value = res.data[0];
-      console.log(res.data, "审批详情2222返回");
       curActiveStep.value = res.data.curActive;
       approvalNodeData.list = res.data.nodeList;
-      // console.log(approvalNodeData.value, "vvvvv---");
     }
   });
 };
 
 const changeBottomBar = (active) => {
-  console.log(active, "changeBottomBar===active");
   curActive.value = active;
   // 点击修改跳转到添加页面并且携带参数，修改标志以及记录id
   switch (active) {
@@ -538,34 +516,8 @@ const changeBottomBar = (active) => {
   }
 };
 
-// 根据字典数字计算出对应的字符串
-const calcStatus = (statusNum: number): string => {
-  let statusStr;
-
-  switch (statusNum) {
-    case 0:
-      statusStr = "待提交";
-      break;
-    case 1:
-      statusStr = "审核中";
-      break;
-    case 2:
-      statusStr = "已审核";
-      break;
-    case 3:
-      statusStr = "重新审核";
-      break;
-
-    default:
-      break;
-  }
-
-  return statusStr;
-};
-
 onMounted(() => {
   appStore.setNavTitle("业务审批详情");
-  console.log(route.query.tab, "tab", typeof route.query.tab);
   getDetailInfo();
   fetchType2DetailInfo();
 });
@@ -588,17 +540,14 @@ onMounted(() => {
   margin-left: 10px;
 }
 .audit-detail {
-  // margin-bottom:160px;
   .detail-page {
-    padding: 60px 80px;
-    // margin-bottom: 1080px;
+    padding: 30px;
 
     .des-item {
       margin-bottom: 24px;
       font-size: 28px;
 
       .label {
-        // text-align: right;
         margin-right: 15px;
         text-align: right;
         font-weight: bold;
@@ -607,7 +556,7 @@ onMounted(() => {
       }
     }
     .user-title {
-      margin-bottom: 100px;
+      margin-top: 60px;
       font-size: 30px;
     }
   }

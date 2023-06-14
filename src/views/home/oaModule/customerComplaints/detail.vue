@@ -1,10 +1,5 @@
 <template>
   <div class="customer-complaints">
-    <van-sticky :offset-top="46">
-      <div class="ui-ta-c p-28 fw-700 bg-fff border-b-ddd">
-        <van-text-ellipsis :content="`客户：【${customerUser}】的客诉单`" />
-      </div>
-    </van-sticky>
     <van-form class="pt-40">
       <van-cell-group inset>
         <van-row type="flex">
@@ -158,7 +153,6 @@ interface CustomerDetailInfoType {
 const route = useRoute();
 const appStore = useAppStore();
 const id = route.params.id;
-const customerUser = ref<string>("");
 const activeNames = ref<string[]>(["1"]);
 const vPath = import.meta.env.VITE_BASE_API;
 const detailInfoList = ref<CustomerDetailInfoType[]>([]);
@@ -174,14 +168,18 @@ const customerOrderList = ref([
 
 onMounted(() => {
   getData();
-  appStore.setNavTitle("客诉详情页面");
 });
 
 const getData = async () => {
   try {
     const result = await getCustomerComplaintDetail({ id });
     const data = result.data;
-    customerUser.value = data.info.customer;
+    if (!data) throw "暂无详情信息";
+    if (data.info.customer) {
+      appStore.setNavTitle(`客户：【${data.info.customer}】的客诉单`);
+    } else {
+      appStore.setNavTitle(`客诉详情`);
+    }
     Object.keys(data.info).forEach((key) => {
       customerOrderList.value.map((item) => {
         if (item.field === key) {

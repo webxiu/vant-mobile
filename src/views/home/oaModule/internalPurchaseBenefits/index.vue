@@ -33,8 +33,8 @@
                   :title="item.commodityName"
                   :thumb="
                     item.commoditiesImages.length > 0
-                      ? `https://test.deogra.com:8443/static/virtual/file/ftpfile/${item.commoditiesImages[0].imagefilename}` // ? globalData.virtualPath + //   item.commoditiesImages[0].imagefilename
-                      : 'https://fastly.jsdelivr.net/npm/@vant/assets/ipad.jpeg'
+                      ? `${vPath}/static/virtual/file/ftpfile/${item.commoditiesImages[0].imagefilename}`
+                      : '图片加载失败'
                   "
                   :origin-price="item.commoditiesSpecs[0].officialPrice"
                 >
@@ -76,6 +76,8 @@ import { useRouter } from "vue-router";
 import { queryShoppingList } from "@/api/oaModule";
 import { useAppStore } from "@/store/modules/app";
 import MyLayout from "./MyLayout.vue";
+
+const vPath = import.meta.env.VITE_BASE_API;
 
 const appStore = useAppStore();
 const shopEmpty = ref(false);

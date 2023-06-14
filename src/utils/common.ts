@@ -7,7 +7,8 @@ const title = "德龙工作台";
  */
 export const getPageTitle = (pageTitle) => {
   if (pageTitle) {
-    return `${pageTitle} - ${title}`;
+    // return `${pageTitle} - ${title}`;
+    return `${pageTitle}`;
   }
   return `${title}`;
 };
@@ -75,7 +76,7 @@ export const getColorByPriority = (priority: string): string => {
 
 /**
  * 获取当前年月日
- * @param d 几天前的天数
+ * @param yyyy 年份
  * @returns
  */
 export const getDateTime = (yyyy?: number) => {
@@ -97,11 +98,11 @@ export const getDateTime = (yyyy?: number) => {
 };
 
 /**
- * 判断是否在移动端应用中打开
+ * 判断是否在移动端应用或者企业微信中打开
  */
 export const isApp = () => {
   const device = navigator.userAgent.match(
-    /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
+    /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone|wxwork)/i
   );
   return device;
 };

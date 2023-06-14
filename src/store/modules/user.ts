@@ -1,6 +1,7 @@
 import { LoginInfoType, getLoginInfo, setLoginInfo } from "@/utils/storage";
 
 import { defineStore } from "pinia";
+import { queryUserInfo } from "@/api/user";
 import { store } from "@/store";
 
 export type { LoginInfoType };
@@ -20,8 +21,10 @@ export const useUserStore = defineStore({
     },
   },
   actions: {
-    setUserInfo(userInfo: LoginInfoType): void {
-      setLoginInfo(userInfo);
+    setUserInfo(): void {
+      queryUserInfo({})
+        .then((res) => res.data && setLoginInfo(res.data))
+        .catch(console.log);
     },
   },
 });

@@ -24,7 +24,7 @@ onMounted(() => getYearList());
 const onLoad = (data) => {
   if (data) attendanceList.value = data.data;
 };
-const onRefresh = () => getData();
+const onRefresh = () => getData(true);
 
 // 获取列表数据
 const { isLoading, getData } = useAxios<

@@ -49,7 +49,7 @@ const dataInfo = ref({ fname: "", content: "", name: "", phone: "" });
 
 onMounted(() => {
   getData();
-  appStore.setNavTitle("详情页面");
+  appStore.setNavTitle("投诉详情");
 });
 
 const getData = async () => {

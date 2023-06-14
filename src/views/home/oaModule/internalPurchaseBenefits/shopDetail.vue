@@ -24,7 +24,7 @@
                 >
                   <van-image
                     height="300px"
-                    :src="`https://test.deogra.com:8443/static/virtual/file/ftpfile/${image.imagefilename}`"
+                    :src="`${virtualPath}${image.imagefilename}`"
                   />
                 </van-swipe-item>
               </van-swipe>
@@ -218,6 +218,10 @@ import { queryUserInfo } from "@/api/user";
 import { useAppStore } from "@/store/modules/app";
 import { useShopStore } from "@/store/modules/shop";
 
+const virtualPath = `${
+  import.meta.env.VITE_BASE_API
+}/static/virtual/file/ftpfile/`;
+
 const route = useRoute();
 const router = useRouter();
 const boxRef = ref(null);
@@ -265,8 +269,7 @@ const initSku = (res) => {
   sku.tree[0].k = "规格";
   sku.tree[0].k_s = "s1";
   sku.tree[0].v = [];
-  const virtualPath =
-    "https://test.deogra.com:8443/static/virtual/file/ftpfile/";
+
   res.commoditiesSpecs.forEach((item, idx) => {
     sku.tree[0].v.push({
       id: item.id,
