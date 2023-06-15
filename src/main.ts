@@ -13,6 +13,7 @@ import router from "@/router";
 import { setupVant } from "@/plugins/setupVant";
 import { useSvgIcon } from "@/icons";
 import vueEsign from "vue-esign";
+import "../mock";
 
 const app = createApp(App);
 
