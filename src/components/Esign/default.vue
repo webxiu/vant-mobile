@@ -1,10 +1,11 @@
 <template>
   <div class="sign-wrap">
     <van-nav-bar :title="imgSrc ? '已完成签名' : '请在下面虚线范围內签名'" />
-    <div class="sign-content flex-1 flex" ref="boxRef">
-      <div v-if="!imgSrc" class="flex-1 ui-ov-h">
+    <div class="sign-content flex-1 flex ui-w-100 ui-h-100 ui-ov-h">
+      <div v-if="!imgSrc" class="flex-1" ref="boxRef">
         <vue-esign
           ref="signRef"
+          v-if="width && height"
           :width="width"
           :height="height"
           :isCrop="isCrop"
@@ -68,8 +69,8 @@ const bgColor = ref("#fff");
 const isCrop = ref(false); // 是否裁剪，在画布设定尺寸基础上裁掉四周空白部分
 const boxRef = ref<HTMLElement>();
 const signRef = ref(null);
-const width = ref(600);
-const height = ref(800);
+const width = ref(0);
+const height = ref(0);
 
 const props = defineProps({
   showDefaultBtn: { type: Boolean, default: false },
@@ -125,7 +126,7 @@ onMounted(() => {
   flex-direction: column;
   .sign-content {
     border: 5px dotted gray;
-    overflow: hidden;
+    box-sizing: border-box;
   }
 }
 .sign-img {

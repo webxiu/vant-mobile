@@ -8,7 +8,9 @@ import BackButton from "@/components/BackButton/index.vue";
     <template #default="{ Component, route }">
       <BackButton />
       <transition name="fade-transform" mode="out-in">
-        <component :is="Component" :key="route.fullPath" />
+        <KeepAlive>
+          <component :is="Component" :key="route.fullPath" />
+        </KeepAlive>
       </transition>
     </template>
   </router-view>

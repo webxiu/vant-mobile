@@ -1,17 +1,23 @@
 <template>
-  <div>
-    <div class="detail-page" v-for="(item, index) in tabsPage">
+  <div class="ui-h-100 flex-col">
+    <template v-for="(item, index) in tabsPage">
       <component
         :detail-info="detailInfo"
         :userName="userName"
         :wxOpenIds="wxOpenIds"
         @refreshAction="refreshAction"
         @setBottomCurrent="setBottomCurrent"
+        class="detail-page flex-1 ui-ovy-a"
         v-if="item.idx === activeSelected"
         :is="tabsPage[index].name"
       />
-    </div>
-    <van-tabbar v-model="activeSelected" :border="false" v-if="calcTabbar">
+    </template>
+    <van-tabbar
+      v-model="activeSelected"
+      :border="false"
+      :fixed="false"
+      v-if="calcTabbar"
+    >
       <!-- 第一项为占位项 -->
       <!-- <van-tabbar-item style="display: none" /> -->
       <van-tabbar-item icon="label-o" v-show="calcSign"

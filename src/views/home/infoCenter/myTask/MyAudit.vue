@@ -8,7 +8,7 @@
         finish-text="没有更多了"
       >
         <div
-          v-for="item in resultList"
+          v-for="(item, index) in resultList"
           :key="item.userName"
           style="
             border-radius: 6px;
@@ -20,23 +20,44 @@
             <van-cell>
               <!-- 使用title插槽来自定义标题 -->
               <template #title>
-                <van-badge :content="item.taskNo" color="#5686ff"></van-badge>
-                【{{ item.projectName }}】
+                <div class="title-head">
+                  <div class="head-left">
+                    <van-badge :content="index + 1" color="#5686ff"></van-badge>
+                    【{{ item.projectName }}】
+                  </div>
 
-                <van-tag type="primary" style="margin-left: 10px">
-                  {{ item.stateName }}
-                </van-tag>
-                <van-tag
-                  :color="getColorByPriority(item.priority)"
-                  style="margin-left: 10px"
-                  >{{ item.priority }}</van-tag
-                >
+                  <div class="head-right">
+                    <van-tag type="primary" style="margin-left: 10px">
+                      {{ item.stateName }}
+                    </van-tag>
+
+                    <van-tag
+                      :color="getColorByPriority(item.priority)"
+                      style="margin-left: 10px"
+                      >{{ item.priority }}</van-tag
+                    >
+                  </div>
+                </div>
+              </template>
+              <template #label>
+                <div style="color: #1989fa">
+                  <van-icon name="coupon-o" />
+                  <span class="content-offset"
+                    >项目编号：{{ item.projectNo }}</span
+                  >
+                </div>
               </template>
             </van-cell>
 
             <van-cell>
               <template #title>
                 <div style="color: #aaa">
+                  <div style="text-align: justify">
+                    <van-icon name="notes-o" />
+                    <span class="content-offset"
+                      >任务编号：{{ item.taskNo }}</span
+                    >
+                  </div>
                   <div style="text-align: justify">
                     <van-icon name="todo-list-o" />
                     <span class="content-offset"
@@ -72,12 +93,10 @@
 import { ref } from "vue";
 import { getColorByPriority } from "@/utils/common";
 
-const resultList = ref([]) as any;
-const emit = defineEmits(["setBadgeNum"]);
+const resultList: any = ref([]);
 
 const initData = (res) => {
   resultList.value = res.data;
-  emit("setBadgeNum", res.data.length);
 };
 
 defineExpose({ initData });
@@ -87,9 +106,12 @@ defineExpose({ initData });
 .my-create-task {
   margin: 10px 0 10px;
   height: calc(100vh - 90px);
-
   .list-content {
     .list-item {
+      .title-head {
+        display: flex;
+        justify-content: space-between;
+      }
       .content-offset {
         margin-left: 12px;
       }
@@ -116,13 +138,6 @@ defineExpose({ initData });
 
     :deep(.van-badge--top-right) {
       transform: none;
-    }
-
-    :deep(.van-cell__title) {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      flex: 70%;
     }
   }
 }

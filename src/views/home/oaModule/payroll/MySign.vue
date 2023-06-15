@@ -1,49 +1,11 @@
 <template>
-  <div class="my-sign" v-if="showEsign">
-    <van-nav-bar title="请在下面虚线范围內签名" />
-    <Esign @handleImg="handleImg" ref="childRef" />
-    <div class="signbtns">
-      <van-row>
-        <van-col span="12" align="center" style="padding: 10px">
-          <van-button
-            icon="delete-o"
-            type="primary"
-            v-on:click="handleReset"
-            block
-            round
-            color="gray"
-            plain
-            size="small"
-          >
-            清除签名
-          </van-button>
-        </van-col>
-
-        <van-col span="12" align="center" style="padding: 10px">
-          <van-button
-            icon="success"
-            type="primary"
-            v-on:click="handleSubmit"
-            block
-            round
-            plain
-            size="small"
-          >
-            提交签名
-          </van-button>
-        </van-col>
-      </van-row>
-    </div>
-  </div>
-  <div v-else class="sign-img">
-    <img :src="resultImgSrc" alt="图片加载失败" />
-  </div>
+  <Vsign :showEsign="showEsign" :handleImg="handleImg" />
 </template>
 
 <script setup lang="ts">
 import { onMounted, nextTick, ref } from "vue";
 import { useRoute } from "vue-router";
-import Esign from "@/components/Esign/index.vue";
+import Vsign from "@/components/VantSign/index.vue";
 import { savePayRollsign, queryPayRollsign } from "@/api/oaModule";
 import { useUserStore } from "@/store/modules/user";
 import { showNotify } from "vant";
@@ -54,9 +16,13 @@ const appStore = useUserStore();
 const showEsign = ref(true);
 const resultImgSrc = ref(""); // 回显图片地址
 
+const submitBase64 = (v) => {
+  console.log(v, "base64");
+};
+
 // 由子组件触发传过来的是base64图片字符串
-const handleImg = (imgStr) => {
-  const [image1, image2] = imgStr.split(",");
+const handleImg = ({ image }) => {
+  const [image1, image2] = image.split(",");
   savePayRollsign({
     payslipId: route.query.payslipId,
     gzmbb: route.query.gzmbb,
@@ -83,7 +49,7 @@ const querySign = () => {
   queryPayRollsign({ payslipId: gzmbNo + "" + payslipId }).then((res) => {
     if (res.data) {
       showEsign.value = false;
-      resultImgSrc.value = res.data.image1 + res.data.image2;
+      resultImgSrc.value = res.data.image1 + "," + res.data.image2;
     }
   });
 };
@@ -93,9 +59,24 @@ onMounted(() => querySign());
 nextTick(() => (childRef.value as any)?.init());
 </script>
 
-<style scoped lang="scss">
+<!-- <style scoped lang="scss">
 .my-sign {
   background-color: #fff;
+
+  :deep(.van-signature__footer) {
+    justify-content: space-around;
+  }
+  :deep(.van-signature__footer .van-button) {
+    border-radius: 30px;
+    width: 290px;
+  }
+
+  // height: 100vh;
+
+  :deep(.van-signature__content) {
+    // height: calc(100vh - 350px);
+    flex: 1;
+  }
 
   .signbtns {
     margin-top: 6px;
@@ -103,12 +84,20 @@ nextTick(() => (childRef.value as any)?.init());
 }
 
 .sign-img {
-  margin: 10px;
-  border: 5px dotted gray;
+  :deep(.van-image) {
+    flex: 1;
+  }
+  // box-sizing: border-box;
+  // width: calc(100vw - 32px);
+  // margin: 18px;
+  // background-color: red;
+  // border: 5px dotted gray;
   height: calc(100vh - 220px);
+  display: flex;
   overflow: hidden;
   img {
     object-fit: fill;
+    margin: auto;
   }
 }
-</style>
+</style> -->

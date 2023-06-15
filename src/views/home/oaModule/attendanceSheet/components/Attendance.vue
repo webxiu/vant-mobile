@@ -1,6 +1,6 @@
 <template>
   <div class="ui-h-100 flex-col">
-    <NavBar :isShow="true" />
+    <div class="ui-ta-c fw-700 p-30 color-111">{{ navTitle }}</div>
     <van-form class="flex-1 ui-ovy-a">
       <van-row
         :key="idx"
@@ -22,7 +22,6 @@
 import { ref } from "vue";
 import { statusObj } from "../config";
 import NavBar from "@/components/NavBar/index.vue";
-import { useAppStore } from "@/store/modules/app";
 
 const columnObj = {
   userCode: "编号",
@@ -46,7 +45,6 @@ const columnObj = {
   description: "备注",
   // signature: "签名",
 };
-const appStore = useAppStore();
 
 defineProps({
   detailData: { type: Array, default: () => [] },
@@ -56,8 +54,7 @@ const navTitle = ref<string>("");
 const dataList = ref<Array<{ label: string; value: any }>>([]);
 
 const initData = (data: Array<Record<string, any>>) => {
-  navTitle.value = data[0].yearMonthTime;
-  appStore.setNavTitle(`${navTitle.value}考勤明细`);
+  navTitle.value = `${data[0].yearMonthTime}考勤明细`;
   data.forEach((item) => {
     for (const k in columnObj) {
       const value = k === "status" ? statusObj[item[k]]?.title : item[k];

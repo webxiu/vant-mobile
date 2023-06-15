@@ -34,6 +34,7 @@ export default (configEnv: ConfigEnv): UserConfigExport => {
     build: {
       emptyOutDir: true,
       outDir: "./dist",
+      chunkSizeWarningLimit: 1000, // 消除打包超过500kb警告
       rollupOptions: {
         input: {
           index: resolve("index.html"),

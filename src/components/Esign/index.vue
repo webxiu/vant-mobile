@@ -21,11 +21,12 @@
 </template>
 
 <script setup lang="ts">
+import { showNotify } from "vant";
 import { ref, nextTick, onMounted } from "vue";
 
 const lineWidth = ref(6);
 const lineColor = ref("#000000");
-const bgColor = ref("#fff");
+const bgColor = ref("#f2f3f5");
 const resultImg = ref(""); // base64结果数据
 const isCrop = ref(false); // 是否裁剪，在画布设定尺寸基础上裁掉四周空白部分
 const signRef = ref(null);
@@ -34,7 +35,9 @@ const emits = defineEmits(["handleImg"]);
 defineProps({ showDefaultBtn: { type: Boolean, value: false } });
 
 //清空画布
-const handleReset = () => (signRef.value as any).reset();
+const handleReset = () => {
+  (signRef.value as any).reset();
+};
 
 // 生成照片
 const handleGenerate = () => {
@@ -47,7 +50,9 @@ const handleGenerate = () => {
       emits("handleImg", base64);
     })
     .catch((err) => {
-      //   this.toast_warn(err); // 画布没有签字时会执行这里 'Not Signned'
+      // 画布没有签字时会执行这里 'Not Signned'
+      console.log("err：", err);
+      showNotify({ type: "warning", message: "请先签字" });
     });
 };
 // 初始化方法
@@ -64,10 +69,13 @@ onMounted(() => {
   padding: 20px;
 
   .box {
-    margin: 0 auto;
-    border: 1px dotted gray;
+    // margin: 0 auto;
+    // margin: 10px 18px;
+
+    // border: 5px dotted gray;
+    // background-color: gray;
     width: 100%;
-    height: calc(100vh - 420px);
+    height: calc(100vh - 360px);
     overflow: hidden;
   }
   .dialog-footer {
