@@ -128,7 +128,7 @@ const { isLoading, getData } = useAxios<
 });
 
 const onJumpDetail = (item: ResultListType) => {
-  router.push(`/customerComplaints/${item.id}`);
+  router.push(`/oa/customerComplaints/${item.id}`);
 };
 </script>
 

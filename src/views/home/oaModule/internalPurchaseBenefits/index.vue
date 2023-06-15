@@ -18,7 +18,9 @@
             <van-swipe-item class="data-list">
               <van-cell
                 v-for="(item, index) in shopListInfo.list"
-                v-on:click="router.push(`/internalPurchaseBenefits/${item.id}`)"
+                v-on:click="
+                  router.push(`/oa/internalPurchaseBenefits/${item.id}`)
+                "
               >
                 <van-card
                   centered

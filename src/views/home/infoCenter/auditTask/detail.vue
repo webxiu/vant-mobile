@@ -403,7 +403,7 @@ const notNodeDetailAction = (action: string) => {
         defRes.then((res) => {
           if (res.data) {
             showNotify({ message: (res as any).message, type: "success" });
-            setTimeout(() => router.push("/auditTask"), 500);
+            setTimeout(() => router.push("/infoCenter/auditTask"), 500);
           } else {
             showNotify({ message: "操作失败，请联系开发人员处理！" });
             return false;

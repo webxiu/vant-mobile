@@ -3,32 +3,42 @@
     <div class="form-add">
       <van-form colon label-width="100px" label-align="center">
         <van-row type="flex">
-          <van-col span="10">
+          <van-col span="24">
             <van-field v-model="dataInfo.fname" label="采购员" readonly />
           </van-col>
         </van-row>
-
-        <van-field
-          v-model="dataInfo.content"
-          label="内容"
-          type="textarea"
-          maxlength="100"
-          readonly
-        />
-        <van-field
-          v-model="dataInfo.name"
-          label="联系人"
-          v-show="show"
-          readonly
-        />
-        <van-field
-          v-model="dataInfo.phone"
-          center
-          label="手机号"
-          v-show="show"
-          readonly
-        >
-        </van-field>
+        <van-row type="flex">
+          <van-col span="24">
+            <van-field
+              v-model="dataInfo.content"
+              label="内容"
+              type="textarea"
+              maxlength="100"
+              readonly
+            />
+          </van-col>
+        </van-row>
+        <van-row type="flex">
+          <van-col span="24">
+            <van-field
+              v-model="dataInfo.name"
+              label="联系人"
+              v-show="show"
+              readonly
+            />
+          </van-col>
+        </van-row>
+        <van-row type="flex">
+          <van-col span="24">
+            <van-field
+              v-model="dataInfo.phone"
+              center
+              label="手机号"
+              v-show="show"
+              readonly
+            />
+          </van-col>
+        </van-row>
       </van-form>
     </div>
   </div>

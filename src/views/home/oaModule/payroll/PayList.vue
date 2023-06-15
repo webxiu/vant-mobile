@@ -82,7 +82,7 @@ const onRefresh = () => {
 const clickToDetail = (item) => {
   const { Gzmbb, GzmbNo, Id } = item;
   router.push({
-    path: `/payroll/${item.Id}`,
+    path: `/oa/payroll/${item.Id}`,
     query: { gzmbb: Gzmbb, gzmbNo: GzmbNo, payslipId: Id },
   });
 };

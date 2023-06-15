@@ -100,7 +100,10 @@ const onRefresh = () => {
 };
 
 const navigateToDetail = (id) => {
-  router.push({ path: "/internalPurchaseBenefits/orderDetail", query: { id } });
+  router.push({
+    path: "/oa/internalPurchaseBenefits/orderDetail",
+    query: { id },
+  });
 };
 
 const cancelAction = (id) => {
@@ -164,7 +167,11 @@ const onLoad = () => {
 <style scoped lang="scss">
 /* 详情页面样式 */
 .order-list-page {
-  padding: 10px;
+  // padding-bottom: 100px;
+  // margin-bottom: 100px;
+  // background-color: hotpink;
+  padding-bottom: 90px;
+  // height: 50vh;
 
   :deep(.van-card) {
     border-radius: 10px;

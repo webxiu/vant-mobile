@@ -1,6 +1,7 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 import axios from "axios";
+import { removeCookie } from "@/utils/storage";
 import router from "@/router";
 import { showToast } from "vant";
 
@@ -23,7 +24,8 @@ axiosInstance.interceptors.response.use(
     if (data?.status === 401) {
       const timer = setTimeout(() => {
         showToast({ message: "请重新登录", type: "fail", position: "top" });
-        router.push("/payroll");
+        removeCookie();
+        router.push("/login");
         clearTimeout(timer);
       }, 3000);
     } else if (data?.status === 403) {

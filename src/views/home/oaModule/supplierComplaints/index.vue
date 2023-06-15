@@ -91,7 +91,7 @@ const getData = async (isRefresh = false) => {
 };
 
 const onJumpDetail = (item: SupplierItemType) => {
-  router.push(`/supplierComplaints/${item.id}`);
+  router.push(`/oa/supplierComplaints/${item.id}`);
 };
 </script>
 

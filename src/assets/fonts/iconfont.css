@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4119739 */
-  src: url('iconfont.woff2?t=1686635382618') format('woff2'),
-       url('iconfont.woff?t=1686635382618') format('woff'),
-       url('iconfont.ttf?t=1686635382618') format('truetype');
+  src: url('iconfont.woff2?t=1686800751860') format('woff2'),
+       url('iconfont.woff?t=1686800751860') format('woff'),
+       url('iconfont.ttf?t=1686800751860') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,38 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-xingzhuanggongnengtubiao-:before {
+  content: "\e620";
+}
+
+.icon-icon_home:before {
+  content: "\e618";
+}
+
+.icon-SmartHome:before {
+  content: "\e74a";
+}
+
+.icon-home_click:before {
+  content: "\e66d";
+}
+
+.icon-caidan_16:before {
+  content: "\e769";
+}
+
+.icon-a-homeliving:before {
+  content: "\e69e";
+}
+
+.icon-liebiaofanhui:before {
+  content: "\e606";
+}
+
+.icon-17home:before {
+  content: "\e62b";
 }
 
 .icon-4:before {

@@ -54,10 +54,20 @@ npm run method:readme
 - **通用工具方法写到 src/utils 目录中**
 - **开发中的需求写到对应的目录结构中**
 - **函数命名采用驼峰书写格式命名,单词拼写正确**
-- **CSS 样式命名参考 [BEM](https://github.com/Tencent/tmt-workflow/wiki/%E2%92%9B-%5B%E8%A7%84%E8%8C%83%5D--CSS-BEM-%E4%B9%A6%E5%86%99%E8%A7%84%E8%8C%83) 的风格**
+- **CSS 样式命名参考腾讯 [BEM](https://github.com/Tencent/tmt-workflow/wiki/%E2%92%9B-%5B%E8%A7%84%E8%8C%83%5D--CSS-BEM-%E4%B9%A6%E5%86%99%E8%A7%84%E8%8C%83) 的风格**
 - **通用工具方法写到 src/utils 目录中定义**
 - **NodeJS 版本推荐 16+**
-- **使用 VSCode 开发工具**
+- **推荐使用 VSCode 开发工具**
+- **项目文件中函数方法名注释书写规范**
+  - 为了保持代码的阅读性,一个文件中函数方法按`50%以上`的比例添加注释, 即编写 10 个函数方法至少写 5 个以上的注释
+  - 不要求所有方法都添加注释, 但是主要功能的函数方法必须加上
+  - 注释格式需要说明函数的`功能`、`参数`、`返回值`等
+  - 双斜线`//`注释没有鼠标悬停提示, 建议采用`/** 注释内容 */`格式注释
+- **添加文件头信息注释**
+  - 安装 vscode 插件
+  - 在文件首行生成作者信息快捷键:
+    - windows 系统: Ctrl + Alt + i
+    - Mac 系统:Control + Option + i
 
 ## 目录结构
 
@@ -107,53 +117,53 @@ npm run method:readme
 
 ```bash
 # 方法名称  方法描述
-getPageTitle:  设置网页标题 
-debounce:  函数防抖 
-throttle:  函数节流 
-getDateTime:  获取当前年月日 
-isApp:  判断是否在移动端应用中打开 
+getPageTitle:  设置网页标题
+debounce:  函数防抖
+throttle:  函数节流
+getDateTime:  获取当前年月日
+isApp:  判断是否在移动端应用中打开
 ```
 
 - **src\utils\getStatusColor.ts**
 
 ```bash
 # 方法名称  方法描述
-colorSelector:  TagType 
+colorSelector:  TagType
 ```
 
 - **src\utils\regExp.ts**
 
 ```bash
 # 方法名称  方法描述
-regExp:  全局正则表达式 
+regExp:  全局正则表达式
 ```
 
 - **src\utils\request.ts**
 
 ```bash
 # 方法名称  方法描述
-request:  AxiosInstance, AxiosRequestConfig, AxiosResponse 
+request:  AxiosInstance, AxiosRequestConfig, AxiosResponse
 ```
 
 - **src\utils\storage.ts**
 
 ```bash
 # 方法名称  方法描述
-getCookie:  获取Cookie 
-setCookie:  设置Cookie 
-removeCookie:  移除Cookie 
-getLoginInfo:  获取用户信息 
-setLoginInfo:  设置用户信息 
-removeLoginInfo:  移除用户信息 
+getCookie:  获取Cookie
+setCookie:  设置Cookie
+removeCookie:  移除Cookie
+getLoginInfo:  获取用户信息
+setLoginInfo:  设置用户信息
+removeLoginInfo:  移除用户信息
 ```
 
 - **src\utils\validate.ts**
 
 ```bash
 # 方法名称  方法描述
-isExternal:  regExp 
-validPhone:  验证网址 
-validURL:  验证手机号码 
-validEmail:  验证网址是否有效 
-validID:  验证邮箱账号 
+isExternal:  regExp
+validPhone:  验证网址
+validURL:  验证手机号码
+validEmail:  验证网址是否有效
+validID:  验证邮箱账号
 ```

@@ -67,7 +67,7 @@ const initData = (res) => {
 };
 const gotoDetail = ({ billNo, billId, processDefId, processInstId }) => {
   router.push({
-    path: "/auditTask/detail",
+    path: "/infoCenter/auditTask/detail",
     query: { billNo, billId, processDefId, processInstId, tab: 3 },
   });
 };

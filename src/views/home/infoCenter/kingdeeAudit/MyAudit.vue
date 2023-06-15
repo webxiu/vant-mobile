@@ -9,7 +9,7 @@ const router = useRouter();
 
 const onLookInfo = (item: TaskItemType) => {
   router.push(
-    `/kingdeeAudit/audit/detail?billNo=${item.billNo}&fbillNumber=${item.fbillNumber}&billType=${item.formId}&deployKey=${item.deployKey}`
+    `/infoCenter/kingdeeAudit/auditDetail?billNo=${item.billNo}&fbillNumber=${item.fbillNumber}&billType=${item.formId}&deployKey=${item.deployKey}`
   );
 };
 

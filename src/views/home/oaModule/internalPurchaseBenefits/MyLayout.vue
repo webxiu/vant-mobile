@@ -7,7 +7,7 @@
         active-color="#1989fa"
         @change="bottomChangeBar"
       >
-        <van-tabbar-item icon="home-o">首页</van-tabbar-item>
+        <van-tabbar-item icon="goods-collect-o">商品</van-tabbar-item>
         <van-tabbar-item icon="orders-o">订单</van-tabbar-item>
         <van-tabbar-item icon="user-o">我的</van-tabbar-item>
       </van-tabbar>
@@ -31,15 +31,15 @@ const shopListInfo: { list: any[] } = reactive({ list: [] });
 const bottomChangeBar = (v) => {
   shopStore.setCurentShopBottomTab(v);
   if (v === 2) {
-    router.push("/internalPurchaseBenefits/user");
+    router.push("/oa/internalPurchaseBenefits/user");
   }
 
   if (v === 1) {
-    router.push("/internalPurchaseBenefits/orderList");
+    router.push("/oa/internalPurchaseBenefits/orderList");
   }
 
   if (v === 0) {
-    router.push("/internalPurchaseBenefits");
+    router.push("/oa/internalPurchaseBenefits");
   }
 };
 

@@ -147,6 +147,8 @@ declare global {
         /** 离场动画 */
         leaveTransition?: string;
       };
+      /** 是否隐藏路由， 默认显示 */
+      pathType?: string;
     };
     /** 子路由配置项 */
     children?: Array<RouteConfigRawType>;

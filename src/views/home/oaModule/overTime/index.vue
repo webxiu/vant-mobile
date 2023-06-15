@@ -32,7 +32,7 @@ const onSwipeChange = (index: number) => {
   swipeRef.value?.swipeTo(index);
 };
 
-const handleToAdd = () => router.push("/overTime/add");
+const handleToAdd = () => router.push("/oa/overTime/add");
 </script>
 
 <template>

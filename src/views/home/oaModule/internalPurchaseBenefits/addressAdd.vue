@@ -70,7 +70,7 @@ const onSave = (val) => {
       if (res.data) {
         // 编辑成功
         showNotify({ type: "success", message: "操作成功" });
-        router.push("/internalPurchaseBenefits/addressList");
+        router.push("/oa/internalPurchaseBenefits/addressList");
       }
     });
   } else if (route.query.type === "add") {
@@ -86,7 +86,7 @@ const onSave = (val) => {
       if (res.data) {
         // 新增成功
         showNotify({ type: "success", message: "操作成功" });
-        router.push("/internalPurchaseBenefits/addressList");
+        router.push("/oa/internalPurchaseBenefits/addressList");
       }
     });
   }
@@ -96,7 +96,7 @@ const onDelete = () => {
     if (res.data) {
       // 删除成功
       showNotify({ type: "success", message: "操作成功" });
-      router.push("/internalPurchaseBenefits/addressList");
+      router.push("/oa/internalPurchaseBenefits/addressList");
     }
   });
 };

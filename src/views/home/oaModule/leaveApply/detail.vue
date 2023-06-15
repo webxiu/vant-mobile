@@ -239,7 +239,7 @@ const confirmRevoke = (action: string): boolean | Promise<boolean> => {
           if (res.data) {
             resolve(true);
             showNotify({ type: "success", message: (res as any).message });
-            setTimeout(() => router.push("/leaveApply"), 100);
+            setTimeout(() => router.push("/oa/leaveApply"), 100);
           } else {
             resolve(false);
             showNotify({
@@ -284,7 +284,7 @@ const handleAction = (actionType) => {
             if (res.data) {
               resolve(true);
               showNotify({ type: "success", message: (res as any).message });
-              setTimeout(() => router.push("/leaveApply"), 100);
+              setTimeout(() => router.push("/oa/leaveApply"), 100);
             } else {
               resolve(false);
               showNotify({
@@ -306,7 +306,7 @@ const changeBottomBar = (active) => {
   switch (active) {
     case 1:
       router.push({
-        path: "/leaveApply/add",
+        path: "/oa/leaveApply/add",
         query: { id: props.id, mode: "edit" },
       });
       break;

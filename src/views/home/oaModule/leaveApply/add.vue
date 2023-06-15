@@ -19,6 +19,7 @@
           v-model="holidayType"
           name="holidayType"
           label="请假类型"
+          readonly
           placeholder="请选择请假类型"
           @click="showTypePicker = true"
           :rules="[{ required: true, message: '请假类型不能为空' }]"
@@ -53,6 +54,7 @@
         <van-field
           v-model="startDate"
           name="startDate"
+          readonly
           label="开始日期"
           placeholder="请选择开始日期"
           @click="showStartDate = true"
@@ -70,6 +72,7 @@
           v-model="startTime"
           name="startTime"
           label="开始时间"
+          readonly
           placeholder="请选择开始时间"
           @click="showStartTime = true"
           :rules="[{ required: true, message: '开始时间不能为空' }]"
@@ -88,6 +91,7 @@
           v-model="endDate"
           name="endDate"
           label="结束日期"
+          readonly
           placeholder="请选择结束日期"
           @click="showEndDate = true"
           :rules="[{ required: true, message: '结束日期不能为空' }]"
@@ -104,6 +108,7 @@
           v-model="endTime"
           name="endTime"
           label="结束时间"
+          readonly
           placeholder="请选择结束时间"
           @click="showEndTime = true"
           :rules="[{ required: true, message: '结束时间不能为空' }]"
@@ -138,7 +143,12 @@
         />
 
         <!-- 请假说明 -->
-        <van-field label="请假说明" is-link @click="showInstruct = true" />
+        <van-field
+          label="请假说明"
+          is-link
+          @click="showInstruct = true"
+          readonly
+        />
         <!-- 请假说明弹出层 -->
         <van-popup v-model:show="showInstruct" position="bottom">
           <div class="popup-scroll">
@@ -278,7 +288,7 @@ const onSubmit = (values) => {
     editLeaveList(editConfig).then((res) => {
       if (res.status === 200 && res.data) {
         showNotify({ type: "success", message: (res as any).message });
-        setTimeout(() => router.push("/leaveApply"), 100);
+        setTimeout(() => router.push("/oa/leaveApply"), 100);
       } else showNotify({ type: "danger", message: (res as any).message });
     });
     return;
@@ -295,7 +305,7 @@ const onSubmit = (values) => {
   }).then((res) => {
     if (res.status === 200 && res.data) {
       showNotify({ type: "success", message: (res as any).message });
-      setTimeout(() => router.push("/leaveApply"), 100);
+      setTimeout(() => router.push("/oa/leaveApply"), 100);
     } else showNotify({ type: "danger", message: (res as any).message });
   });
 };
@@ -397,9 +407,13 @@ onMounted(() => {
       margin: 18px 24px 0 0;
     }
 
+    .line-text {
+      font-size: 34px;
+    }
     .des {
       color: #969799;
-      font-size: 12px;
+      font-size: 26px;
+      z-index: 3000;
     }
 
     :deep(.van-divider) {

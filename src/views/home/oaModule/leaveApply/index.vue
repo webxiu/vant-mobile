@@ -32,7 +32,7 @@ const onSwipeChange = (index: number) => {
   swipeRef.value?.swipeTo(index);
 };
 
-const handleToAdd = () => router.push("/leaveApply/add");
+const handleToAdd = () => router.push("/oa/leaveApply/add");
 </script>
 
 <template>

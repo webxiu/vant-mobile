@@ -6,6 +6,62 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "5342991",
+      "name": "返回",
+      "font_class": "xingzhuanggongnengtubiao-",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "7500572",
+      "name": "首页",
+      "font_class": "icon_home",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "8549854",
+      "name": "Smart Home",
+      "font_class": "SmartHome",
+      "unicode": "e74a",
+      "unicode_decimal": 59210
+    },
+    {
+      "icon_id": "9680081",
+      "name": "home_click",
+      "font_class": "home_click",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    },
+    {
+      "icon_id": "27392077",
+      "name": "16企业管理",
+      "font_class": "caidan_16",
+      "unicode": "e769",
+      "unicode_decimal": 59241
+    },
+    {
+      "icon_id": "33264815",
+      "name": "home&living",
+      "font_class": "a-homeliving",
+      "unicode": "e69e",
+      "unicode_decimal": 59038
+    },
+    {
+      "icon_id": "5922097",
+      "name": "列表返回",
+      "font_class": "liebiaofanhui",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "16017193",
+      "name": "17home",
+      "font_class": "17home",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
       "icon_id": "1277206",
       "name": "供应商管理",
       "font_class": "4",

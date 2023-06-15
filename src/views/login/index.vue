@@ -39,7 +39,7 @@
     </template>
 
     <template #foot>
-      <div class="mb-20">
+      <div class="mb-20 mt-100">
         <van-divider class="line">心怀成爱&nbsp;&nbsp;力奉精益</van-divider>
       </div>
     </template>

@@ -74,6 +74,7 @@ const onConfirm = ({ selectedValues }) => {
   querParams.starttime = `${year}-01-01`;
   querParams.year = selectedValues[0];
   querParams.month = selectedValues[1];
+  timeValue.value = `${selectedValues[0]}年${selectedValues[1]}月`;
 
   getData();
 };

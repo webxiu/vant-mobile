@@ -24,7 +24,7 @@
               <van-cell
                 value="详情"
                 is-link
-                :to="`/leaveApply/${item.id}?tab=1`"
+                :to="`/oa/leaveApply/${item.id}?tab=1`"
               >
                 <!-- 使用title插槽来自定义标题 -->
                 <template #title>

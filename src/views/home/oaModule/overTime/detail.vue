@@ -241,7 +241,7 @@ const confirmRevoke = (action: string): boolean | Promise<boolean> => {
           if (res.data) {
             resolve(true);
             showNotify({ type: "success", message: (res as any).message });
-            setTimeout(() => router.push("/overTime"), 100);
+            setTimeout(() => router.push("/oa/overTime"), 100);
           } else {
             resolve(false);
             showNotify({
@@ -286,7 +286,7 @@ const handleAction = (actionType) => {
             if (res.data) {
               resolve(true);
               showNotify({ type: "success", message: (res as any).message });
-              setTimeout(() => router.push("/overTime"), 100);
+              setTimeout(() => router.push("/oa/overTime"), 100);
             } else {
               resolve(false);
               showNotify({
@@ -308,7 +308,7 @@ const changeBottomBar = (active) => {
   switch (active) {
     case 1:
       router.push({
-        path: "/overTime/add",
+        path: "/oa/overTime/add",
         query: { id: props.id, mode: "edit" },
       });
       break;

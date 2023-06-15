@@ -154,7 +154,7 @@
                               v-on:click="
                                 () =>
                                   router.push(
-                                    '/internalPurchaseBenefits/addressList'
+                                    '/oa/internalPurchaseBenefits/addressList'
                                   )
                               "
                               ><!----></i
@@ -305,7 +305,7 @@ const saveSkuInfo = (v) => {
   saveOrderListItem(params).then((res) => {
     if (res.data) {
       showNotify({ type: "success", message: "操作成功" });
-      router.push("/internalPurchaseBenefits/orderList");
+      router.push("/oa/internalPurchaseBenefits/orderList");
       shopStore.setCurentShopBottomTab(1);
     }
   });

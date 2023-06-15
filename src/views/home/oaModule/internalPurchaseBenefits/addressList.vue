@@ -26,11 +26,11 @@ const userInfo: any = ref({});
 const list = ref([]);
 
 const onAdd = () => {
-  router.push(`/internalPurchaseBenefits/addressAdd?type=add`);
+  router.push(`/oa/internalPurchaseBenefits/addressAdd?type=add`);
 };
 const onEdit = (addressItem) => {
   router.push({
-    path: "/internalPurchaseBenefits/addressAdd",
+    path: "/oa/internalPurchaseBenefits/addressAdd",
     query: {
       id: +addressItem.id,
       type: "edit",

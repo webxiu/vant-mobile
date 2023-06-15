@@ -6,7 +6,7 @@
           <van-cell
             title="我的收货地址"
             is-link
-            to="/internalPurchaseBenefits/addressList"
+            to="/oa/internalPurchaseBenefits/addressList"
           />
         </van-cell-group>
       </div>

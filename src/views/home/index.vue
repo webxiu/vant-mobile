@@ -4,6 +4,10 @@ import { useRouter } from "vue-router";
 import MyIcon from "@/components/MyIcon/index.vue";
 
 const router = useRouter();
+
+const onClickItem = (item: RouteConfigRawType, cell: RouteConfigRawType) => {
+  router.push(`${item.path}/${cell.path}`);
+};
 </script>
 
 <template>
@@ -16,7 +20,7 @@ const router = useRouter();
             class="no-select"
             :class="{ disable: cell.meta.disable }"
             v-if="cell.meta && !cell.meta.hidden"
-            @click="() => !cell.meta?.disable && router.push(cell.path)"
+            @click="onClickItem(item, cell)"
           >
             <template #icon>
               <MyIcon :iconClass="cell.meta.icon" class-name="iconClass" />

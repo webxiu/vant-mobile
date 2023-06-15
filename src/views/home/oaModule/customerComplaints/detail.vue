@@ -175,22 +175,10 @@ const getData = async () => {
     const result = await getCustomerComplaintDetail({ id });
     const data = result.data;
     if (!data) throw "暂无详情信息";
-    if (data.info.customer) {
-      appStore.setNavTitle(`客户：【${data.info.customer}】的客诉单`);
-    } else {
-      appStore.setNavTitle(`客诉详情`);
-    }
-    Object.keys(data.info).forEach((key) => {
-      customerOrderList.value.map((item) => {
-        if (item.field === key) {
-          item.value = data.info[key];
-        }
-      });
-    });
+    customerOrderList.value.map((item) => (item.value = data.info[item.field]));
     detailInfoList.value = data.detailInfo;
   } catch (error) {
-    console.log("error:", error);
-    showToast({ message: "获取详情信息失败", position: "top" });
+    showToast({ message: "获取详情失败", position: "top" });
   }
 };
 </script>

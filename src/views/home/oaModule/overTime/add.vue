@@ -28,6 +28,7 @@
           name="overtimeType"
           label="加班类型"
           placeholder="请选择加班类型"
+          readonly
           @click="showTypePicker = true"
           :rules="[{ required: true, message: '加班类型不能为空' }]"
         />
@@ -64,6 +65,7 @@
           label="开始日期"
           @blur="lastBlur"
           placeholder="请选择开始日期"
+          readonly
           @click="showStartDate = true"
           :rules="[{ required: true, message: '开始日期不能为空' }]"
         />
@@ -80,6 +82,7 @@
           name="startTime"
           label="开始时间"
           placeholder="请选择开始时间"
+          readonly
           @blur="lastBlur"
           @click="showStartTime = true"
           :rules="[{ required: true, message: '开始时间不能为空' }]"
@@ -99,6 +102,7 @@
           name="endDate"
           label="结束日期"
           @blur="lastBlur"
+          readonly
           placeholder="请选择结束日期"
           @click="showEndDate = true"
           :rules="[{ required: true, message: '结束日期不能为空' }]"
@@ -116,6 +120,7 @@
           name="endTime"
           label="结束时间"
           placeholder="请选择结束时间"
+          readonly
           @click="showEndTime = true"
           @blur="lastBlur"
           :rules="[{ required: true, message: '结束时间不能为空' }]"
@@ -240,7 +245,10 @@ const onSubmit = (values) => {
     editOverTimeList(editConfig).then((res) => {
       if (res.status === 200 && res.data) {
         showNotify({ type: "success", message: (res as any).message });
-        setTimeout(() => router.push("/overTime/" + "" + route.query.id), 100);
+        setTimeout(
+          () => router.push("/oa/overTime/" + "" + route.query.id),
+          100
+        );
       } else showNotify({ type: "danger", message: (res as any).message });
     });
     return;
@@ -257,7 +265,7 @@ const onSubmit = (values) => {
   }).then((res) => {
     if (res.status === 200 && res.data) {
       showNotify({ type: "success", message: (res as any).message });
-      setTimeout(() => router.push("/overTime"), 100);
+      setTimeout(() => router.push("/oa/overTime"), 100);
     } else showNotify({ type: "danger", message: (res as any).message });
   });
 };
