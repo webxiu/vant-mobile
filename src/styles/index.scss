@@ -83,3 +83,6 @@ html {
   opacity: 0;
   transform: translateX(60px);
 }
+* {
+  touch-action: pan-y;
+}

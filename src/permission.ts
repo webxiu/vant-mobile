@@ -11,6 +11,7 @@ const hostObj = {
   localhost: "nginx.deogra.com",
   "127.0.0.1": "nginx.deogra.com",
   "test.deogra.com": "nginx.deogra.com",
+  "qywx.deogra.com": "app.deogra.com",
 };
 
 const userStore = useUserStoreWithOut();

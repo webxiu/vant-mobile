@@ -83,14 +83,20 @@ const handleToAdd = () => router.push("/oa/leaveApply/add");
     </van-swipe>
 
     <!--新增加班单按钮-->
-    <div class="add-action" @click="handleToAdd" v-if="!selectedTab">
-      <van-icon name="plus" size="22" />
+    <div class="add-action" @click.stop="handleToAdd" v-show="!selectedTab">
+      <van-icon name="plus" size="30" />
     </div>
   </div>
 </template>
 
 <style lang="scss" scoped>
 .leave {
+  height: 100%;
+  // position: relative;
+  :deep(.van-badge) {
+    background-color: #1989fa;
+  }
+
   :deep(.van-tabs__wrap) {
     touch-action: manipulation;
   }
@@ -100,18 +106,20 @@ const handleToAdd = () => router.push("/oa/leaveApply/add");
     background: #f60;
   }
   .add-action {
-    width: 120px;
+    width: 90px;
     border-radius: 50%;
     box-shadow: 2px 3px 6px grey;
     background-color: #5686ff;
-    bottom: 30px;
+    // bottom: 170px;
+    bottom: 480px;
     right: 70px;
-    height: 120px;
+    height: 90px;
     position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
     color: #fff;
+    z-index: 100;
   }
 }
 </style>

@@ -49,7 +49,7 @@ https://erp.deogra.com:8058
 npm run method:readme
 ```
 
-## 规范
+## 项目规范
 
 - **通用工具方法写到 src/utils 目录中**
 - **开发中的需求写到对应的目录结构中**
@@ -68,6 +68,22 @@ npm run method:readme
   - 在文件首行生成作者信息快捷键:
     - windows 系统: Ctrl + Alt + i
     - Mac 系统:Control + Option + i
+
+## Git 提交规范参考
+
+- `feat` 增加新的业务功能
+- `fix` 修复业务问题/BUG
+- `perf` 优化性能
+- `style` 更改代码风格, 不影响运行结果
+- `refactor` 重构代码
+- `revert` 撤销更改
+- `test` 测试相关, 不涉及业务代码的更改
+- `docs` 文档和注释相关
+- `chore` 更新依赖/修改脚手架配置等琐事
+- `workflow` 工作流改进
+- `ci` 持续集成相关
+- `types` 类型定义文件更改
+- `wip` 开发中
 
 ## 目录结构
 
@@ -117,53 +133,57 @@ npm run method:readme
 
 ```bash
 # 方法名称  方法描述
-getPageTitle:  设置网页标题
-debounce:  函数防抖
-throttle:  函数节流
-getDateTime:  获取当前年月日
-isApp:  判断是否在移动端应用中打开
+getPageTitle:  设置网页标题 
+debounce:  函数防抖 
+throttle:  函数节流 
+getColorByPriority:  获取信息中心列表tag相关颜色 
+getDateTime:  获取当前年月日 
+isApp:  判断是否在移动端应用或者企业微信中打开 
 ```
 
 - **src\utils\getStatusColor.ts**
 
 ```bash
 # 方法名称  方法描述
-colorSelector:  TagType
+colorSelector:  TagType, showDialog 
+showToastModel:  列表及详情状态tag颜色 
 ```
 
 - **src\utils\regExp.ts**
 
 ```bash
 # 方法名称  方法描述
-regExp:  全局正则表达式
+regExp:  全局正则表达式 
 ```
 
 - **src\utils\request.ts**
 
 ```bash
 # 方法名称  方法描述
-request:  AxiosInstance, AxiosRequestConfig, AxiosResponse
+request:  AxiosInstance, AxiosRequestConfig, AxiosResponse 
 ```
 
 - **src\utils\storage.ts**
 
 ```bash
 # 方法名称  方法描述
-getCookie:  获取Cookie
-setCookie:  设置Cookie
-removeCookie:  移除Cookie
-getLoginInfo:  获取用户信息
-setLoginInfo:  设置用户信息
-removeLoginInfo:  移除用户信息
+getCookie:  获取Cookie 
+setCookie:  设置Cookie 
+removeCookie:  移除Cookie 
+getLoginInfo:  获取用户信息 
+setLoginInfo:  设置用户信息 
+removeLoginInfo:  移除用户信息 
+getSuspendPosition:  获取悬浮按钮位置 
+setSuspendPosition:  设置悬浮按钮位置 
 ```
 
 - **src\utils\validate.ts**
 
 ```bash
 # 方法名称  方法描述
-isExternal:  regExp
-validPhone:  验证网址
-validURL:  验证手机号码
-validEmail:  验证网址是否有效
-validID:  验证邮箱账号
+isExternal:  regExp 
+validPhone:  验证网址 
+validURL:  验证手机号码 
+validEmail:  验证网址是否有效 
+validID:  验证邮箱账号 
 ```

@@ -54,7 +54,6 @@
                     </div>
                   </template>
                 </van-cell>
-                <!-- https://test.deogra.com:8443/static/virtual/file/ftpfile/imageRealUpload/66E43538485F4FE090149638224AF584.jpg -->
               </van-cell-group>
               <van-cell-group>
                 <van-cell

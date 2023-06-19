@@ -1,8 +1,8 @@
 <template>
   <div class="sign-wrap">
-    <van-nav-bar :title="imgSrc ? '已完成签名' : '请在下面虚线范围內签名'" />
-    <div class="sign-content flex-1 flex ui-w-100 ui-h-100 ui-ov-h">
-      <div v-if="!imgSrc" class="flex-1" ref="boxRef">
+    <van-nav-bar :title="imgSrc ? '签名预览' : '请在下面虚线范围內签名'" />
+    <div class="sign-content flex-1 flex">
+      <div v-if="!imgSrc" class="flex-1 ui-ov-h" ref="boxRef">
         <vue-esign
           ref="signRef"
           v-if="width && height"
@@ -72,6 +72,7 @@ const signRef = ref(null);
 const width = ref(0);
 const height = ref(0);
 
+//
 const props = defineProps({
   showDefaultBtn: { type: Boolean, default: false },
   loading: { type: Boolean, default: false },
@@ -119,6 +120,7 @@ onMounted(() => {
 <style lang="scss">
 .sign-wrap {
   padding: 0 20px 20px;
+  width: 100%;
   height: 100%;
   display: flex;
   box-sizing: border-box;
@@ -126,7 +128,7 @@ onMounted(() => {
   flex-direction: column;
   .sign-content {
     border: 5px dotted gray;
-    box-sizing: border-box;
+    overflow: hidden;
   }
 }
 .sign-img {

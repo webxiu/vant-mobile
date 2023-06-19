@@ -6,7 +6,9 @@ import MyIcon from "@/components/MyIcon/index.vue";
 const router = useRouter();
 
 const onClickItem = (item: RouteConfigRawType, cell: RouteConfigRawType) => {
-  router.push(`${item.path}/${cell.path}`);
+  if (!cell.meta?.disable) {
+    router.push(`${item.path}/${cell.path}`);
+  }
 };
 </script>
 
@@ -16,7 +18,12 @@ const onClickItem = (item: RouteConfigRawType, cell: RouteConfigRawType) => {
       <div class="cate-title" v-if="item.meta">{{ item.meta.title }}</div>
       <van-grid :column-num="3" :gutter="10" :border="false">
         <template v-for="cell in item.children">
-          <van-grid-item class="no-select" :class="{ disable: cell.meta.disable }" v-if="cell.meta && !cell.meta.hidden" @click="onClickItem(item, cell)">
+          <van-grid-item
+            class="no-select"
+            :class="{ disable: cell.meta.disable }"
+            v-if="cell.meta && !cell.meta.hidden"
+            @click="onClickItem(item, cell)"
+          >
             <template #icon>
               <MyIcon :iconClass="cell.meta.icon" class-name="iconClass" />
             </template>

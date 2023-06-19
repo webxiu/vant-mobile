@@ -1,24 +1,14 @@
-<script lang="ts" setup>
-import { reactive } from "vue";
-const data = reactive([
-  {
-    oaLiat: [{ title: "加班的", icon: "star-o", url: "/" }],
-  },
-]);
-</script>
+<script lang="ts" setup></script>
 
 <template>
-  <div class="home">
-    需求登记
-
-    <van-button type="primary">oaOvertime</van-button>
+  <div class="require-reg">
+    <van-empty description="暂无数据" />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.home {
+.require-reg {
   width: 750px;
-  height: 750px;
-  background: #ccc;
+  height: 100%;
 }
 </style>

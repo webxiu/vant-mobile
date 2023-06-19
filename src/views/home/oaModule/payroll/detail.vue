@@ -8,7 +8,7 @@
         @refreshAction="refreshAction"
         @setBottomCurrent="setBottomCurrent"
         class="detail-page flex-1 ui-ovy-a"
-        v-if="item.idx === activeSelected"
+        v-show="item.idx === activeSelected"
         :is="tabsPage[index].name"
       />
     </template>

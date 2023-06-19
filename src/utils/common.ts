@@ -7,7 +7,6 @@ const title = "德龙工作台";
  */
 export const getPageTitle = (pageTitle) => {
   if (pageTitle) {
-    // return `${pageTitle} - ${title}`;
     return `${pageTitle}`;
   }
   return `${title}`;

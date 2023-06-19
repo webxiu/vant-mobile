@@ -8,12 +8,12 @@ import "./assets/fonts/iconfont.js";
 import App from "@/App.vue";
 import VanSku from "vant-sku";
 import { createApp } from "vue";
+import drag from "v-drag";
 import { registerStore } from "@/store";
 import router from "@/router";
 import { setupVant } from "@/plugins/setupVant";
 import { useSvgIcon } from "@/icons";
 import vueEsign from "vue-esign";
-import "../mock";
 
 const app = createApp(App);
 
@@ -21,6 +21,8 @@ const app = createApp(App);
 app.use(vueEsign);
 // 使用sku组件
 app.use(VanSku);
+// 拖动
+app.use(drag);
 
 const initApp = async () => {
   app.use(router);

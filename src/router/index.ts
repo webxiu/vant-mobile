@@ -35,7 +35,7 @@ const commonRoute: RouteConfigRawType[] = [
 ];
 // 动态加载
 const modules: Record<string, any> = import.meta.glob(
-  ["./modules/**/*.ts", "!./modules/**/remaining.ts"],
+  ["./modules/**/*.ts", "!./modules/**/test.ts"],
   { eager: true }
 );
 

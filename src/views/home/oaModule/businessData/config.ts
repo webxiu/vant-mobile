@@ -1,9 +1,6 @@
-import * as echarts from "echarts";
-
 import type { EChartsOption } from "echarts";
 
 export interface OptionsType<T> {
-  el: HTMLElement;
   data: T[];
   year: number;
   month: string;
@@ -34,8 +31,8 @@ const noDataText = [
 const xAxis = Array.from(new Array(12)).map((_, i) => `${i + 1}月`);
 
 // 1.销售数据
-export const initEchart_1 = (opeions: OptionsType<SaleItemType>) => {
-  const { el, data, year, month } = opeions;
+export const option_1 = (opeions: OptionsType<SaleItemType>) => {
+  const { data, year, month } = opeions;
   // 过滤出当前年份数据
   const currentYearData: SaleItemType[] = data.filter(
     (item: SaleItemType) => item.FYEAR == year
@@ -102,9 +99,7 @@ export const initEchart_1 = (opeions: OptionsType<SaleItemType>) => {
       },
     ],
   };
-
-  const myChart = echarts.init(el);
-  myChart.setOption(option);
+  return option;
 };
 
 export interface ProductItemType {
@@ -112,11 +107,11 @@ export interface ProductItemType {
 }
 
 // 2.生产数据
-export const initEchart_2 = (opeions: OptionsType<ProductItemType>) => {
-  const { el, data, year, month } = opeions;
+export const option_2 = (opeions: OptionsType<ProductItemType>) => {
+  const { data, year, month } = opeions;
 
   const _dataObj = data[0];
-  const prodData = Object.keys(_dataObj)
+  const prodData = Object.keys(_dataObj || {})
     .map((_, i) => _dataObj[i])
     .filter(Boolean);
 
@@ -139,9 +134,7 @@ export const initEchart_2 = (opeions: OptionsType<ProductItemType>) => {
       { type: "line", label: { show: true }, smooth: true, data: prodData },
     ],
   };
-
-  const myChart = echarts.init(el);
-  myChart.setOption(option);
+  return option;
 };
 
 export interface ComplainItemType {
@@ -149,19 +142,21 @@ export interface ComplainItemType {
   num: number;
 }
 // 3.客户投诉
-export const initEchart_3 = (opeions: OptionsType<ComplainItemType>) => {
-  const { el, data, year, month } = opeions;
+export const option_3 = (opeions: OptionsType<ComplainItemType>) => {
+  const { data, year, month } = opeions;
   let totalNum = 0;
   let complainData: number[] = [];
-  // const max = Math.max(...data.map((item) => item.num));
-  const indicator = xAxis.map((name) => ({ name })).reverse();
+  const max = Math.max(...data.map((item) => item.num));
+  const indicator = xAxis.map((name) => ({ name, max: max })).reverse();
 
-  for (let i = 0; i < 12; i++) {
-    const dataItem = data[i];
-    const _index = data.findIndex(({ month }) => month == i + 1);
-    const val = _index > -1 && dataItem ? dataItem.num : 0;
-    totalNum += val;
-    complainData.push(val);
+  for (let i = 1; i <= 12; i++) {
+    const dataItem = data.filter(({ month }) => month == i)[0];
+    if (dataItem) {
+      complainData.push(dataItem.num);
+      totalNum += dataItem.num;
+    } else {
+      complainData.push(0);
+    }
   }
   complainData = complainData.reverse();
 
@@ -195,9 +190,7 @@ export const initEchart_3 = (opeions: OptionsType<ComplainItemType>) => {
       },
     ],
   };
-
-  const myChart = echarts.init(el);
-  myChart.setOption(option);
+  return option;
 };
 
 export interface HumanResourcestemType {
@@ -210,8 +203,8 @@ export interface HumanResourcestemType {
 }
 
 // 4.人力资源
-export const initEchart_4 = (opeions: OptionsType<HumanResourcestemType>) => {
-  const { el, data, year, month } = opeions;
+export const option_4 = (opeions: OptionsType<HumanResourcestemType>) => {
+  const { data, year, month } = opeions;
 
   const clerkData: number[] = []; // 职员
   const tempData: number[] = []; // 临时工
@@ -276,7 +269,5 @@ export const initEchart_4 = (opeions: OptionsType<HumanResourcestemType>) => {
       },
     ],
   };
-
-  const myChart = echarts.init(el);
-  myChart.setOption(option);
+  return option;
 };

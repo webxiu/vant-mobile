@@ -80,10 +80,10 @@ const getData = (aKey: string, index: number, isShowMsg = false) => {
         }
         if (index === idx) child.initData(res);
       });
-      isLoading.value = false;
       isShowMsg && showToast({ message: "数据获取成功", position: "top" });
     })
-    .catch((err) => showToast({ message: "数据获取失败", position: "top" }));
+    .catch((err) => showToast({ message: "数据获取失败", position: "top" }))
+    .finally(() => (isLoading.value = false));
 };
 
 const onTabChange = (index: number) => {

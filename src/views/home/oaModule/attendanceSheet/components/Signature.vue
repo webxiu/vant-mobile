@@ -1,29 +1,28 @@
 <template>
-  <div class="ui-h-100">
-    <Esign
-      ref="childRef"
-      :imgSrc="imgSrc"
-      :loading="loading"
-      @onHandleImg="onHandleImg"
+  <div class="ui-h-100 flex">
+    <VantSign
+      :showEsign="showEsign"
+      :resultImgSrcArr="resultImgSrcArr"
+      :handleImg="onHandleImg"
     />
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { SignStatus } from "../config";
+import VantSign from "@/components/VantSign/index.vue";
 import { showConfirmDialog, showDialog, showToast } from "vant";
 import {
   getSignature,
   getPreviewSignature,
   submitSignature,
 } from "@/api/oaModule";
-import Esign from "@/components/Esign/default.vue";
-import { onMounted } from "vue";
-import { SignStatus } from "../config";
 
 const route = useRoute();
 const loading = ref<boolean>(false);
-const imgSrc = ref<string>("");
+const showEsign = ref<boolean>(true);
+const resultImgSrcArr = ref<string[]>(["", ""]);
 const emits = defineEmits(["onSubmit"]);
 
 onMounted(() => {
@@ -34,7 +33,7 @@ onMounted(() => {
 const onGetSignature = () => {
   getSignature({ detailId: route.params.id })
     .then((res) => {
-      imgSrc.value = res.data.image1 + res.data.image2;
+      resultImgSrcArr.value = [res.data.image1, res.data.image2];
     })
     .catch((err) => {
       showToast({ message: "获取签名失败", position: "top" });
@@ -42,8 +41,13 @@ const onGetSignature = () => {
 };
 
 // 提交前预请求
-const onHandleImg = (imgStr: string) => {
+const onHandleImg = (data: { image: string; canvas: HTMLCanvasElement }) => {
+  const imgStr = data.image;
   loading.value = true;
+  if (!imgStr) {
+    showToast({ message: "请输入签名", position: "top" });
+    return;
+  }
   getPreviewSignature({ appId: route.params.id })
     .then((res) => {
       if (

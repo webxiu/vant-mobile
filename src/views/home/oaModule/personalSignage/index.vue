@@ -1,77 +1,145 @@
 <template>
-  <div class="home">
+  <div class="p-30">
     <van-card
       :title="'加入德龙'"
       :desc="dateTime"
       :thumb="personInfo?.avatar"
     />
-    <van-grid :column-num="3" :gutter="10" square>
-      <van-grid-item :text="`待审批的任务：${personInfo?.approve || 0}条`" />
-      <van-grid-item :text="`我负责的任务：${personInfo?.pending || 0}条`" />
-      <van-grid-item :text="`我创建的任务：${personInfo?.creation || 0}条`" />
-    </van-grid>
-    <van-grid :column-num="2" :gutter="10" square>
-      <van-grid-item :text="`本年请假天数：${personInfo?.askForLeave || 0}`" />
-      <van-grid-item
-        :text="`剩余调休时长：${personInfo?.compensatoryLeaveDuration || 0}h`"
-      />
-      <van-grid-item :text="`本年剩余年假：${personInfo?.annualLeave || 0}`" />
-      <van-grid-item :text="`本年加班天数：${personInfo?.overTime || 0}`" />
-      <van-grid-item :text="`打卡次数：4`" />
-      <van-grid-item text="心怀诚爱，力奉精益" />
-    </van-grid>
+
+    <div class="flex just-between mt-60">
+      <template :key="index" v-for="(item, index) in boardList">
+        <div class="audit-item t-border" v-if="index < 3">
+          <div class="fz-28 fw-700">{{ item.label }}</div>
+          <div class="mt-20">
+            <span class="fw-700">{{ item.value }}</span>
+            {{ item.unit }}
+          </div>
+        </div>
+      </template>
+    </div>
+
+    <div class="board-list mt-60">
+      <template :key="index" v-for="(item, index) in boardList">
+        <div
+          class="t-border flex just-between align-center p-36 mb-20"
+          v-if="index >= 3"
+        >
+          <div
+            class="board-name"
+            :style="{
+              textAlign: item.field === 'culture' ? 'center' : 'left',
+              flex: item.field === 'culture' ? 1 : 'auto',
+            }"
+          >
+            {{ item.label }}
+          </div>
+          <div class="list-num" v-if="item.field !== 'culture'">
+            <span class="fw-700">{{ item.value }}</span>
+            {{ item.unit }}
+          </div>
+        </div>
+      </template>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import { showToast } from "vant";
-import { getPersonInfo } from "@/api/oaModule";
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { computed } from "@vue/reactivity";
+import { getPersonInfo } from "@/api/oaModule";
+import { showToast, showLoadingToast, closeToast } from "vant";
 
 interface PersonInfoType {
-  annualLeave: string; // 年假
-  approve: string; // 待审批
+  annualLeave: string;
+  approve: string;
   pending: string;
-  overTime: string; // 本年加班
-  askForLeave: string; // 请假
+  overTime: string;
+  askForLeave: string;
   avatar: string;
   joinTimeYear: string;
   joinTimeDays: string;
-  creation: string; // 我创建的任务
-  compensatoryLeaveDuration: string; // 剩余调休时长
+  creation: string;
+  compensatoryLeaveDuration: string;
 }
 
-const isLoading = ref<boolean>(false);
 const personInfo = ref<PersonInfoType>();
+const boardList = ref([
+  { label: "待审批的任务", unit: "条", field: "approve", value: "0" },
+  { label: "我负责的任务", unit: "条", field: "pending", value: "0" },
+  { label: "我创建的任务", unit: "条", field: "creation", value: "0" },
+  { label: "本年请假天数", unit: "天", field: "askForLeave", value: "0" },
+  {
+    label: "剩余调休时长",
+    unit: "h",
+    field: "compensatoryLeaveDuration",
+    value: "0",
+  },
+  {
+    label: "本年剩余年假",
+    unit: "天",
+    field: "annualLeave",
+    value: "0",
+  },
+  { label: "本年加班天数", unit: "天", field: "overTime", value: "0" },
+  { label: "打卡次数", unit: "", field: "count", value: "4" },
+  { label: "心怀诚爱，力奉精益", unit: "", field: "culture", value: "" },
+]);
 
-onMounted(() => {
-  getData();
+onMounted(() => getData());
+
+const dateTime = computed(() => {
+  const { joinTimeYear, joinTimeDays } = personInfo.value || {};
+  return `${joinTimeYear || 0}年(${joinTimeDays || 0}天)`;
 });
 
-const dateTime = computed(
-  () =>
-    `${personInfo.value?.joinTimeYear || 0}年(${
-      personInfo.value?.joinTimeDays || 0
-    }天)`
-);
-
+// 获取数据
 const getData = () => {
-  isLoading.value = true;
+  showLoadingToast("加载中...");
   getPersonInfo({})
     .then((res) => {
       if (!res.data) throw "暂无数据";
       personInfo.value = res.data;
-      isLoading.value = false;
+      boardList.value.forEach((item) => {
+        if (res.data[item.field]) item.value = res.data[item.field] || "0";
+      });
     })
-    .catch((err) => {
-      showToast({ message: "数据获取失败", position: "top" });
-    });
+    .catch(() => showToast({ message: "数据获取失败", position: "top" }))
+    .finally(() => closeToast());
 };
 </script>
 <style lang="scss" scoped>
+.audit-item {
+  padding: 10px 20px 12px;
+  border-radius: 8px;
+  box-shadow: 0 0 4px 1px #ccc;
+  text-align: center;
+}
+.audit-item:not(:last-child) {
+  margin-right: 20px;
+}
+
+.t-border {
+  border-radius: 8px;
+  box-shadow: 0 0 4px 1px #ccc;
+  text-align: center;
+}
+
+.list-num {
+  width: 100px;
+  text-align: center;
+  font-size: 28px;
+}
+
+:deep(.van-card) {
+  padding-left: 0;
+  .van-image {
+    border: 1px solid #ccc;
+  }
+}
 :deep(.van-card__content) {
-  justify-content: center;
+  font-size: 28px;
+  .van-card__desc {
+    margin-top: 10px;
+  }
 }
 </style>

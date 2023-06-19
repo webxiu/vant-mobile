@@ -24,12 +24,7 @@
           </div>
         </div>
         <h2 class="h1">很抱歉，您还没有权限访问该页面</h2>
-        <van-button
-          plain
-          class="txt-btn no-border yellow-btn"
-          @click="router.push('/')"
-          >返回首页</van-button
-        >
+        <van-button plain @click="router.push('/')">返回首页</van-button>
       </div>
     </div>
   </div>
