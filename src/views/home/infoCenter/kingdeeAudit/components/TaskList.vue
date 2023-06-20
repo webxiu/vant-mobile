@@ -10,7 +10,9 @@
           <span class="custom-index">{{ index + 1 }}</span>
           <span class="ml-8 color-333">【{{ item.deployKey }}】</span>
         </div>
-        <van-button type="primary" size="mini">{{ item.status }}</van-button>
+        <van-button type="primary" size="mini" class="flex-shrink">
+          {{ item.status }}
+        </van-button>
       </div>
       <div class="flex just-between align-end mt-40" @click="onClickItem(item)">
         <div>

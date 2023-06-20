@@ -2,7 +2,7 @@
   <div class="mt-40 pl-28 pr-28">
     <div class="title">
       <div class="fz-36 color-111 fw-700">测试采购订单审批</div>
-      <div class="fz-12 color-999 mt-10">PO20230515003</div>
+      <div class="fz-28 color-999 mt-10">PO20230515003</div>
     </div>
     <van-form class="pt-10">
       <van-cell-group inset>
@@ -334,11 +334,9 @@ const onSubmit = () => {
   .row-td {
     background: rgba(244, 246, 250, 1);
     border: 1px solid rgba(234, 239, 243, 1);
-    padding: 4px 5px;
-    font-size: 14px;
+    font-size: 28px;
     font-weight: 400;
     color: rgba(63, 63, 63, 1);
-    line-height: 36px;
     border: 1px solid #d6d6d6;
   }
   thead td.row-td {
@@ -351,7 +349,6 @@ const onSubmit = () => {
   tbody td.row-td {
     min-height: 120px;
     padding: 5px;
-    font-size: 14px;
     padding: 28px 20px;
     line-height: 38px;
     .table-cell-cont {

@@ -22,7 +22,7 @@
             class="mt-20"
             :rules="rules.password"
           />
-          <van-field />
+          <van-field hidden readonly />
         </van-cell-group>
         <div class="form-btn">
           <van-button

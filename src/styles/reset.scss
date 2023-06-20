@@ -115,6 +115,11 @@ label {
   flex-direction: column;
 }
 
+.flex-shrink {
+  /* flex布局 避免空间不足挤压自身 */
+  flex-shrink: 0;
+}
+
 .just-start {
   justify-content: flex-start;
 }

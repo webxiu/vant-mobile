@@ -49,15 +49,15 @@ onMounted(() => {
 
 // 按压
 const onTouchstart = (e: TouchEvent) => {
-  isMove.value = false;
+  e.stopPropagation();
+  isMove.value = true;
 };
 
 // 移动
 const onTouchmove = (e: TouchEvent) => {
-  e.preventDefault();
+  if (!ballRef.value || !isMove.value) return;
   e.stopPropagation();
-  isMove.value = true;
-  if (!ballRef.value) return;
+  e.preventDefault();
   const { clientX, clientY } = e.changedTouches[0];
   const oW = ballRef.value.offsetWidth;
   const { top, left } = limitMoveArea(clientX, clientY);
@@ -88,6 +88,7 @@ const onTouchend = (e: TouchEvent) => {
     left: `${nLeft}px`,
     transition: "all 0.5s",
   };
+  isMove.value = false;
   setSuspendPosition({ top: `${nTop}px`, left: `${nLeft}px` });
 };
 

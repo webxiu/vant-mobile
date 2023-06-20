@@ -114,7 +114,7 @@ defineProps({
     margin-top: 20px;
     font-size: 28px;
     .flow-date {
-      font-size: 24px;
+      font-size: 28px;
     }
     .user-icon {
       display: flex;

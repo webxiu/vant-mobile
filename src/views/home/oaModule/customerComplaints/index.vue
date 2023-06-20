@@ -39,9 +39,9 @@
               <span class="custom-index">{{ index + 1 }}</span>
               <span class="ml-8 color-333">【{{ item.customer }}】</span>
             </div>
-            <van-button type="primary" size="mini">{{
-              item.stateName
-            }}</van-button>
+            <van-button type="primary" size="mini" class="flex-shrink">
+              {{ item.stateName }}
+            </van-button>
           </div>
           <div
             class="flex just-between align-end mt-40"
