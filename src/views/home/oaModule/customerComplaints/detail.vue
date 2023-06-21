@@ -113,7 +113,7 @@
                 <a
                   class="pointer"
                   target="_blank"
-                  :href="`${vPath}/static/virtual/files/${item.resourceUrl}/${item.resourceName}`"
+                  :href="`${vPath}${item.resourceUrl}/${item.resourceName}`"
                   >点我预览或下载</a
                 >
               </van-col>
@@ -154,7 +154,7 @@ const route = useRoute();
 const appStore = useAppStore();
 const id = route.params.id;
 const activeNames = ref<string[]>(["1"]);
-const vPath = import.meta.env.VITE_BASE_API;
+const vPath = import.meta.env.VITE_IMAGEURL_PREFIX;
 const detailInfoList = ref<CustomerDetailInfoType[]>([]);
 const customerOrderList = ref([
   { label: "标题", field: "title", value: "" },

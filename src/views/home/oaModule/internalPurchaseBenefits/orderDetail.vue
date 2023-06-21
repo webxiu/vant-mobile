@@ -14,7 +14,6 @@
           "
           :thumb="`${vpath}${orderInfo.imageFilename}`"
         >
-          <!-- https://test.deogra.com:8443/static/virtual/file/ftpfile/ -->
           <template #price>
             <div class="van-card__price">
               <div>
@@ -67,7 +66,7 @@ import { useRoute, useRouter } from "vue-router";
 import { queryOrderDetailInfo } from "@/api/oaModule";
 import { useAppStore } from "@/store/modules/app";
 
-const vpath = import.meta.env.VITE_BASE_API + "/static/virtual/file/ftpfile/";
+const vpath = import.meta.env.VITE_IMAGEURL_PREFIX;
 
 const route = useRoute();
 

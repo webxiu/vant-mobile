@@ -8,7 +8,7 @@
 
     <div class="flex just-between mt-60">
       <template :key="index" v-for="(item, index) in boardList">
-        <div class="audit-item t-border" v-if="index < 3">
+        <div class="audit-item t-border" @click="onHandleClick(item)">
           <div class="fz-28 fw-700">{{ item.label }}</div>
           <div class="mt-20">
             <span class="fw-700">{{ item.value }}</span>
@@ -19,11 +19,8 @@
     </div>
 
     <div class="board-list mt-60">
-      <template :key="index" v-for="(item, index) in boardList">
-        <div
-          class="t-border flex just-between align-center p-36 mb-20"
-          v-if="index >= 3"
-        >
+      <template :key="index" v-for="(item, index) in attendanceList">
+        <div class="t-border flex just-between align-center p-36 mb-20">
           <div
             class="board-name"
             :style="{
@@ -45,6 +42,7 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
 import { computed } from "@vue/reactivity";
 import { getPersonInfo } from "@/api/oaModule";
 import { showToast, showLoadingToast, closeToast } from "vant";
@@ -62,11 +60,32 @@ interface PersonInfoType {
   compensatoryLeaveDuration: string;
 }
 
+const router = useRouter();
 const personInfo = ref<PersonInfoType>();
 const boardList = ref([
-  { label: "待审批的任务", unit: "条", field: "approve", value: "0" },
-  { label: "我负责的任务", unit: "条", field: "pending", value: "0" },
-  { label: "我创建的任务", unit: "条", field: "creation", value: "0" },
+  {
+    label: "待审批的任务",
+    unit: "条",
+    field: "approve",
+    value: "0",
+    url: "/infoCenter/auditTask",
+  },
+  {
+    label: "我负责的任务",
+    unit: "条",
+    field: "pending",
+    value: "0",
+    url: "/infoCenter/myTask",
+  },
+  {
+    label: "我创建的任务",
+    unit: "条",
+    field: "creation",
+    value: "0",
+    url: "/infoCenter/createTask",
+  },
+]);
+const attendanceList = ref([
   { label: "本年请假天数", unit: "天", field: "askForLeave", value: "0" },
   {
     label: "剩余调休时长",
@@ -91,6 +110,11 @@ const dateTime = computed(() => {
   const { joinTimeYear, joinTimeDays } = personInfo.value || {};
   return `${joinTimeYear || 0}年(${joinTimeDays || 0}天)`;
 });
+const onHandleClick = (item) => {
+  if (item.url) {
+    router.push(item.url);
+  }
+};
 
 // 获取数据
 const getData = () => {

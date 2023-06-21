@@ -217,9 +217,7 @@ import { queryUserInfo } from "@/api/user";
 import { useAppStore } from "@/store/modules/app";
 import { useShopStore } from "@/store/modules/shop";
 
-const virtualPath = `${
-  import.meta.env.VITE_BASE_API
-}/static/virtual/file/ftpfile/`;
+const virtualPath = `${import.meta.env.VITE_IMAGEURL_PREFIX}`;
 
 const route = useRoute();
 const router = useRouter();

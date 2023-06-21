@@ -7,11 +7,11 @@ import BackButton from "@/components/BackButton/index.vue";
   <router-view>
     <template #default="{ Component, route }">
       <BackButton />
-      <transition name="fade-transform" mode="out-in">
-        <KeepAlive>
-          <component :is="Component" :key="route.fullPath" />
-        </KeepAlive>
-      </transition>
+      <!-- <transition name="fade-transform" mode="out-in"> -->
+      <KeepAlive>
+        <component :is="Component" :key="route.fullPath" />
+      </KeepAlive>
+      <!-- </transition> -->
     </template>
   </router-view>
 </template>

@@ -7,11 +7,11 @@ import { autoLogin } from "@/api/user";
 import router from "@/router";
 import { useUserStoreWithOut } from "@/store/modules/user";
 
+const org_domain = import.meta.env.VITE_ORGANIZATION_URL;
 const hostObj = {
-  localhost: "nginx.deogra.com",
-  "127.0.0.1": "nginx.deogra.com",
-  "test.deogra.com": "nginx.deogra.com",
-  "qywx.deogra.com": "app.deogra.com",
+  localhost: org_domain,
+  "127.0.0.1": org_domain,
+  "test.deogra.com": org_domain,
 };
 
 const userStore = useUserStoreWithOut();

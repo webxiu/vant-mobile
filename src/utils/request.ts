@@ -31,6 +31,14 @@ axiosInstance.interceptors.response.use(
     } else if (data?.status === 403) {
       showToast({ message: "未授权", position: "top" });
     } else {
+      if (data?.message) {
+        showToast({
+          message: JSON.stringify(data?.message),
+          position: "top",
+          duration: 3000,
+          wordBreak: "break-all",
+        });
+      }
       return Promise.reject(data);
     }
   },

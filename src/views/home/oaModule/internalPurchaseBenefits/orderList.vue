@@ -77,7 +77,7 @@ import { cancelOrderListItem, queryOrderList } from "@/api/oaModule";
 import { useAppStore } from "@/store/modules/app";
 import MyLayout from "./MyLayout.vue";
 
-const vpath = import.meta.env.VITE_BASE_API + "/static/virtual/file/ftpfile/";
+const vpath = import.meta.env.VITE_IMAGEURL_PREFIX;
 
 const router = useRouter();
 const list: any = ref([]);

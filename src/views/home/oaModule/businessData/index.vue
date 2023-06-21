@@ -31,7 +31,7 @@ import * as echarts from "echarts";
 import type { ECharts } from "echarts";
 import { getDateTime } from "@/utils/common";
 import { getSaleokratedata } from "@/api/oaModule";
-import { onMounted, ref, reactive } from "vue";
+import { onMounted, ref, reactive, markRaw } from "vue";
 import { showLoadingToast, closeToast, showToast } from "vant";
 import { option_1, option_2, option_3, option_4 } from "./config";
 
@@ -57,10 +57,14 @@ const EInstance4 = ref<ECharts>();
 
 onMounted(() => {
   currentDate.value = [`${year}`, month];
-  chartRef1.value && (EInstance1.value = echarts.init(chartRef1.value));
-  chartRef2.value && (EInstance2.value = echarts.init(chartRef2.value));
-  chartRef3.value && (EInstance3.value = echarts.init(chartRef3.value));
-  chartRef4.value && (EInstance4.value = echarts.init(chartRef4.value));
+  chartRef1.value &&
+    (EInstance1.value = markRaw(echarts.init(chartRef1.value)));
+  chartRef2.value &&
+    (EInstance2.value = markRaw(echarts.init(chartRef2.value)));
+  chartRef3.value &&
+    (EInstance3.value = markRaw(echarts.init(chartRef3.value)));
+  chartRef4.value &&
+    (EInstance4.value = markRaw(echarts.init(chartRef4.value)));
   getData();
 });
 

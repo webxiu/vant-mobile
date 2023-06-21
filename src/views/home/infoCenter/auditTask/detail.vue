@@ -46,11 +46,7 @@
                         span="16"
                         class="textright"
                       >
-                        <a
-                          target="_blank"
-                          :href="
-                            vPath + '/static/virtual/files/' + el.inputItemValue
-                          "
+                        <a target="_blank" :href="vPath + el.inputItemValue"
                           >点击预览或下载</a
                         >
                       </van-col>
@@ -302,7 +298,7 @@ import {
 } from "@/api/infoCenter";
 import { useAppStore } from "@/store/modules/app";
 
-const vPath = import.meta.env.VITE_BASE_API;
+const vPath = import.meta.env.VITE_IMAGEURL_PREFIX;
 
 defineProps({ id: String });
 const router = useRouter();

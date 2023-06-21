@@ -35,7 +35,7 @@
                   :title="item.commodityName"
                   :thumb="
                     item.commoditiesImages.length > 0
-                      ? `${vPath}/static/virtual/file/ftpfile/${item.commoditiesImages[0].imagefilename}`
+                      ? `${vPath}${item.commoditiesImages[0].imagefilename}`
                       : '图片加载失败'
                   "
                   :origin-price="item.commoditiesSpecs[0].officialPrice"
@@ -79,7 +79,7 @@ import { queryShoppingList } from "@/api/oaModule";
 import { useAppStore } from "@/store/modules/app";
 import MyLayout from "./MyLayout.vue";
 
-const vPath = import.meta.env.VITE_BASE_API;
+const vPath = import.meta.env.VITE_IMAGEURL_PREFIX;
 
 const appStore = useAppStore();
 const shopEmpty = ref(false);

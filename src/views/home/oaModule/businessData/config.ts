@@ -68,7 +68,7 @@ export const option_1 = (opeions: OptionsType<SaleItemType>) => {
   const title = `销售数据(单位:万元, 达成率${salesRate?.ItemValue || "0.00"}%)`;
   const option: EChartsOption = {
     title: { text: title, top: 5 },
-    legend: [{ top: "30px" }],
+    legend: [{ top: "35px" }],
     tooltip: { trigger: "axis" },
     grid: {
       top: 80,
@@ -118,7 +118,7 @@ export const option_2 = (opeions: OptionsType<ProductItemType>) => {
   const title = `生产数据(单位:Pcs)`;
   const option: EChartsOption = {
     title: { text: title, top: 5 },
-    legend: [{ top: "30px" }],
+    legend: [{ top: "35px" }],
     tooltip: { trigger: "axis" },
     grid: {
       top: 50,
@@ -163,7 +163,7 @@ export const option_3 = (opeions: OptionsType<ComplainItemType>) => {
   const title = `客户投诉(单位:笔, 总计:${totalNum}笔)`;
   const option: EChartsOption = {
     title: { text: title, top: 5 },
-    legend: [{ top: "30px" }],
+    legend: [{ top: "35px" }],
     grid: {
       top: 80,
       left: "3%",
@@ -227,7 +227,7 @@ export const option_4 = (opeions: OptionsType<HumanResourcestemType>) => {
   const title = `人力资源(单位:人, 总人数:${peopleNum}人)`;
   const option: EChartsOption = {
     title: { text: title, top: 5 },
-    legend: [{ top: "30px" }],
+    legend: [{ top: "35px" }],
     tooltip: { trigger: "axis" },
     grid: {
       top: 80,

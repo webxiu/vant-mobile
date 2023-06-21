@@ -62,6 +62,7 @@
         />
         <van-popup v-model:show="showStartDate" position="bottom">
           <van-date-picker
+            v-model="currentDateArr"
             @confirm="onStartDateConfirm"
             @cancel="showStartDate = false"
           />
@@ -79,6 +80,8 @@
         />
         <van-popup v-model:show="showStartTime" position="bottom">
           <van-time-picker
+            :min-hour="8"
+            :max-hour="18"
             @confirm="onStartTimeConfirm"
             title="时分"
             @cancel="showStartTime = false"
@@ -98,6 +101,7 @@
         />
         <van-popup v-model:show="showEndDate" position="bottom">
           <van-date-picker
+            v-model="currentDateArr"
             @confirm="onEndDateConfirm"
             @cancel="showEndDate = false"
           />
@@ -115,6 +119,8 @@
         />
         <van-popup v-model:show="showEndTime" position="bottom">
           <van-time-picker
+            :min-hour="8"
+            :max-hour="18"
             @confirm="onEndTimeConfirm"
             @cancel="showEndTime = false"
             :columns-type="['hour', 'minute']"
@@ -220,7 +226,7 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { showNotify } from "vant";
+import { PickerOption, showNotify } from "vant";
 
 import {
   addLeaveList,
@@ -246,6 +252,11 @@ const endTime = ref(""); // 结束时间
 const days = ref("0"); // 请假天数
 const hours = ref("0"); // 请假时长
 const userId = ref("");
+const minDate = new Date(2023, 5, 21);
+const maxDate = new Date(2025, 5, 1);
+const currentDateArr = ref(new Date().toLocaleDateString().split("/"));
+// const currentYMD = new Date().toLocaleDateString().split("/");
+// console.log(currentYMD, "currentYMD");
 
 const showStartDate = ref(false);
 const showStartTime = ref(false);
@@ -270,6 +281,12 @@ watch([startDate, startTime, endDate, endTime], () => {
     setCalcTimes();
   }
 });
+
+// 过滤日期选项
+const filterDate = (type: string, options: PickerOption[]) => {
+  console.log(type, "type");
+  console.log(options, "options");
+};
 
 // 表单提交事件
 const onSubmit = (values) => {
@@ -350,12 +367,19 @@ const setCalcTimes = () => {
     endDate: endDate.value,
     endTime: endTime.value,
     holidayType: holidayType.value,
-  }).then((res) => {
-    if (res.data) {
-      days.value = res.data.days;
-      hours.value = res.data.hours;
-    }
-  });
+  })
+    .then((res) => {
+      if (res.data) {
+        days.value = res.data.days;
+        hours.value = res.data.hours;
+      } else {
+        console.log(res, "res===mess");
+        showNotify({ type: "danger", message: "错误" });
+      }
+    })
+    .catch((e) => {
+      console.log(e, "eeee==");
+    });
 };
 
 // 编辑页面获取数据

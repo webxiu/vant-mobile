@@ -86,6 +86,7 @@ const getData = async (isRefresh = false) => {
     dataList.value = res.data;
     isLoading.value = false;
   } catch (error) {
+    isLoading.value = false;
     showToast(error?.toString() || "数据获取失败");
   }
 };
