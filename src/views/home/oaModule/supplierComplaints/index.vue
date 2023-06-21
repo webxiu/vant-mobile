@@ -87,7 +87,10 @@ const getData = async (isRefresh = false) => {
     isLoading.value = false;
   } catch (error) {
     isLoading.value = false;
-    showToast(error?.toString() || "数据获取失败");
+    showToast({
+      message: error?.toString() || "数据获取失败",
+      position: "top",
+    });
   }
 };
 

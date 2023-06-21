@@ -9,6 +9,7 @@ import App from "@/App.vue";
 import VanSku from "vant-sku";
 import { createApp } from "vue";
 import drag from "v-drag";
+import fastclick from "fastclick";
 import { registerStore } from "@/store";
 import router from "@/router";
 import { setupVant } from "@/plugins/setupVant";
@@ -23,6 +24,7 @@ app.use(vueEsign);
 app.use(VanSku);
 // 拖动
 app.use(drag);
+fastclick.FastClick.attach(document.body);
 
 const initApp = async () => {
   app.use(router);
